@@ -25,6 +25,7 @@ How to start
 
 ```sh
 yarn
+# 有时候依赖装不上报错，需要到wen目录下，yarn run typechain
 ```
 
 start the development server
@@ -34,10 +35,11 @@ yarn dev
 
 build with production mode
 ```sh
-yarn build
+# 必须加上后面这个  --no-daemon
+yarn build  --no-daemon
 
 # start the application after build
-yarn start
+yarn start  --no-daemon
 ```
 </details>
 
