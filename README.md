@@ -30,6 +30,7 @@ yarn
 
 start the development server
 ```sh
+# 跑这个 dev命令，才会映射本地的修改
 yarn dev
 ```
 
@@ -38,7 +39,7 @@ build with production mode
 # 必须加上后面这个  --no-daemon
 yarn build  --no-daemon
 
-# start the application after build
+# start the application after build。这个start命令跑的生产的配置，虽然也会在本地启动项目，但是本地修改了之后 不会触发改变
 yarn start  --no-daemon
 ```
 </details>

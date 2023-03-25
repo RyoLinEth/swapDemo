@@ -85,7 +85,7 @@ const Icon: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#53DEE9" />
-          <stop offset="1" stopColor="#1FC7D4" />
+          <stop offset="1" stopColor="#F8B711" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_won"
@@ -96,7 +96,7 @@ const Icon: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#53DEE9" />
-          <stop offset="1" stopColor="#1FC7D4" />
+          <stop offset="1" stopColor="#F8B711" />
         </linearGradient>
         <clipPath id={id}>
           <rect width="64" height="64" fill="white" />

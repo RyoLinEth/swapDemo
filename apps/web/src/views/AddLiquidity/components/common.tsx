@@ -15,7 +15,7 @@ const Dot = styled(Box)<{ scale?: 'sm' | 'md' }>`
   border-radius: 50%;
 `
 
-const CircleSvg = ({ percent = 1, stroke = '#1FC7D4', ...props }: SvgProps & { percent?: number; stroke?: string }) => (
+const CircleSvg = ({ percent = 1, stroke = '#F8B711', ...props }: SvgProps & { percent?: number; stroke?: string }) => (
   <Svg width="60px" height="60px" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g filter="url(#filter0_i_1147_113741)">
       <circle r="10" cx="10" cy="10" fill="#7645D9" />
