@@ -25,7 +25,7 @@ How to start
 
 ```sh
 yarn
-# 有时候依赖装不上报错，需要到wen目录下，yarn run typechain
+# 有时候依赖装不上报错，需要到web目录下，yarn run typechain
 ```
 
 start the development server
