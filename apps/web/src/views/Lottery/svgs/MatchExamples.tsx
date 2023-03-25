@@ -83,7 +83,7 @@ export const MatchExampleA: React.FC<React.PropsWithChildren<{ isDark: boolean }
           >
             <stop stopColor="#ED4B9E" />
             <stop offset="0.190071" stopColor="#7B61FF" />
-            <stop offset="0.434873" stopColor="#1FC7D4" />
+            <stop offset="0.434873" stopColor="#F8B711" />
             <stop offset="0.638006" stopColor="#31D0AA" />
             <stop offset="0.841139" stopColor="#FFD800" />
             <stop offset="1" stopColor="#FEAF2E" />

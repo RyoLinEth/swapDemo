@@ -39,7 +39,7 @@ const CircleSvg = ({ percent = 1, ...props }: SvgProps & { percent?: number }) =
         cx="10"
         cy="10"
         fill="transparent"
-        stroke="#1FC7D4"
+        stroke="#F8B711"
         strokeWidth="10"
         strokeDasharray={`calc(${percent * 100}px * 31.4 / 100) 31.4`}
         transform="rotate(-90) translate(-20)"
