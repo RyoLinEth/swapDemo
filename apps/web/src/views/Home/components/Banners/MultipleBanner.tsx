@@ -113,6 +113,9 @@ const MultipleBanner: React.FC<React.PropsWithChildren> = () => {
     }
   }, [bannerList, swiperRef])
 
+  console.log('777', bannerList);
+  
+
   return (
     <BannerPlaceHolder walletConnected={Boolean(account) && chainId === ChainId.BSC}>
       <StyledSwiper

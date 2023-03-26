@@ -89,6 +89,7 @@ const starsImage: CompositeImageProps = {
   ],
 }
 
+// 首页 第二屏
 const Hero = () => {
   const { t } = useTranslation()
   const { address: account } = useAccount()

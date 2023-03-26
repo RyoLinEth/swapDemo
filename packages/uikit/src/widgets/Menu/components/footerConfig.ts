@@ -10,10 +10,17 @@ export const footerLinks: (t: ContextApi["t"]) => FooterLinkType[] = (t) => [
         label: t("Community"),
         href: "https://t.me/BNBTigerEN",
       },
+      {
+        label: t("Whitepaper"),
+        href: "https://www.bnbtiger.top/static/upload/file/20230203/1675386735503028.pdf",
+      },
+      {
+        label: t("Audit"),
+        href: "https://github.com/Tech-Audit/Smart-Contract-Audits/blob/main/TECHAUDIT_BNBTIGER.pdf",
+      },
     ],
   }
 ];
-
 // export const footerLinks: (t: ContextApi["t"]) => FooterLinkType[] = (t) => [
 //   {
 //     label: t("About"),
