@@ -73,6 +73,7 @@ const UserMenuItems = () => {
   )
 }
 
+// 连接钱包
 const UserMenu = () => {
   const { t } = useTranslation()
   const { address: account } = useAccount()

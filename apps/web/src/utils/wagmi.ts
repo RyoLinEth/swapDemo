@@ -12,7 +12,9 @@ import { LedgerConnector } from 'wagmi/connectors/ledger'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from './safeConnector'
 
-const CHAINS = [bsc, mainnet, bscTestnet, goerli]
+// 最上面菜单，可切换的网络
+const CHAINS = [bsc]
+// const CHAINS = [bsc, mainnet, bscTestnet, goerli]
 
 const getNodeRealUrl = (networkName: string) => {
   let host = null
@@ -57,6 +59,20 @@ export const { provider, chains } = configureChains(CHAINS, [
     },
   }),
 ])
+// export const { provider, chains } = configureChains(CHAINS, [
+//   jsonRpcProvider({
+//     rpc: (chain) => {
+//       if (!!process.env.NEXT_PUBLIC_NODE_PRODUCTION && chain.id === bsc.id) {
+//         return { http: process.env.NEXT_PUBLIC_NODE_PRODUCTION }
+//       }
+//       if (process.env.NODE_ENV === 'test' && chain.id === mainnet.id) {
+//         return { http: 'https://cloudflare-eth.com' }
+//       }
+
+//       return getNodeRealUrl(chain.network) || { http: chain.rpcUrls.default.http[0] }
+//     },
+//   }),
+// ])
 
 export const injectedConnector = new InjectedConnector({
   chains,
