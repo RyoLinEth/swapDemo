@@ -68,6 +68,7 @@ const Inner = styled.div`
   max-width: 100%;
 `;
 
+// 顶部菜单
 const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   linkComponent = "a",
   banner,
@@ -91,6 +92,8 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const isMounted = useIsMounted();
   const [showMenu, setShowMenu] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
+  console.log('顶部菜单', 666666666);
+  
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
 

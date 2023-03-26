@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import styled, { keyframes } from "styled-components";
 import Flex from "../../../components/Box/Flex";
-import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
+// import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
 import { MenuContext } from "../context";
+import logoIcon from "../../../components/Svg/logo.svg";
 
 interface Props {
   href: string;
@@ -41,21 +42,35 @@ const StyledLink = styled("a")`
   }
 `;
 
+// 左上角回首页的logo
 const Logo: React.FC<React.PropsWithChildren<Props>> = ({ href }) => {
   const { linkComponent } = useContext(MenuContext);
   const isAbsoluteUrl = href.startsWith("http");
-  const innerLogo = (
-    <>
-      <LogoIcon className="mobile-icon" />
-      <LogoWithTextIcon className="desktop-icon" />
-    </>
-  );
+
+  const [innerLogo] = useMemo(() => {
+    const logo = (
+      <>
+      {/* <span className="mobile-icon"><LogoIcon /></span> */}
+        <img className="mobile-icon" src={logoIcon?.src ?? ''} alt="logo" />
+        <img className="desktop-icon" src={logoIcon?.src ?? ''} alt="logo" />
+        {/* <LogoWithTextIcon className="desktop-icon" /> */}
+      </>
+    );
+    return [logo]
+  }, []);
+  // const innerLogo = (
+  //   <>
+  //     <LogoIcon className="mobile-icon" />
+  //     <LogoWithTextIcon className="desktop-icon" />
+  //   </>
+  // );
 
   return (
     <Flex alignItems="center">
       {isAbsoluteUrl ? (
         <StyledLink as="a" href={href} aria-label="Pancake home page">
-          {innerLogo}
+          {/* {innerLogo} */}
+          666
         </StyledLink>
       ) : (
         <StyledLink href={href} as={linkComponent} aria-label="Pancake home page">
