@@ -101,7 +101,7 @@ function useChartHoverMutate() {
   return updateHover
 }
 
-const chartColor = { gradient1: '#00E7B0', gradient2: '#0C8B6C', stroke: '#31D0AA' }
+const chartColor = { gradient1: '#00E7B0', gradient2: '#0C8B6C', stroke: '#F6967E' }
 
 const ChainlinkChartWrapper = styled(Flex)<{ isMobile?: boolean }>`
   flex-direction: column;

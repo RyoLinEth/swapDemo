@@ -124,7 +124,7 @@ export const TealBall: React.FC<React.PropsWithChildren<SvgProps>> = (props) => 
 export const AquaBall: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
   return (
     <Svg viewBox="0 0 32 32" {...props}>
-      <circle cx="16" cy="16" r="16" fill="#31D0AA" />
+      <circle cx="16" cy="16" r="16" fill="#F6967E" />
       <g style={{ mixBlendMode: 'multiply' }} opacity="0.1">
         <path
           fillRule="evenodd"
