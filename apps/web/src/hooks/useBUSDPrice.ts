@@ -117,6 +117,7 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
   ])
 }
 
+// 获取交易对的价格
 export const usePriceByPairs = (currencyA?: Currency, currencyB?: Currency) => {
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const pairAddress = getLpAddress(tokenA, tokenB)
@@ -185,6 +186,7 @@ export const useBUSDCakeAmount = (amount: number): number | undefined => {
 }
 
 // @Note: only fetch from one pair
+// 页面展示的swap代币和对应的价格
 export const useCakeBusdPrice = (
   { forceMainnet } = { forceMainnet: false },
 ): Price<ERC20Token, ERC20Token> | undefined => {
@@ -192,6 +194,7 @@ export const useCakeBusdPrice = (
   const isTestnet = !forceMainnet && isChainTestnet(chainId)
   // Return bsc testnet cake if chain is testnet
   const cake: Token = isTestnet ? CAKE[ChainId.BSC_TESTNET] : CAKE[ChainId.BSC]
+  // 只有busd才读的出来价格，wbnb读不出来价格
   return usePriceByPairs(BUSD[cake.chainId], cake)
 }
 

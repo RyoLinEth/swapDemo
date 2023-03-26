@@ -29,13 +29,15 @@ const CakePrice: React.FC<React.PropsWithChildren<Props>> = ({
   color = "textSubtle",
   showSkeleton = true,
 }) => {
+  
   return cakePriceUsd ? (
     <PriceLink
-      href="https://pancakeswap.finance/swap?outputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82&chainId=56"
+      href="https://pancakeswap.finance/swap?outputCurrency=0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D&chainId=56"
       target="_blank"
     >
       <LogoRound width="24px" mr="8px" />
-      <Text color={color} bold>{`$${cakePriceUsd.toFixed(3)}`}</Text>
+      <Text color={color} bold style={{marginLeft: '8px'}}>{`$${cakePriceUsd.toFixed(20)}`}</Text>
+      {/* <Text color={color} bold>{`$${cakePriceUsd.toFixed(20)}`}</Text> */}
     </PriceLink>
   ) : showSkeleton ? (
     <Skeleton width={80} height={24} />

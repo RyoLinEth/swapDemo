@@ -84,7 +84,15 @@ yarn turbo run build --filter=blog
 | [awgmi](/packages/awgmi)                                      | connect to Aptos with similar wagmi React hooks.                                                                       |
 
 
+> 外层调用的menu apps\web\src\components\Menu\index.tsx。传参，从这里面传入，调用的是下面的 uikit的menu
 
 > 最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
 
 > 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
+
+
+>+ 页面展示的swap对应的Token和价格
+> + 修改页面展示的swap代币的价格：apps\web\src\hooks\useBUSDPrice.ts
+> + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
+
+> bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D
