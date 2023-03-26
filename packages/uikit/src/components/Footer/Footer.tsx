@@ -34,6 +34,7 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
   ...props
 }) => {
   const isMounted = useIsMounted();
+  
   return (
     <StyledFooter
       data-theme="dark"
@@ -46,6 +47,7 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
         <StyledIconMobileContainer display={["block", null, "none"]}>
           <LogoWithTextIcon width="130px" />
         </StyledIconMobileContainer>
+        {/* footer最上面一排的说明，关于、说明、开发者 */}
         <Flex
           order={[2, null, 1]}
           flexDirection={["column", null, "row"]}
@@ -80,7 +82,9 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
             <LogoWithTextIcon width="160px" />
           </Box>
         </Flex>
+        {/* 中间的一排，小标签的链接 */}
         <StyledSocialLinks order={[2]} pb={["42px", null, "32px"]} mb={["0", null, "32px"]} />
+        {/* 最下面一排，语言选择，swap价格和 购买 */}
         <StyledToolsContainer
           data-theme="dark"
           order={[1, null, 3]}

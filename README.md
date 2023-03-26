@@ -88,7 +88,9 @@ yarn turbo run build --filter=blog
 
 > 最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
 
-> 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
+>+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
+> + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts
+> + footer下面的小链接图标 packages\uikit\src\components\Footer\config.tsx
 
 
 >+ 页面展示的swap对应的Token和价格
