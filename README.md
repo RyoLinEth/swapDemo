@@ -31,7 +31,7 @@ yarn
 start the development server
 ```sh
 # 跑这个 dev命令，才会映射本地的修改
-yarn dev
+yarn dev --no-daemon
 ```
 
 build with production mode
