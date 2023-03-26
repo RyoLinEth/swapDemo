@@ -51,6 +51,7 @@ const BannerPlaceHolder = styled.div<{ walletConnected: boolean }>`
     margin-top: ${({ walletConnected }) => (walletConnected ? '60px' : '-32px')};
     margin-bottom: ${({ walletConnected }) => (walletConnected ? '60px' : '30px')};
   }
+  margin-bottom: 0;
   .swiper-slide {
     overflow: visible;
     &::-webkit-scrollbar {
@@ -113,11 +114,9 @@ const MultipleBanner: React.FC<React.PropsWithChildren> = () => {
     }
   }, [bannerList, swiperRef])
 
-  console.log('777', bannerList);
-  
 
   return (
-    <BannerPlaceHolder walletConnected={Boolean(account) && chainId === ChainId.BSC}>
+    <BannerPlaceHolder walletConnected={Boolean(account) && chainId === ChainId.BSC} style={{padding: 0, margin: 0}}>
       <StyledSwiper
         onSwiper={setSwiperRef}
         modules={[Autoplay, Pagination, EffectFade]}
@@ -130,6 +129,7 @@ const MultipleBanner: React.FC<React.PropsWithChildren> = () => {
         autoplay={{ delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
         loop
         pagination={{ clickable: true }}
+        style={{padding: 0}}
       >
         {bannerList.map((banner, index) => {
           const childKey = `Banner${index}`

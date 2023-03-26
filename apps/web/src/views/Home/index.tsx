@@ -14,6 +14,7 @@ import WinSection from './components/WinSection'
 import FarmsPoolsRow from './components/FarmsPoolsRow'
 import Footer from './components/Footer'
 import CakeDataRow from './components/CakeDataRow'
+import BnbTigerDataRow from './components/BnbTigerDataRow'
 import { WedgeTopLeft, InnerWedgeWrapper, OuterWedgeWrapper, WedgeTopRight } from './components/WedgeSvgs'
 import UserBanner from './components/UserBanner'
 import MultipleBanner from './components/Banners/MultipleBanner'
@@ -57,6 +58,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         {`
           #home-1 .page-bg {
             background: linear-gradient(139.73deg, #e6fdff 0%, #f3efff 100%);
+            padding: 0;
           }
           [data-theme='dark'] #home-1 .page-bg {
             background: radial-gradient(103.12% 50% at 50% 50%, #21193a 0%, #191326 100%);
@@ -79,10 +81,13 @@ const Home: React.FC<React.PropsWithChildren> = () => {
           [data-theme='dark'] #home-4 .inner-wedge svg {
             fill: #201335;
           }
+          #home-6 .page-bg {
+            padding-top: 0;
+          }
         `}
       </style>
       <StyledHeroSection
-        innerProps={{ style: { margin: '0', width: '100%' } }}
+        innerProps={{ style: { margin: '0', width: '100%', padding: 0} }}
         containerProps={{
           id: 'home-1',
         }}
@@ -96,9 +101,9 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         )} */}
         {/* 最上面的轮播图 */}
         <MultipleBanner />
-        <Hero />
+        {/* <Hero /> */}
       </StyledHeroSection>
-      <PageSection
+      {/* <PageSection
         innerProps={{ style: { margin: '0', width: '100%' } }}
         containerProps={{
           id: 'home-2',
@@ -136,7 +141,6 @@ const Home: React.FC<React.PropsWithChildren> = () => {
           </InnerWedgeWrapper>
         </OuterWedgeWrapper>
         <SalesSection {...earnSectionData(t)} />
-        {/* TODO: until we are enable fetch multi-chain farms */}
         {chainId === ChainId.BSC && <FarmsPoolsRow />}
       </PageSection>
       <PageSection
@@ -148,24 +152,28 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         hasCurvedDivider={false}
       >
         <WinSection />
-      </PageSection>
+      </PageSection> */}
       <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
         background={theme.colors.background}
         index={2}
+        containerProps={{
+          id: 'home-6',
+        }}
         hasCurvedDivider={false}
       >
-        <SalesSection {...cakeSectionData(t)} />
-        <CakeDataRow />
+        {/* <SalesSection {...cakeSectionData(t)} /> */}
+        <BnbTigerDataRow />
+        {/* <CakeDataRow /> */}
       </PageSection>
-      <PageSection
+      {/* <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
         background="linear-gradient(180deg, #7645D9 0%, #5121B1 100%)"
         index={2}
         hasCurvedDivider={false}
       >
         <Footer />
-      </PageSection>
+      </PageSection> */}
     </>
   )
 }

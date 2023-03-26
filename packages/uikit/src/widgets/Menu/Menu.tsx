@@ -68,7 +68,7 @@ const Inner = styled.div`
   max-width: 100%;
 `;
 
-// 顶部菜单
+// 首页， + 顶部菜单 + 内容 + 底部
 const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   linkComponent = "a",
   banner,
@@ -146,6 +146,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         <Wrapper>
           <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
             {banner && isMounted && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
+            {/* 顶部nev 导航条  */}
             <StyledNav>
               <Flex>
                 <Logo href={homeLink?.href ?? "/"} />
@@ -158,6 +159,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
                   <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
                 </AtomBox>
                 <Box mt="4px">
+                  {/* 语言选择 */}
                   <LangSelector
                     currentLang={currentLang}
                     langs={langs}
@@ -191,11 +193,13 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           ) : (
             <div />
           )}
+          {/* 下面就包的是内容区 */}
           <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
             <Inner>{children}</Inner>
           </BodyWrapper>
         </Wrapper>
       </AtomBox>
+      {/* 首页的footer */}
       <Footer
         items={footerLinks}
         isDark={isDark}

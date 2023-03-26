@@ -44,7 +44,7 @@ export const StyledToolsContainer = styled(Flex)`
     border-top-width: 0;
     border-bottom-width: 0;
     padding: 0 0;
-    margin-bottom: 0;
+    margin-bottom: 8px;
   }
 `;
 

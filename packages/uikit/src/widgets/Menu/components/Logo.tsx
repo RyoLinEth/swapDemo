@@ -17,9 +17,9 @@ const StyledLink = styled("a")`
   display: flex;
   .mobile-icon {
     width: 32px;
-    ${({ theme }) => theme.mediaQueries.lg} {
-      display: none;
-    }
+    // ${({ theme }) => theme.mediaQueries.lg} {
+    //   display: none;
+    // }
   }
   .desktop-icon {
     width: 160px;
@@ -48,9 +48,15 @@ const Logo: React.FC<React.PropsWithChildren<Props>> = ({ href }) => {
   const innerLogo = (
     <>
       <LogoIcon className="mobile-icon" />
-      <LogoWithTextIcon className="desktop-icon" />
+      {/* <LogoWithTextIcon className="desktop-icon" /> */}
     </>
   );
+  // const innerLogo = (
+  //   <>
+  //     <LogoIcon className="mobile-icon" />
+  //     <LogoWithTextIcon className="desktop-icon" />
+  //   </>
+  // );
 
   return (
     <Flex alignItems="center">
