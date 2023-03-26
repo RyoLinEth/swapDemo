@@ -83,3 +83,8 @@ yarn turbo run build --filter=blog
 | [wagmi](/packages/wagmi)                                      | Extension for [wagmi](https://github.com/wagmi-dev/wagmi), including bsc chain and binance wallet connector            |
 | [awgmi](/packages/awgmi)                                      | connect to Aptos with similar wagmi React hooks.                                                                       |
 
+
+
+> 最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
+
+> 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
