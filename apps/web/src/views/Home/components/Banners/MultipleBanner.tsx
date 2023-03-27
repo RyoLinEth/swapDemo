@@ -60,6 +60,8 @@ const BannerPlaceHolder = styled.div<{ walletConnected: boolean }>`
   }
 `
 
+
+
 const StyledSwiper = styled(Swiper)`
   position: relative;
   overflow: visible;

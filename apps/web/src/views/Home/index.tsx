@@ -25,6 +25,12 @@ const StyledHeroSection = styled(PageSection)`
   ${({ theme }) => theme.mediaQueries.md} {
     padding-top: 48px;
   }
+  ${({ theme }) => theme.mediaQueries.xs} {
+    display: none
+  }
+  ${({ theme }) => theme.mediaQueries.sm} {
+    display: flex
+  }
 `
 
 const UserBannerWrapper = styled(Container)`
