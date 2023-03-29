@@ -47,6 +47,7 @@ const ColoredIconButton = styled(IconButton)`
 //  disable this during the v3 campaign
 const mobileShowOnceTokenHighlightAtom = atomWithStorageWithErrorCatch('pcs::mobileShowOnceTokenHighlightV2', true)
 
+// swap的头部，设置，交易，热门代币 等一系列按钮
 const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
   subtitle,
   hasAmount,
@@ -98,9 +99,12 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
       <Flex justifyContent="start" width="100%" height="17px" alignItems="center" mb="14px">
         <Swap.CurrencyInputHeaderSubTitle>{subtitle}</Swap.CurrencyInputHeaderSubTitle>
       </Flex>
+      {/* 头部下面的那些小菜单 */}
       <Flex width="100%" justifyContent="end">
-        <V3SwapPromotionIcon />
-        {isChartSupported && setIsChartDisplayed && (
+        {/* 礼物菜单 */}
+        {/* <V3SwapPromotionIcon /> */}
+        {/* 价格曲线菜单 */}
+        {/* {isChartSupported && setIsChartDisplayed && (
           <ColoredIconButton
             onClick={() => {
               if (!isChartDisplayed && isSwapHotTokenDisplay) {
@@ -113,8 +117,9 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
           >
             {isChartDisplayed ? <ChartDisableIcon color="textSubtle" /> : <ChartIcon width="24px" color="textSubtle" />}
           </ColoredIconButton>
-        )}
-        <ColoredIconButton
+        )} */}
+        {/* 交易量最大的代币 菜单 */}
+        {/* <ColoredIconButton
           variant="text"
           scale="sm"
           onClick={() => {
@@ -139,13 +144,16 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
               {tooltipVisible && (!isMobile || mobileTooltipShow) && tooltip}
             </>
           )}
-        </ColoredIconButton>
+        </ColoredIconButton> */}
+        {/* 设置菜单 */}
         <NotificationDot show={expertMode}>
           <GlobalSettings color="textSubtle" mr="0" mode={SettingsMode.SWAP_LIQUIDITY} />
         </NotificationDot>
+        {/* 历史记录菜单 */}
         <IconButton onClick={onPresentTransactionsModal} variant="text" scale="sm">
           <HistoryIcon color="textSubtle" width="24px" />
         </IconButton>
+        {/* 刷新菜单 */}
         <IconButton variant="text" scale="sm" onClick={handleOnClick}>
           <RefreshIcon disabled={!hasAmount} color="textSubtle" width="27px" />
         </IconButton>

@@ -22,6 +22,7 @@ import { SwapFeaturesContext } from './SwapFeaturesContext'
 
 const queryClient = new QueryClient()
 
+// Swap组件
 export default function Swap() {
   const { isDesktop } = useMatchBreakpoints()
   const { isChartExpanded, isChartDisplayed, setIsChartDisplayed, setIsChartExpanded, isChartSupported } =
@@ -60,6 +61,8 @@ export default function Swap() {
 
     [inputCurrencyId, outputCurrencyId, onCurrencySelection, warningSwapHandler],
   )
+  console.log(isDesktop, isChartSupported, isSwapHotTokenDisplay);
+  
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
@@ -96,8 +99,10 @@ export default function Swap() {
             setIsOpen={setIsChartDisplayed}
           />
         )}
-        {isDesktop && isSwapHotTokenDisplay && <HotTokenList handleOutputSelect={handleOutputSelect} />}
-        <ModalV2 isOpen={!isDesktop && isSwapHotTokenDisplay} onDismiss={() => setIsSwapHotTokenDisplay(false)}>
+        {/* 热门代币列表 */}
+        {/* {isDesktop && isSwapHotTokenDisplay && <HotTokenList handleOutputSelect={handleOutputSelect} />} */}
+        {/* 排名前列的代币列表 */}
+        {/* <ModalV2 isOpen={!isDesktop && isSwapHotTokenDisplay} onDismiss={() => setIsSwapHotTokenDisplay(false)}>
           <Modal
             style={{ padding: 0 }}
             title={t('Top Token')}
@@ -111,7 +116,8 @@ export default function Swap() {
               }}
             />
           </Modal>
-        </ModalV2>
+        </ModalV2> */}
+        {/* 这个是 swap的主界面 */}
         <Flex flexDirection="column">
           <StyledSwapContainer $isChartExpanded={isChartExpanded}>
             <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>

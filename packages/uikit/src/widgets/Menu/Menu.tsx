@@ -92,7 +92,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const isMounted = useIsMounted();
   const [showMenu, setShowMenu] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
-  console.log('顶部菜单', 666666666);
+  
   
 
   const topBannerHeight = isMobile ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
@@ -132,6 +132,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const homeLink = links.find((link) => link.label === "Home");
 
   const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
+  // 暂时只有测试的config有 isMobileOnly 这个配置，正式的配置没有
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
   const providerValue = useMemo(() => ({ linkComponent }), [linkComponent]);
   return (
@@ -173,6 +174,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               </Flex>
             </StyledNav>
           </FixedContainer>
+          {/* 子菜单，如 swap页面的 交换、限价、流动性、永续合约、跨连桥的那个菜单 */}
           {subLinks ? (
             <Flex justifyContent="space-around" overflow="hidden">
               <SubMenuItems

@@ -17,6 +17,7 @@ import { SubMenuItemsProps } from "./types";
 const SUBMENU_CHEVRON_CLICK_MOVE_PX = 100;
 const SUBMENU_SCROLL_DEVIATION = 3;
 
+// 子菜单的样式
 const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
   items = [],
   activeItem,

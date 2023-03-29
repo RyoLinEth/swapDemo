@@ -4,6 +4,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { EXCHANGE_HELP_URLS } from 'config/constants'
 
+// 包裹 swap的外层组件。这个组件是用的 uikit的swap，所以 基础的swap也是在 uikit里面
 const Page: React.FC<
   React.PropsWithChildren<{
     removePadding?: boolean

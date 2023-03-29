@@ -277,6 +277,7 @@ export const SmartSwapForm: React.FC<{ handleOutputSelect: (newCurrencyOutput: C
         }
         rfqId={mmRFQTrade?.rfqId}
       />
+      {/* swap的头部，设置，交易，热门代币 等一系列按钮 */}
       <CurrencyInputHeader
         title={t('Swap')}
         subtitle={t('Trade tokens in an instant')}
