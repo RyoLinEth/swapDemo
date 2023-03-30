@@ -94,6 +94,7 @@ yarn turbo run build --filter=blog
 > + swap的头部，设置，交易，热门代币 等一系列按钮：apps\web\src\views\Swap\components\CurrencyInputHeader.tsx
 > + swap组件外层的包裹组件，是继承自uikit的swap，所有swap的基础都在uikit中: apps\web\src\views\Page.tsx
 > + swap组件基础组件uikit中的的footer: packages\uikit\src\widgets\Swap\Footer.tsx
+> + swap页面和添加流动性界面，选择token的整个代币选择框(搜索代币的框，和下面代币列表的框；加流动性也是弹出这个框);apps\web\src\components\SearchModal\CurrencySearch.tsx
 
 >+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
 > + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts

@@ -42,6 +42,7 @@ const RowWrapper = styled.div`
   }
 `
 
+// 常用代币框。普通swap和加流动性都是这里
 export default function CommonBases({
   chainId,
   onSelect,
@@ -59,6 +60,7 @@ export default function CommonBases({
 
   return (
     <AutoColumn gap="md">
+      {/* 最上面展示的文本 */}
       <AutoRow>
         <Text fontSize="14px">{pinTokenDescText}</Text>
         {commonBasesType === CommonBasesType.LIQUIDITY && (
@@ -66,6 +68,7 @@ export default function CommonBases({
         )}
       </AutoRow>
       <RowWrapper>
+        {/* 常用代币的第一个代币，也就是当前swap对应的基础代币。如bnb */}
         <ButtonWrapper>
           <BaseWrapper
             onClick={() => {
@@ -79,6 +82,7 @@ export default function CommonBases({
             <Text>{native?.symbol}</Text>
           </BaseWrapper>
         </ButtonWrapper>
+        {/* 常用代币除去bnb之外的其它的常用代币 */}
         {(chainId ? SUGGESTED_BASES[chainId] || [] : []).map((token: Token) => {
           const selected = selectedCurrency?.equals(token)
           return (
@@ -90,6 +94,7 @@ export default function CommonBases({
             </ButtonWrapper>
           )
         })}
+        999
       </RowWrapper>
     </AutoColumn>
   )

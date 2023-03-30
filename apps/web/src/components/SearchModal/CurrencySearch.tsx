@@ -77,6 +77,7 @@ function useSearchInactiveTokenLists(search: string | undefined, minResults = 10
   }, [activeTokens, chainId, inactiveUrls, lists, minResults, search])
 }
 
+// swap页面和添加流动性界面，选择token的整个代币选择框
 function CurrencySearch({
   selectedCurrency,
   onCurrencySelect,
@@ -238,6 +239,8 @@ function CurrencySearch({
   return (
     <>
       <AutoColumn gap="16px">
+        111
+        {/* 最上面的搜索框 */}
         {showSearchInput && (
           <Row>
             <Input
@@ -252,15 +255,20 @@ function CurrencySearch({
             />
           </Row>
         )}
+        222
+        {/* 中间展示的常用代币 */}
         {showCommonBases && (
           <CommonBases
             chainId={chainId}
             onSelect={handleCurrencySelect}
+            // selectedCurrency当前选择的代币
             selectedCurrency={selectedCurrency}
             commonBasesType={commonBasesType}
           />
         )}
       </AutoColumn>
+      333
+      {/* 最下面的代币白名单列表 */}
       {getCurrencyListRows()}
     </>
   )
