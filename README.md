@@ -105,6 +105,7 @@ yarn turbo run build --filter=blog
 >+ Token相关
 >   + 处理swap页面，展示的token的hook，apps\web\src\state\lists\hooks.ts
 >   + 处理swap页面，展示的所有默认代币，简单说也就是白名单token的json，apps\web\src\config\constants\tokenLists\pancake-default.tokenlist.json
+>   + 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
 
 >+ 页面展示的swap对应的Token和价格
 > + 修改页面展示的swap代币的价格：apps\web\src\hooks\useBUSDPrice.ts
@@ -117,3 +118,5 @@ yarn turbo run build --filter=blog
 > + footer下面的小链接图标 packages\uikit\src\components\Footer\config.tsx
 
 > bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D
+
+> 官网: https://www.bnbtiger.top/static/picture/05.png
