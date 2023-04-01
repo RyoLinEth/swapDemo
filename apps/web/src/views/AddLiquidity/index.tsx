@@ -577,6 +577,7 @@ export default function AddLiquidity({ currencyA, currencyB }) {
   return (
     <Page>
       <AppBody>
+        {/* 没有添加流动性时候，添加流动性的整个页面 */}
         {!showAddLiquidity && (
           <ChoosePair
             error={error}
@@ -585,6 +586,7 @@ export default function AddLiquidity({ currencyA, currencyB }) {
             onNext={() => setSteps(Steps.Add)}
           />
         )}
+        {/* 展示自己已经添加了的流动性，即流动性管理页面 */}
         {showAddLiquidity && (
           <>
             <AppHeader
@@ -598,7 +600,7 @@ export default function AddLiquidity({ currencyA, currencyB }) {
                 'Liquidity providers earn a 0.17% trading fee on all trades made for that token pair, proportional to their share of the liquidity pair.',
               )}
               backTo={canZap ? () => setSteps(Steps.Choose) : '/liquidity'}
-              IconSlot={<V3SwapPromotionIcon wrapperStyle={{ marginRight: '10px' }} />}
+              // IconSlot={<V3SwapPromotionIcon wrapperStyle={{ marginRight: '10px' }} />}
             />
             <CardBody>
               <AutoColumn gap="20px">

@@ -36,6 +36,7 @@ const AppHeader: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <AppHeaderContainer>
       <Flex alignItems="center" width="100%" style={{ gap: '16px' }}>
+        {/* 返回按钮 */}
         {backTo &&
           (typeof backTo === 'string' ? (
             <Link passHref href={backTo}>
@@ -50,10 +51,12 @@ const AppHeader: React.FC<React.PropsWithChildren<Props>> = ({
           ))}
         <Flex flexDirection="column" width="100%">
           <Flex mb="8px" alignItems="center" justifyContent="space-between">
+            {/* 主title */}
             <Flex>
               <Heading as="h2">{title}</Heading>
               {helper && <QuestionHelper text={helper} ml="4px" placement="top-start" />}
             </Flex>
+            {/* 几个设置 */}
             {!noConfig && (
               <Flex alignItems="center">
                 {IconSlot}
@@ -65,6 +68,7 @@ const AppHeader: React.FC<React.PropsWithChildren<Props>> = ({
             )}
             {noConfig && <Flex alignItems="center">{IconSlot}</Flex>}
           </Flex>
+          {/* 最下面的subtitle */}
           <Flex alignItems="center">
             <Text color="textSubtle" fontSize="14px">
               {subtitle}

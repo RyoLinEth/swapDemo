@@ -581,7 +581,7 @@ export default function RemoveLiquidity({ currencyA, currencyB, currencyIdA, cur
             assetB: currencyB?.symbol ?? '',
           })}
           noConfig
-          IconSlot={<V3SwapPromotionIcon wrapperStyle={{ marginRight: '10px' }} />}
+          // IconSlot={<V3SwapPromotionIcon wrapperStyle={{ marginRight: '10px' }} />}
         />
 
         <CardBody>
