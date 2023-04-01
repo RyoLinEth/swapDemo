@@ -94,7 +94,6 @@ export default function CommonBases({
             </ButtonWrapper>
           )
         })}
-        999
       </RowWrapper>
     </AutoColumn>
   )

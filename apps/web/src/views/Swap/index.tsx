@@ -61,7 +61,7 @@ export default function Swap() {
 
     [inputCurrencyId, outputCurrencyId, onCurrencySelection, warningSwapHandler],
   )
-  console.log(isDesktop, isChartSupported, isSwapHotTokenDisplay);
+  // console.log(isDesktop, isChartSupported, isSwapHotTokenDisplay);
   
 
   return (

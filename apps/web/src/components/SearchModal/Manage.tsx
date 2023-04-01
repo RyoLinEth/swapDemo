@@ -12,6 +12,7 @@ const StyledButtonMenu = styled(ButtonMenu)`
   width: 100%;
 `
 
+// 管理代币页面。清单和代币，都是这个页面
 export default function Manage({
   setModalView,
   setImportList,
@@ -40,8 +41,10 @@ export default function Manage({
         <ButtonMenuItem width="50%">{t('Tokens')}</ButtonMenuItem>
       </StyledButtonMenu>
       {showLists ? (
+        // 管理代币的列表页面
         <ManageLists setModalView={setModalView} setImportList={setImportList} setListUrl={setListUrl} />
       ) : (
+        // 管理代币的 代币页面
         <ManageTokens setModalView={setModalView} setImportToken={setImportToken} />
       )}
     </ModalBody>

@@ -168,6 +168,7 @@ const ListContainer = styled.div`
   overflow: auto;
 `
 
+// 管理代币的列表页面
 function ManageLists({
   setModalView,
   setImportList,
@@ -184,6 +185,7 @@ function ManageLists({
   const { t } = useTranslation()
   const [, dispatch] = useListState()
 
+  // 所有的最下面展示的一些内置的列表，如 pancake、cmc、cg等列表
   const lists = useAllLists()
 
   // sort by active but only if not visible
@@ -204,6 +206,7 @@ function ManageLists({
   const validUrl: boolean = useMemo(() => {
     return uriToHttp(listUrlInput).length > 0
   }, [listUrlInput])
+  
 
   const sortedLists = useMemo(() => {
     const listUrls = Object.keys(lists)
@@ -334,6 +337,7 @@ function ManageLists({
           </Card>
         </AutoColumn>
       )}
+      {/* 最下面展示的一些内置的列表，如 pancake、cmc、cg等列表 */}
       <ListContainer>
         <AutoColumn gap="md">
           {sortedLists.map((listUrl) => (

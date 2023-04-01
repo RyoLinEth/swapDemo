@@ -94,7 +94,14 @@ yarn turbo run build --filter=blog
 > + swap的头部，设置，交易，热门代币 等一系列按钮：apps\web\src\views\Swap\components\CurrencyInputHeader.tsx
 > + swap组件外层的包裹组件，是继承自uikit的swap，所有swap的基础都在uikit中: apps\web\src\views\Page.tsx
 > + swap组件基础组件uikit中的的footer: packages\uikit\src\widgets\Swap\Footer.tsx
-> + swap页面和添加流动性界面，选择token的整个代币选择框(搜索代币的框，和下面代币列表的框；加流动性也是弹出这个框);apps\web\src\components\SearchModal\CurrencySearch.tsx
+> + swap页面和添加流动性界面，选择token的整个代币选择框外层的**整个model**；管理代币的清单和代币也是这个父页面；apps\web\src\components\SearchModal\CurrencySearchModal.tsx
+>   + swap页面和添加流动性界面，选择token里层整个**选择代币页面**(搜索代币的框，和下面代币列表的框；加流动性也是弹出这个框);apps\web\src\components\SearchModal\CurrencySearch.tsx
+>   + swap页面和添加流动性界面，选择token里层整个**管理代币页面**;apps\web\src\components\SearchModal\Manage.tsx
+>     + **管理代币页面下面默认展示的代币清单cmc、cg等**;apps\web\src\config\constants\lists.ts
+
+>+ Token相关
+>   + 处理swap页面，展示的token的hook，apps\web\src\state\lists\hooks.ts
+>   + 处理swap页面，展示的所有默认代币，简单说也就是白名单token的json，apps\web\src\config\constants\tokenLists\pancake-default.tokenlist.json
 
 >+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
 > + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts

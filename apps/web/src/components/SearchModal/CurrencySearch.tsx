@@ -96,15 +96,19 @@ function CurrencySearch({
   // refs for fixed size lists
   const fixedList = useRef<FixedSizeList>()
 
+  // seachQuery为当前页面上查找的合约值
   const [searchQuery, setSearchQuery] = useState<string>('')
+  // debouncedQuery也为当前页面上查找的合约值，不过就是加上了debounce
   const debouncedQuery = useDebounce(searchQuery, 200)
 
   const [invertSearchOrder] = useState<boolean>(false)
 
+  // 获取所有的白名单列表和当前导入了的代币列表
   const allTokens = useAllTokens()
 
   // if they input an address, use it
   const searchToken = useToken(debouncedQuery)
+  // 判断当前搜索的token是否进行了导入
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
 
   const { isMobile } = useMatchBreakpoints()
@@ -118,7 +122,9 @@ function CurrencySearch({
     return native && native.symbol?.toLowerCase?.()?.indexOf(s) !== -1
   }, [debouncedQuery, native, tokensToShow])
 
+  // 对当前搜索到的值进行一个筛选，从allToken里面进行筛选；如果allToken里面没有的话，就进行导入
   const filteredTokens: Token[] = useMemo(() => {
+    // debouncedQuery为当前search的合约值，不为函数；就是searchQuery的值
     const filterToken = createFilterToken(debouncedQuery, (address) => Boolean(isAddress(address)))
     return Object.values(tokensToShow || allTokens).filter(filterToken)
   }, [tokensToShow, allTokens, debouncedQuery])
@@ -127,6 +133,7 @@ function CurrencySearch({
 
   const tokenComparator = useTokenComparator(invertSearchOrder)
 
+  // 页面展示的的白名单代币列表或者筛选出来的代币
   const filteredSortedTokens: Token[] = useMemo(() => {
     return [...filteredQueryTokens].sort(tokenComparator)
   }, [filteredQueryTokens, tokenComparator])
@@ -179,7 +186,9 @@ function CurrencySearch({
 
   const hasFilteredInactiveTokens = Boolean(filteredInactiveTokens?.length)
 
+  // 代币页面的 白名单代币和导入代币
   const getCurrencyListRows = useCallback(() => {
+    // 查找出来的代币，直接在搜索框那里输入代币，并且后面展示出导入代币按钮，就展示这个；代币导入组件
     if (searchToken && !searchTokenIsAdded && !hasFilteredInactiveTokens) {
       return (
         <Column style={{ padding: '20px 0', height: '100%' }}>
@@ -192,7 +201,9 @@ function CurrencySearch({
         </Column>
       )
     }
+    // console.log('logggggggg', filteredSortedTokens, hasFilteredInactiveTokens);
 
+    // 普通的白名单代币列表和搜索出来的代币列表
     return Boolean(filteredSortedTokens?.length) || hasFilteredInactiveTokens ? (
       <Box margin="24px -24px">
         <CurrencyList
@@ -239,7 +250,6 @@ function CurrencySearch({
   return (
     <>
       <AutoColumn gap="16px">
-        111
         {/* 最上面的搜索框 */}
         {showSearchInput && (
           <Row>
@@ -255,7 +265,6 @@ function CurrencySearch({
             />
           </Row>
         )}
-        222
         {/* 中间展示的常用代币 */}
         {showCommonBases && (
           <CommonBases
@@ -267,7 +276,6 @@ function CurrencySearch({
           />
         )}
       </AutoColumn>
-      333
       {/* 最下面的代币白名单列表 */}
       {getCurrencyListRows()}
     </>

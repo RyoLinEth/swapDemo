@@ -72,6 +72,7 @@ export default function CurrencySearchModal({
   showSearchInput,
   tokensToShow,
 }: CurrencySearchModalProps) {
+  // 代币选择框的模式；代币模式，管理模式，导入token模式和导入列表模式
   const [modalView, setModalView] = useState<CurrencyModalView>(CurrencyModalView.search)
 
   const handleCurrencySelect = useCallback(
@@ -158,6 +159,7 @@ export default function CurrencySearchModal({
       </ModalHeader>
       <StyledModalBody>
         {modalView === CurrencyModalView.search ? (
+          // 第一页的选择代币页面
           <CurrencySearch
             onCurrencySelect={handleCurrencySelect}
             selectedCurrency={selectedCurrency}
@@ -171,8 +173,10 @@ export default function CurrencySearchModal({
             tokensToShow={tokensToShow}
           />
         ) : modalView === CurrencyModalView.importToken && importToken ? (
+          // 导入代币页面；应该是导入管理页面的那个清单
           <ImportToken tokens={[importToken]} handleCurrencySelect={handleCurrencySelect} />
         ) : modalView === CurrencyModalView.importList && importList && listURL ? (
+          // 导入清单页面；应该是导入 管理页面的清单
           <ImportList
             onAddList={handleAddList}
             addError={addError}
@@ -183,6 +187,7 @@ export default function CurrencySearchModal({
             listTokenLength={importList?.tokens.length}
           />
         ) : modalView === CurrencyModalView.manage ? (
+          // 管理代币页面
           <Manage
             setModalView={setModalView}
             setImportToken={setImportToken}
@@ -192,6 +197,7 @@ export default function CurrencySearchModal({
         ) : (
           ''
         )}
+        {/* 第一页的选择代币，最下面的 管理代币按钮，点击之后，可以跳转到管理代币页面 */}
         {modalView === CurrencyModalView.search && (
           <Footer>
             <Button

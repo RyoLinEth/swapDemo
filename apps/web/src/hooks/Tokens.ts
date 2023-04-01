@@ -1,3 +1,4 @@
+import { log } from 'next-axiom';
 /* eslint-disable no-param-reassign */
 import { arrayify } from '@ethersproject/bytes'
 import { parseBytes32String } from '@ethersproject/strings'
@@ -35,11 +36,15 @@ const mapWithoutUrls = (tokenMap: TokenAddressMap<ChainId>, chainId: number) =>
 
 /**
  * Returns all tokens that are from active urls and user added tokens
+ * 列表展示的所有白名单的token和用户新增的token
  */
 export function useAllTokens(): { [address: string]: ERC20Token } {
   const { chainId } = useActiveChainId()
+  // 所有白名单的token
   const tokenMap = useAtomValue(combinedTokenMapFromActiveUrlsAtom)
+  // 用户添加的token
   const userAddedTokens = useUserAddedTokens()
+
   return useMemo(() => {
     return (
       userAddedTokens

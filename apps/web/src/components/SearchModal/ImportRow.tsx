@@ -55,6 +55,7 @@ export default function ImportRow({
   showImportView: () => void
   setImportToken: (token: Token) => void
 }) {
+  
   // globals
   const { isMobile } = useMatchBreakpoints()
 

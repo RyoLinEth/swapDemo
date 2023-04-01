@@ -52,6 +52,8 @@ const activeListUrlsAtom = atom((get) => {
   return urls?.filter((url) => !UNSUPPORTED_LIST_URLS.includes(url))
 })
 
+
+// 选择代币页面，默认的白名单代币列表; 最后输出的那个function
 const combineTokenMapsWithDefault = (lists: ListsState['byUrl'], urls: string[]) => {
   const defaultTokenMap = listToTokenMap(DEFAULT_TOKEN_LIST)
 
@@ -81,9 +83,12 @@ const combineTokenMaps = (lists: ListsState['byUrl'], urls: string[]) => {
   )
 }
 
+// 选择代币页面，默认的白名单代币列表; 也包含代币管理页面，展示出来的获取代币集合的代币包
 export const combinedTokenMapFromActiveUrlsAtom = atom((get) => {
+  // 这个selectorByUrls是管理代币页面选择的，展示代币集合的所有url，比如展示cmc的额所有代币，展示cg的所有代币; 的一个获取代币list的url。类型是ListsState['byUrl']，如{https://tokens.pancakeswap.finance/pancakeswap-extended.json: {…}, https://tokens.pancakeswap.finance/cmc.json: {…}, https://tokens.pancakeswap.finance/coingecko.json: {…}, https://tokens.pancakeswap.finance/pancakeswap-bnb-mm.json: {…}, https://tokens.pancakeswap.finance/pancakeswap-eth-default.json: {…}, …}
+  // selectorActiveUrls是当前选中的代币管理页面的代币集合的url，类型是string[]。如 ['https://tokens.pancakeswap.finance/pancakeswap-eth-default.json', 'https://tokens.pancakeswap.finance/pancakeswap-eth-mm.json', 'https://tokens.pancakeswap.finance/pancakeswap-extended.json']
   const [selectorByUrls, selectorActiveUrls] = [get(selectorByUrlsAtom), get(selectorActiveUrlsAtom)]
-  return combineTokenMapsWithDefault(selectorByUrls, selectorActiveUrls)
+  return combineTokenMapsWithDefault(selectorByUrls, selectorActiveUrls) 
 })
 
 const inactiveUrlAtom = atom((get) => {
@@ -192,6 +197,7 @@ export function useAllLists(): {
   const { chainId } = useActiveChainId()
 
   const urls = useAtomValue(selectorByUrlsAtom)
+  
 
   return useMemo(
     () =>
