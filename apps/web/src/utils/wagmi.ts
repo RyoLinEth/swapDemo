@@ -13,7 +13,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from './safeConnector'
 
 // 最上面菜单，可切换的网络
-const CHAINS = [bsc]
+const CHAINS = [bsc, bscTestnet]
 // const CHAINS = [bsc, mainnet, bscTestnet, goerli]
 
 const getNodeRealUrl = (networkName: string) => {

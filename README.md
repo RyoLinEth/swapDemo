@@ -88,6 +88,9 @@ yarn turbo run build --filter=blog
 > + 主菜单，纯ui文件，数据是从上面那里传入的。最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
 > + 所有菜单的配置文件：apps\web\src\components\Menu\config\config.ts
 
+>+ 网络配置: 网络选择(展开与屏蔽测试网) apps\web\src\components\NetworkSwitcher.tsx
+> + 修改网络配置(主网测试网什么的): apps\web\src\utils\wagmi.ts
+
 >+ 主页面，内容区home；apps\web\src\views\Home\index.tsx；所有的列 就是这个组件
 
 >+ swap组件：apps\web\src\views\Swap\index.tsx
@@ -103,14 +106,14 @@ yarn turbo run build --filter=blog
 >   + 处理swap页面，展示的token的hook，apps\web\src\state\lists\hooks.ts
 >   + 处理swap页面，展示的所有默认代币，简单说也就是白名单token的json，apps\web\src\config\constants\tokenLists\pancake-default.tokenlist.json
 
+>+ 页面展示的swap对应的Token和价格
+> + 修改页面展示的swap代币的价格：apps\web\src\hooks\useBUSDPrice.ts
+> + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
+
+
 >+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
 > + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts
 
 > + footer下面的小链接图标 packages\uikit\src\components\Footer\config.tsx
-
-
->+ 页面展示的swap对应的Token和价格
-> + 修改页面展示的swap代币的价格：apps\web\src\hooks\useBUSDPrice.ts
-> + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
 
 > bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D

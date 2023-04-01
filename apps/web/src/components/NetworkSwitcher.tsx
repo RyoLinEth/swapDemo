@@ -34,6 +34,8 @@ const AptosChain = {
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
 
+  
+
   return (
     <>
       <Box px="16px" py="8px">
@@ -41,7 +43,8 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
       </Box>
       <UserMenuDivider />
       {chains
-        .filter((chain) => !chain.testnet || chain.id === chainId)
+      // 下面这一行就是屏蔽 测试网
+        // .filter((chain) => !chain.testnet || chain.id === chainId)
         .map((chain) => (
           <UserMenuItem
             key={chain.id}
