@@ -28,9 +28,10 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageS
 
   if (isPageNotSupported && isBNBOnlyPage) {
     return (
-      <ModalV2 isOpen closeOnOverlayClick={false}>
-        <PageNetworkSupportModal />
-      </ModalV2>
+      <></>
+      // <ModalV2 isOpen closeOnOverlayClick={false}>
+      //   <PageNetworkSupportModal />
+      // </ModalV2>
     )
   }
 

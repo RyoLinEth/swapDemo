@@ -13,6 +13,7 @@ import { getActiveMenuItem, getActiveSubMenuItem } from 'components/Menu/utils'
 import { useRouter } from 'next/router'
 import useAuth from 'hooks/useAuth'
 
+// 从bsc主网切换到bsc测试网的时候,遇到测试网不支持的功能的时候 弹出的弹窗,要求切换到bsc主网取
 export function PageNetworkSupportModal() {
   const { t } = useTranslation()
   const { switchNetworkAsync, isLoading, canSwitch } = useSwitchNetwork()
@@ -39,53 +40,54 @@ export function PageNetworkSupportModal() {
   }, [menuItems, pathname])
 
   return (
-    <Modal title={title || t('Check your network')} hideCloseButton headerBackground="gradientCardHeader">
-      <Grid style={{ gap: '16px' }} maxWidth="360px">
-        <Text bold>{t('It’s a BNB Smart Chain only feature')}</Text>
+    <>11</>
+    // <Modal title={title || t('Check your network')} hideCloseButton headerBackground="gradientCardHeader">
+    //   <Grid style={{ gap: '16px' }} maxWidth="360px">
+    //     <Text bold>{t('It’s a BNB Smart Chain only feature')}</Text>
 
-        {image && (
-          <Box mx="auto" my="8px" position="relative" width="100%" minHeight="250px">
-            <Image src={image} alt="feature" fill style={{ objectFit: 'contain' }} unoptimized />
-          </Box>
-        )}
-        <Text small>
-          {t(
-            'Our Pools, Limit, Trading Competition, Prediction, Lottery and NFTs features are currently available only on BNB Chain! Come over and join the community in the fun!',
-          )}
-        </Text>
-        {canSwitch ? (
-          <Button
-            variant={foundChain && lastValidPath ? 'secondary' : 'primary'}
-            isLoading={isLoading}
-            onClick={() => (isWrongNetwork ? switchNetworkLocal(ChainId.BSC) : switchNetworkAsync(ChainId.BSC))}
-          >
-            {t('Switch to %chain%', { chain: 'BNB Smart Chain' })}
-          </Button>
-        ) : (
-          <Message variant="danger">
-            <MessageText>{t('Unable to switch network. Please try it on your wallet')}</MessageText>
-          </Message>
-        )}
-        {isConnected && (
-          <Button
-            variant="secondary"
-            onClick={() =>
-              logout().then(() => {
-                push('/')
-              })
-            }
-          >
-            {t('Disconnect Wallet')}
-          </Button>
-        )}
-        {foundChain && lastValidPath && (
-          <NextLink href={lastValidPath ?? ''} passHref>
-            <Button width="100%" as="a">
-              {t('Stay on %chain%', { chain: foundChain.name })}
-            </Button>
-          </NextLink>
-        )}
-      </Grid>
-    </Modal>
+    //     {image && (
+    //       <Box mx="auto" my="8px" position="relative" width="100%" minHeight="250px">
+    //         <Image src={image} alt="feature" fill style={{ objectFit: 'contain' }} unoptimized />
+    //       </Box>
+    //     )}
+    //     <Text small>
+    //       {t(
+    //         'Our Pools, Limit, Trading Competition, Prediction, Lottery and NFTs features are currently available only on BNB Chain! Come over and join the community in the fun!',
+    //       )}
+    //     </Text>
+    //     {canSwitch ? (
+    //       <Button
+    //         variant={foundChain && lastValidPath ? 'secondary' : 'primary'}
+    //         isLoading={isLoading}
+    //         onClick={() => (isWrongNetwork ? switchNetworkLocal(ChainId.BSC) : switchNetworkAsync(ChainId.BSC))}
+    //       >
+    //         {t('Switch to %chain%', { chain: 'BNB Smart Chain' })}
+    //       </Button>
+    //     ) : (
+    //       <Message variant="danger">
+    //         <MessageText>{t('Unable to switch network. Please try it on your wallet')}</MessageText>
+    //       </Message>
+    //     )}
+    //     {isConnected && (
+    //       <Button
+    //         variant="secondary"
+    //         onClick={() =>
+    //           logout().then(() => {
+    //             push('/')
+    //           })
+    //         }
+    //       >
+    //         {t('Disconnect Wallet')}
+    //       </Button>
+    //     )}
+    //     {foundChain && lastValidPath && (
+    //       <NextLink href={lastValidPath ?? ''} passHref>
+    //         <Button width="100%" as="a">
+    //           {t('Stay on %chain%', { chain: foundChain.name })}
+    //         </Button>
+    //       </NextLink>
+    //     )}
+    //   </Grid>
+    // </Modal>
   )
 }
