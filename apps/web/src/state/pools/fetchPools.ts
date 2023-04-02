@@ -11,13 +11,15 @@ import chunk from 'lodash/chunk'
 import sousChefV2 from '../../config/abi/sousChefV2.json'
 import sousChefV3 from '../../config/abi/sousChefV3.json'
 
+// 进行中的池子
 const livePoolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0 && !p.isFinished)
 
+// 相当于map，把pool里面只留下 name和address参数，然后进行flat，进行铺平
 const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
   return [
     {
       address: getAddress(poolConfig.contractAddress),
-      name: 'startBlock',
+      name: 'startBlock', // 这里这个name就是要从合约中读取的字段
     },
     {
       address: getAddress(poolConfig.contractAddress),
@@ -26,8 +28,15 @@ const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
   ]
 })
 
+// 从合约获取对应代币的开始区块和结束区块
 export const fetchPoolsBlockLimits = async () => {
+
+  // 这里合约的操作就是 sousChefABI这个json就是对应的合约的操作json，然后后面的startEndBlockCalls就是需要操作的合约
+  // 从合约里面把 startBlock和bonusEndBlock字段读取出来; 这里读出来的值不是直接的number,所以需要下面操作进行转换.具体里面封装的逻辑,先不做处理
+  console.log('调用abi之前');
+  
   const startEndBlockRaw = await multicall(sousChefABI, startEndBlockCalls)
+  console.log('调用abi之后');
 
   const startEndBlockResult = startEndBlockRaw.reduce((resultArray, item, index) => {
     const chunkIndex = Math.floor(index / 2)
@@ -60,6 +69,7 @@ const poolsBalanceOf = poolsConfig.map((poolConfig) => {
   }
 })
 
+// 获取质押的Token的总数
 export const fetchPoolsTotalStaking = async () => {
   const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf)
 

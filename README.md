@@ -84,11 +84,17 @@ yarn turbo run build --filter=blog
 | [awgmi](/packages/awgmi)                                      | connect to Aptos with similar wagmi React hooks.                                                                       |
 
 
-## 0 代币相关
+## -1 代币相关
 
 > bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D
 
 > 官网: https://www.bnbtiger.top/static/picture/05.png
+
+## 0 合约交互相关
+
+>+ **合约交互操作**：交互操作需要一个json文件和一个需要交互的合约
+> + json文件用来指定和合约交互的各种方法，如用type来指定event或者function或者constructor
+> + 合约：合约只要和上面的json文件契合就行了
 
 ## 1 主页面
 
@@ -139,6 +145,11 @@ yarn turbo run build --filter=blog
 >   + 从reducer的state里面获取pool数据的selector： apps\web\src\state\pools\selectors.ts
 >   + **配置所有池子的配置文件**，结束的池子和未结束的池子都是这里：apps\web\src\config\constants\pools.tsx
 
+>+ 合约交互操作：
+>   + 类似service，从合约里面读取pool相关的各种参数：apps\web\src\state\pools\fetchPools.ts
+>   + pool交互相关abi配置：apps\web\src\config\abi\sousChef.json
+
+> 每一个pool都会调用setPoolsPublicData方法，来初始化质押相关的参数，这些都是从质押合约里面读出来的
 
 >+ Token相关
 >   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens

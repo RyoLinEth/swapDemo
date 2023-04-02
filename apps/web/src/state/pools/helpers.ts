@@ -43,6 +43,7 @@ const transformProfileRequirement = (profileRequirement?: { required: boolean; t
     : undefined
 }
 
+// transformPool处理pools里面的所有数据，比如给pools加上一些字断之类的
 export const transformPool = (pool: SerializedPool): Pool.DeserializedPool<Token> => {
   const {
     totalStaked,

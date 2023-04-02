@@ -135,15 +135,20 @@ export const fetchCakePoolUserDataAsync = (account: string) => async (dispatch) 
   )
 }
 
+// 从质押合约里面读取，给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
 export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
     try {
+      console.log('调用合约之前');
+      
+      // 只有进行中的池子，会调用这个函数
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
-        fetchPoolsBlockLimits(),
-        fetchPoolsTotalStaking(),
-        fetchPoolsProfileRequirement(),
-        currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(),
+        fetchPoolsBlockLimits(), // 读取开始区块\结束区块
+        fetchPoolsTotalStaking(), // 读取总质押数量
+        fetchPoolsProfileRequirement(), // 读取profileRequirements
+        currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(), // 读取当前的区块
       ])
+      console.log('调用合约之后');
 
       const blockLimitsSousIdMap = keyBy(blockLimits, 'sousId')
       const totalStakingsSousIdMap = keyBy(totalStakings, 'sousId')
@@ -177,6 +182,7 @@ export const fetchPoolsPublicDataAsync =
 
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
+      // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
       const liveData = poolsConfig.map((pool) => {
         const blockLimit = blockLimitsSousIdMap[pool.sousId]
         const totalStaking = totalStakingsSousIdMap[pool.sousId]
@@ -217,6 +223,7 @@ export const fetchPoolsPublicDataAsync =
     }
   }
 
+// 从质押合约里面读取，给每一个pools增加 numberBlocksForUserLimit、stakingLimit 参数
 export const fetchPoolsStakingLimitsAsync = () => async (dispatch, getState) => {
   const poolsWithStakingLimit = getState()
     .pools.data.filter(({ stakingLimit }) => stakingLimit !== null && stakingLimit !== undefined)
@@ -240,6 +247,7 @@ export const fetchPoolsStakingLimitsAsync = () => async (dispatch, getState) => 
       }
     })
 
+    // 给每一个pools增加 numberBlocksForUserLimit、stakingLimit(每个用户的单币质押上限) 参数
     dispatch(setPoolsPublicData(stakingLimitData))
   } catch (error) {
     console.error('[Pools Action] error when getting staking limits', error)
@@ -367,6 +375,7 @@ export const PoolsSlice = createSlice({
   initialState,
   reducers: {
     setPoolPublicData: (state, action) => {
+      console.log('setPoolPublicData', state, action);
       const { sousId } = action.payload
       const poolIndex = state.data.findIndex((pool) => pool.sousId === sousId)
       state.data[poolIndex] = {
@@ -375,6 +384,7 @@ export const PoolsSlice = createSlice({
       }
     },
     setPoolUserData: (state, action) => {
+      console.log('setPoolUserData', state, action);
       const { sousId } = action.payload
       state.data = state.data.map((pool) => {
         if (pool.sousId === sousId) {
@@ -383,9 +393,12 @@ export const PoolsSlice = createSlice({
         return pool
       })
     },
+    // 初始化的时候会调用这个函数。从质押的合约里面根据sousId读出来对应的质押相关参数，给所有的pool初始化一些参数进去，每一个pool都会在遍历的时候单独调用这个函数
     setPoolsPublicData: (state, action) => {
+      // 从质押的合约里面根据sousId读出来的参数；比如totalStaked、stakingTokenPrice、earningTokenPrice等参数;放到 data上
       const livePoolsData: SerializedPool[] = action.payload
       const livePoolsSousIdMap = keyBy(livePoolsData, 'sousId')
+      // console.log('setPoolsPublicData', state, '333', action);
       state.data = state.data.map((pool) => {
         const livePoolData = livePoolsSousIdMap[pool.sousId]
         return { ...pool, ...livePoolData }
@@ -393,11 +406,14 @@ export const PoolsSlice = createSlice({
     },
     // IFO
     setIfoUserCreditData: (state, action) => {
+      console.log('setIfoUserCreditData', state, action);
       const credit = action.payload
       state.ifo = { ...state.ifo, credit }
     },
   },
+  // 处理这个reducer里面数据的时候，首先就是调用的这里这个 extraReducer，然后再调用的上面那些函数
   extraReducers: (builder) => {
+    console.log('extraReducers', builder);
     builder.addCase(resetUserState, (state) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state.data = state.data.map(({ userData, ...pool }) => {

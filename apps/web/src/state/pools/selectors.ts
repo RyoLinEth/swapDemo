@@ -24,6 +24,7 @@ export const makePoolWithUserDataLoadingSelector = (sousId) =>
 export const poolsWithUserDataLoadingSelector = createSelector(
   [selectPoolsData, selectUserDataLoaded],
   (pools, userDataLoaded) => {
+    // transformPool处理pools里面的所有数据，比如给pools加上一些字断之类的。不过也不是加太多的参数，大多数的参数还是在reducer的setPoolsPublicData里面添加的
     return { pools: pools.map(transformPool), userDataLoaded }
   },
 )
@@ -85,6 +86,8 @@ export const poolsWithVaultSelector = createSelector(
             },
           ]
         : []
+        // console.log('pools', [cakeAutoVault, ...cakeAutoFlexibleSideVault, ...withoutCakePool]);
+        
 
     // 这个返回值就是cake池子，和其它的所有池子
     return { pools: [cakeAutoVault, ...cakeAutoFlexibleSideVault, ...withoutCakePool], userDataLoaded }

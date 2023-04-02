@@ -61,7 +61,7 @@ export const vaultPoolConfig = {
 //   contractAddress: Address; // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
 //   poolCategory: PoolCategory; // 池子的类型，目前也不知道有什么区别
 //   tokenPerBlock: string; // 每个区块产生多少，目前也不知道是怎么看的
-//   version?: number; // 版本，也不知道有什么用处
+//   version?: number; // 版本，v3的池子,现在一般都是v3的池子
 //   isFinished?: boolean; // 这个参数 看起来应该是可以不加的
 //   enableEmergencyWithdraw?: boolean;
 // }
@@ -85,6 +85,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
     tokenPerBlock: '10',
     isFinished: false,
   },
+  // {
+  //   sousId: 999,
+  //   stakingToken: bscTokens.StakingToken, // 质押的Token
+  //   earningToken: bscTokens.RewardToken, // 赚取的Token
+  //   contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
+  //     56: '0x2419A737355dDC97B5B572E73A861F7e9c953c31',
+  //     97: '',
+  //   },
+  //   poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
+  //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
+  //   version: 3, // 版本，也不知道有什么用处
+  // },
   {
     sousId: 323,
     stakingToken: bscTokens.cake, // 质押的Token
@@ -166,18 +178,18 @@ const finishedPools = [
     tokenPerBlock: '1.961',
     version: 3,
   },
-  {
-    sousId: 303,
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.mgp,
-    contractAddress: {
-      56: '0x365F744c8b7608253697cA2Ed561537B65a3438B',
-      97: '',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '6.944',
-    version: 3,
-  },
+  // {
+  //   sousId: 303,
+  //   stakingToken: bscTokens.cake,
+  //   earningToken: bscTokens.mgp,
+  //   contractAddress: {
+  //     56: '0x365F744c8b7608253697cA2Ed561537B65a3438B',
+  //     97: '',
+  //   },
+  //   poolCategory: PoolCategory.CORE,
+  //   tokenPerBlock: '6.944',
+  //   version: 3,
+  // },
   // {
   //   sousId: 309,
   //   stakingToken: bscTokens.cake,
@@ -1376,17 +1388,17 @@ const finishedPools = [
   //   poolCategory: PoolCategory.CORE,
   //   tokenPerBlock: '0.00744',
   // },
-  // {
-  //   sousId: 200,
-  //   stakingToken: bscTokens.axs,
-  //   earningToken: bscTokens.cake,
-  //   contractAddress: {
-  //     97: '',
-  //     56: '0x583A36816F3b8401C4fdf682203E0caDA6997740',
-  //   },
-  //   poolCategory: PoolCategory.CORE,
-  //   tokenPerBlock: '0.00992',
-  // },
+  {
+    sousId: 200,
+    stakingToken: bscTokens.axs,
+    earningToken: bscTokens.cake,
+    contractAddress: {
+      97: '',
+      56: '0x583A36816F3b8401C4fdf682203E0caDA6997740',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.00992',
+  },
   // {
   //   sousId: 199,
   //   stakingToken: bscTokens.cake,
@@ -3514,30 +3526,30 @@ const finishedPools = [
   //   tokenPerBlock: '0.2',
   //   isFinished: true,
   // },
-  {
-    sousId: 11,
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.nar,
-    contractAddress: {
-      97: '',
-      56: '0xDc938BA1967b06d666dA79A7B1E31a8697D1565E',
-    },
-    poolCategory: PoolCategory.COMMUNITY,
-    tokenPerBlock: '1',
-    isFinished: true,
-  },
   // {
-  //   sousId: 10,
+  //   sousId: 11,
   //   stakingToken: bscTokens.cake,
-  //   earningToken: bscTokens.nya,
+  //   earningToken: bscTokens.nar,
   //   contractAddress: {
   //     97: '',
-  //     56: '0x07a0A5B67136d40F4d7d95Bc8e0583bafD7A81b9',
+  //     56: '0xDc938BA1967b06d666dA79A7B1E31a8697D1565E',
   //   },
   //   poolCategory: PoolCategory.COMMUNITY,
-  //   tokenPerBlock: '10',
+  //   tokenPerBlock: '1',
   //   isFinished: true,
   // },
+  {
+    sousId: 10,
+    stakingToken: bscTokens.cake,
+    earningToken: bscTokens.nya,
+    contractAddress: {
+      97: '',
+      56: '0x07a0A5B67136d40F4d7d95Bc8e0583bafD7A81b9',
+    },
+    poolCategory: PoolCategory.COMMUNITY,
+    tokenPerBlock: '10',
+    isFinished: true,
+  },
   // {
   //   sousId: 9,
   //   stakingToken: bscTokens.cake,
@@ -3600,7 +3612,7 @@ const finishedPools = [
   // },
 ].map((p) => ({
   ...p,
-  isFinished: true,
+  isFinished: true, // 表示结束状态的字断
   stakingToken: p.stakingToken.serialize,
   earningToken: p.earningToken.serialize,
 }))
