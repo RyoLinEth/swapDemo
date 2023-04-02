@@ -42,6 +42,7 @@ import { resetUserState } from '../global/actions'
 import { fetchUserIfoCredit, fetchPublicIfoData } from './fetchUserIfo'
 import { fetchVaultUser, fetchFlexibleSideVaultUser } from './fetchVaultUser'
 
+// 池子初始的所有数据，这个应该是样式数据之类的
 export const initialPoolVaultState = Object.freeze({
   totalShares: null,
   totalLockedAmount: null,
@@ -75,9 +76,10 @@ export const initialIfoState = Object.freeze({
   ceiling: null,
 })
 
+// 池子初始的所有数据
 const initialState: PoolsState = {
-  data: [...poolsConfig],
-  userDataLoaded: false,
+  data: [...poolsConfig], // 所有池子的数据
+  userDataLoaded: false, // 是否加载了用户数据，用户钱包登陆之后，这个值为true
   cakeVault: initialPoolVaultState,
   ifo: initialIfoState,
   cakeFlexibleSideVault: initialPoolVaultState,
@@ -359,6 +361,7 @@ export const fetchCakeFlexibleSideVaultUserData = createAsyncThunk<SerializedVau
   },
 )
 
+// 池子Pools的reducer，存所有的数据
 export const PoolsSlice = createSlice({
   name: 'Pools',
   initialState,

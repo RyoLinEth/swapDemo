@@ -12,6 +12,7 @@ export const ONE_WEEK_DEFAULT = 604800
 export const BOOST_WEIGHT = BigNumber.from('20000000000000')
 export const DURATION_FACTOR = BigNumber.from('31536000')
 
+// 这个应该是池子的一些配置。对应的外面的initialPoolVaultState； 这个难道是自己放入的cake的一些配置，用来被别人挖的
 export const vaultPoolConfig = {
   [VaultKey.CakeVaultV1]: {
     name: <Trans>Auto CAKE</Trans>,
@@ -55,9 +56,25 @@ export const vaultPoolConfig = {
   },
 } as const
 
+// export interface PoolConfigBaseProps {
+//   sousId: number; // 这个参数目前不知道是什么
+//   contractAddress: Address; // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
+//   poolCategory: PoolCategory; // 池子的类型，目前也不知道有什么区别
+//   tokenPerBlock: string; // 每个区块产生多少，目前也不知道是怎么看的
+//   version?: number; // 版本，也不知道有什么用处
+//   isFinished?: boolean; // 这个参数 看起来应该是可以不加的
+//   enableEmergencyWithdraw?: boolean;
+// }
+
+// export interface SerializedPoolConfig<T> extends PoolConfigBaseProps {
+//   stakingToken: T & GenericToken; // 质押的Token
+//   earningToken: T & GenericToken; // 赚取的Token
+// }
+
+// 进行中的池子
 export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   {
-    sousId: 0,
+    sousId: 0, // 这个0，代表cake池子，即第一个池子
     stakingToken: bscTokens.cake,
     earningToken: bscTokens.cake,
     contractAddress: {
@@ -70,15 +87,15 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   },
   {
     sousId: 323,
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.sd,
-    contractAddress: {
+    stakingToken: bscTokens.cake, // 质押的Token
+    earningToken: bscTokens.sd, // 赚取的Token
+    contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
       56: '0xaEC63F134a7853C6DaC9BA428d7962cD7C6c5e30',
       97: '',
     },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '0.01022',
-    version: 3,
+    poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
+    tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
+    version: 3, // 版本，也不知道有什么用处
   },
   {
     sousId: 322,
@@ -135,6 +152,7 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
 }))
 
 // known finished pools
+// 结束的池子
 const finishedPools = [
   {
     sousId: 310,

@@ -94,6 +94,7 @@ export const usePool = (sousId: number): { pool: Pool.DeserializedPool<Token>; u
   return useSelector(poolWithUserDataLoadingSelector)
 }
 
+// 所有的池子Pool的数据。包含已结束和未结束的
 export const usePoolsWithVault = () => {
   return useSelector(poolsWithVaultSelector)
 }

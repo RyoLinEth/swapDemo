@@ -13,6 +13,7 @@ export default function PoolControlsContainer(props) {
   const { address: account } = useAccount()
   const initialBlock = useInitialBlock()
   const threshHold = initialBlock > 0 ? initialBlock + POOL_START_BLOCK_THRESHOLD : 0
+  
 
   return (
     <Pool.PoolControls<Token>

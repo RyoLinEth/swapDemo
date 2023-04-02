@@ -34,12 +34,17 @@ const FinishedTextLink = styled(Link)`
   text-decoration: underline;
 `
 
+// 单币质押挖矿页面
 const Pools: React.FC<React.PropsWithChildren> = () => {
   const { t } = useTranslation()
+  // 当前用户的账号
   const { address: account } = useAccount()
+  // 为所有的池子,已结束的池子和正在进行中的池子,都是这个pool,这里面是所有池子的全量数据
   const { pools, userDataLoaded } = usePoolsWithVault()
 
   usePoolsPageFetch()
+
+  // console.log('pools', account, pools, userDataLoaded);
 
   return (
     <>
@@ -60,9 +65,11 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
       </PageHeader>
       <Page>
         <PoolControls pools={pools}>
+          {/* chosenPools为当前页面上展示的所有池子的列表;viewModel为对应的模式;stakedOnly为只展示自己已经质押了的矿池;normalizedUrlSearch为自己输入的查询条件 */}
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
-              {showFinishedPools && (
+            {/* 跳转到pancake的v1的矿池 */}
+              {/* {showFinishedPools && (
                 <FinishedTextContainer>
                   <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
                     {t('Looking for v1 CAKE syrup pools?')}
@@ -71,7 +78,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                     {t('Go to migration page')}.
                   </FinishedTextLink>
                 </FinishedTextContainer>
-              )}
+              )} */}
               {account && !userDataLoaded && stakedOnly && (
                 <Flex justifyContent="center" mb="4px">
                   <Loading />
@@ -137,7 +144,8 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
               <Image
                 mx="auto"
                 mt="12px"
-                src="/images/decorations/3d-syrup-bunnies.png"
+                // src="/images/decorations/3d-syrup-bunnies.png"
+                src="/images/decorations/bnbtiger.png"
                 alt="Pancake illustration"
                 width={192}
                 height={184.5}

@@ -84,6 +84,14 @@ yarn turbo run build --filter=blog
 | [awgmi](/packages/awgmi)                                      | connect to Aptos with similar wagmi React hooks.                                                                       |
 
 
+## 0 代币相关
+
+> bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D
+
+> 官网: https://www.bnbtiger.top/static/picture/05.png
+
+## 1 主页面
+
 >+ 主菜单：外层调用的menu，相当于layout，包括所有数据的传入 apps\web\src\components\Menu\index.tsx。传参，从这里面传入，调用的是下面的 uikit的menu
 > + 主菜单，纯ui文件，数据是从上面那里传入的。最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
 > + 所有菜单的配置文件：apps\web\src\components\Menu\config\config.ts
@@ -92,6 +100,14 @@ yarn turbo run build --filter=blog
 > + 修改网络配置(主网测试网什么的): apps\web\src\utils\wagmi.ts
 
 >+ 主页面，内容区home；apps\web\src\views\Home\index.tsx；所有的列 就是这个组件
+
+>+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
+> + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts
+
+> + footer下面的小链接图标 packages\uikit\src\components\Footer\config.tsx
+
+
+## 2 swap页面
 
 >+ swap组件：apps\web\src\views\Swap\index.tsx
 > + swap的头部，设置，交易，热门代币 等一系列按钮：apps\web\src\views\Swap\components\CurrencyInputHeader.tsx
@@ -112,11 +128,17 @@ yarn turbo run build --filter=blog
 > + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
 
 
->+ 布局文件底部的footer：packages\uikit\src\components\Footer\Footer.tsx
-> + footer下面展示的所有链接。关于、说明、开发者 packages\uikit\src\widgets\Menu\components\footerConfig.ts
+## 3 挖矿页面
 
-> + footer下面的小链接图标 packages\uikit\src\components\Footer\config.tsx
+>+ 单币质押挖矿页面Pool:
+>   + 包裹下面PoolControls内容的外层页面,这个页面没什么逻辑,只传入一个pool: apps\web\src\views\Pools\index.tsx
+>   + Pool最上面的search条件和下面列表的内容区主wrapper,和对应的pool列表的数据处理: packages\uikit\src\widgets\Pool\PoolControls.tsx
 
-> bngtiger: 0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D
+>+ 数据相关： 所有页面，pool和farm页面的所有reducer，apps\web\src\state\index.ts
+>   + 存所有数据的Pool的reducer，state的key为pools： apps\web\src\state\pools\index.ts
+>   + 从reducer的state里面获取pool数据的selector： apps\web\src\state\pools\selectors.ts
+>   + **配置所有池子的配置文件**，结束的池子和未结束的池子都是这里：apps\web\src\config\constants\pools.tsx
 
-> 官网: https://www.bnbtiger.top/static/picture/05.png
+
+>+ Token相关
+>   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
