@@ -19,12 +19,13 @@ export const isAfterBurning = ({ userShares, locked, lockEndTime }: VaultPositio
   isLocked({ userShares, locked }) &&
   Date.now() > new Date(parseInt(lockEndTime) * 1000).getTime() + UNLOCK_FREE_DURATION * 1000
 
+  // 池子的锁仓状态
 export enum VaultPosition {
-  None,
-  Flexible,
-  Locked,
-  LockedEnd,
-  AfterBurning,
+  None, // 无状态
+  Flexible, // 这个应该是随时可以取出来，灵活模式
+  Locked, // 锁仓模式，正在锁仓
+  LockedEnd, // 锁仓模式，锁仓时间结束，可以取出
+  AfterBurning, // 这个应该是结束锁仓
 }
 
 export type VaultPositionParams = { userShares?: BigNumber; locked?: boolean; lockEndTime?: string }

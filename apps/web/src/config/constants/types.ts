@@ -59,7 +59,7 @@ export interface Ifo {
   [PoolIds.poolUnlimited]: IfoPoolInfo
 }
 
-// 池子类型，暂时不知道是什么用
+// 池子类型，暂时不知道是什么用。有可能对应的 自动池子、手动池子、ifo池子等
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
