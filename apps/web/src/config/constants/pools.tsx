@@ -85,18 +85,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
     tokenPerBlock: '10',
     isFinished: false,
   },
-  {
-    sousId: 999,
-    stakingToken: bscTokens.StakingToken, // 质押的Token
-    earningToken: bscTokens.RewardToken, // 赚取的Token
-    contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
-      56: '0x2419A737355dDC97B5B572E73A861F7e9c953c31',
-      97: '',
-    },
-    poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
-    tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
-    version: 3, // 版本，也不知道有什么用处
-  },
+  // {
+  //   sousId: 999,
+  //   stakingToken: bscTokens.StakingToken, // 质押的Token
+  //   earningToken: bscTokens.RewardToken, // 赚取的Token
+  //   contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
+  //     56: '0x2419A737355dDC97B5B572E73A861F7e9c953c31',
+  //     97: '',
+  //   },
+  //   poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
+  //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
+  //   version: 3, // 版本，也不知道有什么用处
+  // },
   {
     sousId: 323,
     stakingToken: bscTokens.cake, // 质押的Token
