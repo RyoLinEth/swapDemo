@@ -13,6 +13,7 @@ import useCatchTxError from 'hooks/useCatchTxError'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useCakeApprovalStatus from 'hooks/useCakeApprovalStatus'
 import useCakeApprove from 'hooks/useCakeApprove'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol) => {
   const { toastSuccess } = useToast()
@@ -22,6 +23,7 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
   const dispatch = useAppDispatch()
   const { address: account } = useAccount()
   const sousChefContract = useSousChef(sousId)
+  const { chainId } = useActiveWeb3React()
 
   const handleApprove = useCallback(async () => {
     const receipt = await fetchWithCatchTxError(() => {
@@ -34,20 +36,9 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
           {t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol })}
         </ToastDescriptionWithTx>,
       )
-      dispatch(updateUserAllowance({ sousId, account }))
+      dispatch(updateUserAllowance({ sousId, account, chainId }))
     }
-  }, [
-    account,
-    dispatch,
-    lpContract,
-    sousChefContract,
-    sousId,
-    earningTokenSymbol,
-    t,
-    toastSuccess,
-    callWithGasPrice,
-    fetchWithCatchTxError,
-  ])
+  }, [fetchWithCatchTxError, callWithGasPrice, lpContract, sousChefContract.address, toastSuccess, t, earningTokenSymbol, dispatch, sousId, account, chainId])
 
   return { handleApprove, pendingTx }
 }

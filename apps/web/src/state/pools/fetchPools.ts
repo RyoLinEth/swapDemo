@@ -7,6 +7,7 @@ import erc20ABI from 'config/abi/erc20.json'
 import multicall, { multicallv2 } from 'utils/multicall'
 import { getAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
+import { ChainId } from '@pancakeswap/sdk'
 import chunk from 'lodash/chunk'
 import sousChefV2 from '../../config/abi/sousChefV2.json'
 import sousChefV3 from '../../config/abi/sousChefV3.json'
@@ -29,14 +30,13 @@ const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
 })
 
 // 从合约获取对应代币的开始区块和结束区块
-export const fetchPoolsBlockLimits = async () => {
+export const fetchPoolsBlockLimits = async (chainId: number = ChainId.BSC) => {
 
   // 这里合约的操作就是 sousChefABI这个json就是对应的合约的操作json，然后后面的startEndBlockCalls就是需要操作的合约
   // 从合约里面把 startBlock和bonusEndBlock字段读取出来; 这里读出来的值不是直接的number,所以需要下面操作进行转换.具体里面封装的逻辑,先不做处理
-  console.log('调用abi之前');
-  
-  const startEndBlockRaw = await multicall(sousChefABI, startEndBlockCalls)
-  console.log('调用abi之后');
+  console.log('调用fetchPoolsBlockLimits之前', chainId);
+  debugger
+  const startEndBlockRaw = await multicall(sousChefABI, startEndBlockCalls, chainId)
 
   const startEndBlockResult = startEndBlockRaw.reduce((resultArray, item, index) => {
     const chunkIndex = Math.floor(index / 2)
@@ -50,6 +50,7 @@ export const fetchPoolsBlockLimits = async () => {
 
     return resultArray
   }, [])
+  console.log('调用fetchPoolsBlockLimits之后', startEndBlockResult);
 
   return livePoolsWithEnd.map((cakePoolConfig, index) => {
     const [[startBlock], [endBlock]] = startEndBlockResult[index]
@@ -70,17 +71,22 @@ const poolsBalanceOf = poolsConfig.map((poolConfig) => {
 })
 
 // 获取质押的Token的总数
-export const fetchPoolsTotalStaking = async () => {
-  const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf)
+export const fetchPoolsTotalStaking = async (chainId: number = ChainId.BSC) => {
+  debugger
+  console.log('调用fetchPoolsTotalStaking之前');
+  // const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf, chainId)
+  console.log('调用fetchPoolsTotalStaking之后');
 
   return poolsConfig.map((p, index) => ({
     sousId: p.sousId,
-    totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
+    totalStaked: new BigNumber('6666666666666666666').toJSON(),
+    // totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
   }))
 }
 
 export const fetchPoolsStakingLimits = async (
   poolsWithStakingLimit: number[],
+  chainId: number = ChainId.BSC
 ): Promise<{ [key: string]: { stakingLimit: BigNumber; numberBlocksForUserLimit: number } }> => {
   const validPools = poolsConfig
     .filter((p) => p.stakingToken.symbol !== 'BNB' && !p.isFinished)
@@ -101,6 +107,7 @@ export const fetchPoolsStakingLimits = async (
     abi: sousChefV2,
     calls: poolStakingCalls,
     options: { requireSuccess: false },
+    chainId
   })
   const chunkSize = poolStakingCalls.length / validPools.length
   const poolStakingChunkedResultRaw = chunk(poolStakingResultRaw.flat(), chunkSize)
@@ -116,15 +123,17 @@ export const fetchPoolsStakingLimits = async (
 
 const livePoolsWithV3 = poolsConfig.filter((pool) => pool?.version === 3 && !pool?.isFinished)
 
-export const fetchPoolsProfileRequirement = async (): Promise<{
+export const fetchPoolsProfileRequirement = async (chainId: number = ChainId.BSC): Promise<{
   [key: string]: {
     required: boolean
     thresholdPoints: string
   }
 }> => {
+  debugger
+  console.log('调用fetchPoolsProfileRequirement之前');
   const poolProfileRequireCalls = livePoolsWithV3
-    .map((validPool) => {
-      const contractAddress = getAddress(validPool.contractAddress)
+  .map((validPool) => {
+      const contractAddress = getAddress(validPool.contractAddress, chainId)
       return ['pancakeProfileIsRequested', 'pancakeProfileThresholdPoints'].map((method) => ({
         address: contractAddress,
         name: method,
@@ -136,7 +145,9 @@ export const fetchPoolsProfileRequirement = async (): Promise<{
     abi: sousChefV3,
     calls: poolProfileRequireCalls,
     options: { requireSuccess: false },
+    chainId
   })
+  console.log('调用fetchPoolsProfileRequirement之后', poolProfileRequireResultRaw);
   const chunkSize = poolProfileRequireCalls.length / livePoolsWithV3.length
   const poolStakingChunkedResultRaw = chunk(poolProfileRequireResultRaw.flat(), chunkSize)
   return fromPairs(

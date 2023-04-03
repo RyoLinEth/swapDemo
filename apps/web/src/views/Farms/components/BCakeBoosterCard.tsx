@@ -105,6 +105,7 @@ export const useBCakeTooltipContent = () => {
   return tooltipContent
 }
 
+// farm页面的收益助推器 卡片
 export const BCakeBoosterCard = () => {
   const { t } = useTranslation()
   const theme = useTheme()
@@ -117,27 +118,28 @@ export const BCakeBoosterCard = () => {
     ...(isMobile && { hideTimeout: 1500 }),
   })
   return (
-    <CardWrapper>
-      <ImageWrapper>
-        <Image src={boosterCardImage} alt="boosterCardImage" width={99} height={191} placeholder="blur" />
-      </ImageWrapper>
-      <Card p="0px" style={{ zIndex: 1 }}>
-        <StyledCardBody style={{ padding: '15px 24px' }}>
-          <RocketIcon />
-          <Text fontSize={22} bold color="text" marginBottom="-12px" display="inline-block" ml="7px">
-            {t('Yield Booster')}
-          </Text>
-          {tooltipVisible && tooltip}
-          <Box ref={targetRef} style={{ float: 'right', position: 'relative', top: '6px' }}>
-            <HelpIcon color={theme.colors.textSubtle} />
-          </Box>
-        </StyledCardBody>
-        <StyledCardFooter>
-          <BCakeProxyCakeBalanceCard />
-          <CardContent />
-        </StyledCardFooter>
-      </Card>
-    </CardWrapper>
+    <></>
+    // <CardWrapper>
+    //   <ImageWrapper>
+    //     <Image src={boosterCardImage} alt="boosterCardImage" width={99} height={191} placeholder="blur" />
+    //   </ImageWrapper>
+    //   <Card p="0px" style={{ zIndex: 1 }}>
+    //     <StyledCardBody style={{ padding: '15px 24px' }}>
+    //       <RocketIcon />
+    //       <Text fontSize={22} bold color="text" marginBottom="-12px" display="inline-block" ml="7px">
+    //         {t('Yield Booster')}
+    //       </Text>
+    //       {tooltipVisible && tooltip}
+    //       <Box ref={targetRef} style={{ float: 'right', position: 'relative', top: '6px' }}>
+    //         <HelpIcon color={theme.colors.textSubtle} />
+    //       </Box>
+    //     </StyledCardBody>
+    //     <StyledCardFooter>
+    //       <BCakeProxyCakeBalanceCard />
+    //       <CardContent />
+    //     </StyledCardFooter>
+    //   </Card>
+    // </CardWrapper>
   )
 }
 

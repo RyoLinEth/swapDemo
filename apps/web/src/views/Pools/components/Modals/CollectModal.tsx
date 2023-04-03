@@ -6,6 +6,7 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useAppDispatch } from 'state'
 import { updateUserBalance, updateUserPendingReward, updateUserStakedBalance } from 'state/pools'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useHarvestPool from '../../hooks/useHarvestPool'
 
 export const CollectModalContainer = ({
@@ -21,6 +22,7 @@ export const CollectModalContainer = ({
   const dispatch = useAppDispatch()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { onReward } = useHarvestPool(sousId, isBnbPool)
+  const { chainId } = useActiveWeb3React()
 
   const handleHarvestConfirm = useCallback(async () => {
     const receipt = await fetchWithCatchTxError(() => {
@@ -33,12 +35,12 @@ export const CollectModalContainer = ({
           {t('Your %symbol% earnings have been sent to your wallet!', { symbol: earningTokenSymbol })}
         </ToastDescriptionWithTx>,
       )
-      dispatch(updateUserStakedBalance({ sousId, account }))
-      dispatch(updateUserPendingReward({ sousId, account }))
-      dispatch(updateUserBalance({ sousId, account }))
+      dispatch(updateUserStakedBalance({ sousId, account,chainId }))
+      dispatch(updateUserPendingReward({ sousId, account,chainId }))
+      dispatch(updateUserBalance({ sousId, account,chainId }))
       onDismiss?.()
     }
-  }, [account, dispatch, earningTokenSymbol, fetchWithCatchTxError, onDismiss, onReward, sousId, t, toastSuccess])
+  }, [account, chainId, dispatch, earningTokenSymbol, fetchWithCatchTxError, onDismiss, onReward, sousId, t, toastSuccess])
 
   return (
     <Pool.CollectModal

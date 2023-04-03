@@ -12,6 +12,7 @@ import {
   SerializedVaultUser,
   SerializedLockedCakeVault,
 } from 'state/types'
+import { ChainId } from '@pancakeswap/sdk'
 import { getPoolApr } from 'utils/apr'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import cakeAbi from 'config/abi/cake.json'
@@ -110,7 +111,7 @@ export const fetchCakePoolPublicDataAsync = () => async (dispatch, getState) => 
   )
 }
 
-export const fetchCakePoolUserDataAsync = (account: string) => async (dispatch) => {
+export const fetchCakePoolUserDataAsync = (account: string, chainId: number = ChainId.BSC) => async (dispatch) => {
   const allowanceCall = {
     address: bscTokens.cake.address,
     name: 'allowance',
@@ -122,7 +123,7 @@ export const fetchCakePoolUserDataAsync = (account: string) => async (dispatch) 
     params: [account],
   }
   const cakeContractCalls = [allowanceCall, balanceOfCall]
-  const [[allowance], [stakingTokenBalance]] = await multicallv2({ abi: cakeAbi, calls: cakeContractCalls })
+  const [[allowance], [stakingTokenBalance]] = await multicallv2({ abi: cakeAbi, calls: cakeContractCalls, chainId })
 
   dispatch(
     setPoolUserData({
@@ -140,12 +141,12 @@ export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
     try {
       console.log('调用合约之前');
-      
+      debugger
       // 只有进行中的池子，会调用这个函数
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
-        fetchPoolsBlockLimits(), // 读取开始区块\结束区块
-        fetchPoolsTotalStaking(), // 读取总质押数量
-        fetchPoolsProfileRequirement(), // 读取profileRequirements
+        fetchPoolsBlockLimits(chainId), // 读取开始区块\结束区块
+        fetchPoolsTotalStaking(chainId), // 读取总质押数量
+        fetchPoolsProfileRequirement(chainId), // 读取profileRequirements
         currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(), // 读取当前的区块
       ])
       console.log('调用合约之后');
@@ -224,13 +225,13 @@ export const fetchPoolsPublicDataAsync =
   }
 
 // 从质押合约里面读取，给每一个pools增加 numberBlocksForUserLimit、stakingLimit 参数
-export const fetchPoolsStakingLimitsAsync = () => async (dispatch, getState) => {
+export const fetchPoolsStakingLimitsAsync = (chainId: number = ChainId.BSC) => async (dispatch, getState) => {
   const poolsWithStakingLimit = getState()
     .pools.data.filter(({ stakingLimit }) => stakingLimit !== null && stakingLimit !== undefined)
     .map((pool) => pool.sousId)
 
   try {
-    const stakingLimits = await fetchPoolsStakingLimits(poolsWithStakingLimit)
+    const stakingLimits = await fetchPoolsStakingLimits(poolsWithStakingLimit, chainId)
 
     const stakingLimitData = poolsConfig.map((pool) => {
       if (poolsWithStakingLimit.includes(pool.sousId)) {
@@ -256,14 +257,14 @@ export const fetchPoolsStakingLimitsAsync = () => async (dispatch, getState) => 
 
 export const fetchPoolsUserDataAsync = createAsyncThunk<
   { sousId: number; allowance: any; stakingTokenBalance: any; stakedBalance: any; pendingReward: any }[],
-  string
->('pool/fetchPoolsUserData', async (account, { rejectWithValue }) => {
+  { account: string; chainId: number }
+>('pool/fetchPoolsUserData', async ({account, chainId = ChainId.BSC}, { rejectWithValue }) => {
   try {
     const [allowances, stakingTokenBalances, stakedBalances, pendingRewards] = await Promise.all([
-      fetchPoolsAllowance(account),
-      fetchUserBalances(account),
-      fetchUserStakeBalances(account),
-      fetchUserPendingRewards(account),
+      fetchPoolsAllowance(account, chainId),
+      fetchUserBalances(account, chainId),
+      fetchUserStakeBalances(account, chainId),
+      fetchUserPendingRewards(account, chainId),
     ])
 
     const userData = poolsConfig.map((pool) => ({
@@ -281,69 +282,69 @@ export const fetchPoolsUserDataAsync = createAsyncThunk<
 
 export const updateUserAllowance = createAsyncThunk<
   { sousId: number; field: string; value: any },
-  { sousId: number; account: string }
->('pool/updateUserAllowance', async ({ sousId, account }) => {
-  const allowances = await fetchPoolsAllowance(account)
+  { sousId: number; account: string; chainId: number }
+>('pool/updateUserAllowance', async ({ sousId, account, chainId = ChainId.BSC }) => {
+  const allowances = await fetchPoolsAllowance(account,chainId)
   return { sousId, field: 'allowance', value: allowances[sousId] }
 })
 
 export const updateUserBalance = createAsyncThunk<
   { sousId: number; field: string; value: any },
-  { sousId: number; account: string }
->('pool/updateUserBalance', async ({ sousId, account }) => {
-  const tokenBalances = await fetchUserBalances(account)
+  { sousId: number; account: string; chainId: number }
+>('pool/updateUserBalance', async ({ sousId, account, chainId = ChainId.BSC }) => {
+  const tokenBalances = await fetchUserBalances(account,chainId)
   return { sousId, field: 'stakingTokenBalance', value: tokenBalances[sousId] }
 })
 
 export const updateUserStakedBalance = createAsyncThunk<
   { sousId: number; field: string; value: any },
-  { sousId: number; account: string }
->('pool/updateUserStakedBalance', async ({ sousId, account }) => {
-  const stakedBalances = await fetchUserStakeBalances(account)
+  { sousId: number; account: string; chainId: number }
+>('pool/updateUserStakedBalance', async ({ sousId, account, chainId = ChainId.BSC }) => {
+  const stakedBalances = await fetchUserStakeBalances(account,chainId)
   return { sousId, field: 'stakedBalance', value: stakedBalances[sousId] }
 })
 
 export const updateUserPendingReward = createAsyncThunk<
   { sousId: number; field: string; value: any },
-  { sousId: number; account: string }
->('pool/updateUserPendingReward', async ({ sousId, account }) => {
-  const pendingRewards = await fetchUserPendingRewards(account)
+  { sousId: number; account: string; chainId: number }
+>('pool/updateUserPendingReward', async ({ sousId, account, chainId = ChainId.BSC }) => {
+  const pendingRewards = await fetchUserPendingRewards(account,chainId)
   return { sousId, field: 'pendingReward', value: pendingRewards[sousId] }
 })
 
-export const fetchCakeVaultPublicData = createAsyncThunk<SerializedLockedCakeVault>(
+export const fetchCakeVaultPublicData = createAsyncThunk<SerializedLockedCakeVault, {chainId: number}>(
   'cakeVault/fetchPublicData',
-  async () => {
-    const publicVaultInfo = await fetchPublicVaultData()
+  async ({ chainId = ChainId.BSC }) => {
+    const publicVaultInfo = await fetchPublicVaultData(chainId)
     return publicVaultInfo
   },
 )
 
-export const fetchCakeFlexibleSideVaultPublicData = createAsyncThunk<SerializedCakeVault>(
+export const fetchCakeFlexibleSideVaultPublicData = createAsyncThunk<SerializedCakeVault, {chainId: number}>(
   'cakeFlexibleSideVault/fetchPublicData',
-  async () => {
-    const publicVaultInfo = await fetchPublicFlexibleSideVaultData()
+  async ({ chainId = ChainId.BSC }) => {
+    const publicVaultInfo = await fetchPublicFlexibleSideVaultData(chainId)
     return publicVaultInfo
   },
 )
 
-export const fetchCakeVaultFees = createAsyncThunk<SerializedVaultFees>('cakeVault/fetchFees', async () => {
-  const vaultFees = await fetchVaultFees(getCakeVaultAddress())
+export const fetchCakeVaultFees = createAsyncThunk<SerializedVaultFees, {chainId: number}>('cakeVault/fetchFees', async ({ chainId = ChainId.BSC }) => {
+  const vaultFees = await fetchVaultFees(chainId, getCakeVaultAddress(chainId))
   return vaultFees
 })
 
-export const fetchCakeFlexibleSideVaultFees = createAsyncThunk<SerializedVaultFees>(
+export const fetchCakeFlexibleSideVaultFees = createAsyncThunk<SerializedVaultFees, {chainId: number}>(
   'cakeFlexibleSideVault/fetchFees',
-  async () => {
-    const vaultFees = await fetchVaultFees(getCakeFlexibleSideVaultAddress())
+  async ({ chainId = ChainId.BSC }) => {
+    const vaultFees = await fetchVaultFees(chainId, getCakeFlexibleSideVaultAddress(chainId))
     return vaultFees
   },
 )
 
-export const fetchCakeVaultUserData = createAsyncThunk<SerializedLockedVaultUser, { account: string }>(
+export const fetchCakeVaultUserData = createAsyncThunk<SerializedLockedVaultUser, { account: string,chainId: number }>(
   'cakeVault/fetchUser',
-  async ({ account }) => {
-    const userData = await fetchVaultUser(account)
+  async ({ account, chainId = ChainId.BSC }) => {
+    const userData = await fetchVaultUser(account, chainId)
     return userData
   },
 )
@@ -413,7 +414,6 @@ export const PoolsSlice = createSlice({
   },
   // 处理这个reducer里面数据的时候，首先就是调用的这里这个 extraReducer，然后再调用的上面那些函数
   extraReducers: (builder) => {
-    console.log('extraReducers', builder);
     builder.addCase(resetUserState, (state) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       state.data = state.data.map(({ userData, ...pool }) => {

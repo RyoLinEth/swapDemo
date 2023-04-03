@@ -9,6 +9,7 @@ import { fetchCakeVaultUserData } from 'state/pools'
 import { useAppDispatch } from 'state'
 import { useIfoCredit } from 'state/pools/hooks'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import useIfoAllowance from '../useIfoAllowance'
 import { WalletIfoState, WalletIfoData } from '../../types'
 
@@ -53,6 +54,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
   const { address, currency, version } = ifo
 
   const { address: account } = useAccount()
+  const { chainId } = useActiveChainId()
   const contract = useIfoV3Contract(address)
   const currencyContract = useERC20(currency.address, false)
   const allowance = useIfoAllowance(currencyContract, address)
@@ -93,6 +95,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
           { address, name: 'computeVestingScheduleIdForAddressAndPid', params: [account, 1] },
         ],
         options: { requireSuccess: false },
+        chainId
       })
 
       basicId = basicIdData
@@ -135,7 +138,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
           ].filter(Boolean)
         : []
 
-    dispatch(fetchCakeVaultUserData({ account }))
+    dispatch(fetchCakeVaultUserData({ account,chainId  }))
 
     const [
       userInfo,
@@ -146,7 +149,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
       unlimitedSchedule,
       basicReleasableAmount,
       unlimitedReleasableAmount,
-    ] = await multicallv2({ abi: ifoV3Abi, calls: [...ifoCalls, ...ifov3Calls], options: { requireSuccess: false } })
+    ] = await multicallv2({ abi: ifoV3Abi, calls: [...ifoCalls, ...ifov3Calls], options: { requireSuccess: false },chainId })
 
     setState((prevState) => ({
       ...prevState,
@@ -184,7 +187,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
           : BIG_ZERO,
       },
     }))
-  }, [account, address, dispatch, version])
+  }, [account, address, chainId, dispatch, version])
 
   const resetIfoData = useCallback(() => {
     setState({ ...initialState })

@@ -29,6 +29,9 @@ const fetchFarmPublicDataPkg = async ({ pids, chainId, chain }): Promise<[Serial
   const farmsCanFetch = farmsConfig.filter((farmConfig) => pids.includes(farmConfig.pid))
   const priceHelperLpsConfig = getFarmsPriceHelperLpFiles(chainId)
 
+  console.log('fetchFarmPublicDataPkg，这里虽然报错，但是可以读取到值得，不用管这里', );
+
+  // 这里虽然报错，但是可以读取到值得，不用管这里
   const { farmsWithPrice, poolLength, regularCakePerBlock } = await farmFetcher.fetchFarms({
     chainId,
     isTestnet: chain.testnet,
@@ -56,6 +59,8 @@ export const fetchInitialFarmsData = createAsyncThunk<
   }
 >('farms/fetchInitialFarmsData', async ({ chainId }) => {
   const farmDataList = await getFarmConfig(chainId)
+  console.log('fetchInitialFarmsData', farmDataList);
+  
   return {
     data: farmDataList.map((farm) => ({
       ...farm,
@@ -70,6 +75,7 @@ export const fetchInitialFarmsData = createAsyncThunk<
   }
 })
 
+// 从质押合约里面读取，给每一个Farm增加 很多的参数
 export const fetchFarmsPublicDataAsync = createAsyncThunk<
   [SerializedFarm[], number, number],
   { pids: number[]; chainId: number },
@@ -79,10 +85,12 @@ export const fetchFarmsPublicDataAsync = createAsyncThunk<
 >(
   'farms/fetchFarmsPublicDataAsync',
   async ({ pids, chainId }, { dispatch, getState }) => {
+    
     const state = getState()
     if (state.farms.chainId !== chainId) {
       await dispatch(fetchInitialFarmsData({ chainId }))
     }
+    console.log('fetchFarmsPublicDataAsync', state.farms.chainId, chainId);
     const chain = chains.find((c) => c.id === chainId)
     if (!chain || !farmFetcher.isChainSupported(chain.id)) throw new Error('chain not supported')
     try {
@@ -138,6 +146,9 @@ async function getBoostedFarmsStakeValue(farms, account, chainId, proxyAddress) 
     fetchFarmUserEarnings(proxyAddress, farms, chainId),
   ])
 
+  console.log('getBoostedFarmsStakeValue');
+  
+
   const farmAllowances = userFarmAllowances.map((farmAllowance, index) => {
     return {
       pid: farms[index].pid,
@@ -166,6 +177,8 @@ async function getNormalFarmsStakeValue(farms, account, chainId) {
     fetchFarmUserEarnings(account, farms, chainId),
   ])
 
+  console.log('getNormalFarmsStakeValue');
+
   const normalFarmAllowances = userFarmAllowances.map((_, index) => {
     return {
       pid: farms[index].pid,
@@ -188,6 +201,7 @@ export const fetchFarmUserDataAsync = createAsyncThunk<
 >(
   'farms/fetchFarmUserDataAsync',
   async ({ account, pids, proxyAddress, chainId }, { dispatch, getState }) => {
+    console.log('fetchFarmUserDataAsync');
     const state = getState()
     if (state.farms.chainId !== chainId) {
       await dispatch(fetchInitialFarmsData({ chainId }))
@@ -238,11 +252,13 @@ const serializeLoadingKey = (
   })
 }
 
+// 池子Farm的reducer，存所有的数据
 export const farmsSlice = createSlice({
   name: 'Farms',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    console.log('farmsSlice extraReducers',builder);
     builder.addCase(resetUserState, (state) => {
       state.data = state.data.map((farm) => {
         return {

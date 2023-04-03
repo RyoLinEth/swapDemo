@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js'
 import { getDecimalAmount } from '@pancakeswap/utils/formatBalance'
 import { useToast } from '@pancakeswap/uikit'
 import useCatchTxError from 'hooks/useCatchTxError'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import { fetchCakeVaultUserData } from 'state/pools'
 import { Token } from '@pancakeswap/sdk'
 import { ONE_WEEK_DEFAULT, vaultPoolConfig } from 'config/constants/pools'
@@ -40,6 +41,7 @@ export default function useLockedPool(hookArgs: HookArgs): HookReturn {
   const dispatch = useAppDispatch()
 
   const { address: account } = useAccount()
+  const { chainId } = useActiveChainId()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const vaultPoolContract = useVaultPoolContract(VaultKey.CakeVault)
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -71,11 +73,11 @@ export default function useLockedPool(hookArgs: HookArgs): HookReturn {
           </ToastDescriptionWithTx>,
         )
         onDismiss?.()
-        dispatch(fetchCakeVaultUserData({ account }))
+        dispatch(fetchCakeVaultUserData({ account, chainId }))
         mutate(['userCakeLockStatus', account])
       }
     },
-    [fetchWithCatchTxError, toastSuccess, dispatch, onDismiss, account, vaultPoolContract, t, callWithGasPrice, mutate],
+    [fetchWithCatchTxError, callWithGasPrice, vaultPoolContract, toastSuccess, t, onDismiss, dispatch, account, chainId, mutate],
   )
 
   const handleConfirmClick = useCallback(async () => {

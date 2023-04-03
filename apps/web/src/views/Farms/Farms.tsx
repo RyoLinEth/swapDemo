@@ -150,12 +150,15 @@ const FinishedTextLink = styled(Link)`
   text-decoration: underline;
 `
 
+// 无限滚动的分页参数
 const NUMBER_OF_FARMS_VISIBLE = 12
 
+// Farm主wrapper页面
 const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { pathname, query: urlQuery } = useRouter()
   const { t } = useTranslation()
   const { chainId } = useActiveChainId()
+  // farmsLP为所有的farm；userDataLoaded为是否加载了当前数据
   const { data: farmsLP, userDataLoaded, poolLength, regularCakePerBlock } = useFarms()
   const cakePrice = usePriceCakeBusd()
 
@@ -163,14 +166,18 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
   const normalizedUrlSearch = useMemo(() => (typeof urlQuery?.search === 'string' ? urlQuery.search : ''), [urlQuery])
   const query = normalizedUrlSearch && !_query ? normalizedUrlSearch : _query
 
+  // 展示模式，一样的列表或者卡片
   const [viewMode, setViewMode] = useUserFarmsViewMode()
   const { address: account } = useAccount()
   const [sortOption, setSortOption] = useState('hot')
   const { observerRef, isIntersecting } = useIntersectionObserver()
   const chosenFarmsLength = useRef(0)
 
+  // 已存档
   const isArchived = pathname.includes('archived')
+  // 已经结束的farm
   const isInactive = pathname.includes('history')
+  // 正在进行中的farm
   const isActive = !isInactive && !isArchived
 
   useCakeVaultUserData()
@@ -189,6 +196,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [farmTypesEnableCount, setFarmTypesEnableCount] = useState(0)
 
   // NOTE: Temporarily inactive aBNBc-BNB LP on FE
+  // 倍数不等于0X就是进行中的Farm
   const activeFarms = farmsLP.filter(
     (farm) =>
       farm.lpAddress !== '0x272c2CF847A49215A3A1D4bFf8760E503A06f880' &&
@@ -197,7 +205,9 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
       farm.multiplier !== '0X' &&
       (!poolLength || poolLength > farm.pid),
   )
+  // console.log('activeFarms', farmsLP, activeFarms);
 
+  // 倍数等于0X就是已结束的Farm
   const inactiveFarms = farmsLP.filter(
     (farm) =>
       farm.lpAddress === '0xB6040A9F294477dDAdf5543a24E5463B8F2423Ae' ||
@@ -260,6 +270,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const [numberOfFarmsVisible, setNumberOfFarmsVisible] = useState(NUMBER_OF_FARMS_VISIBLE)
 
+  // 当前页面上的Farms。.这个不一定是全量数据,只是当前页面上展示的数据,如果数据量太大的话,这里是会有一个滚动分页的
   const chosenFarms = useMemo(() => {
     let chosenFs = []
     if (isActive) {
@@ -363,15 +374,17 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
             <FarmH2 scale="lg" color="text">
               {t('Stake LP tokens to earn.')}
             </FarmH2>
-            <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
+            {/* 社群拍卖 */}
+            {/* <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
               <Button p="0" variant="text">
                 <Text color="primary" bold fontSize="16px" mr="4px">
                   {t('Community Auctions')}
                 </Text>
                 <ArrowForwardIcon color="primary" />
               </Button>
-            </NextLinkFromReactRouter>
+            </NextLinkFromReactRouter> */}
           </Box>
+          {/* 右侧的卡片 */}
           {chainId === ChainId.BSC && (
             <Box>
               <BCakeBoosterCard />
@@ -387,15 +400,17 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
             </Flex>
             <FarmUI.FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
             <Flex mt="20px" ml="16px">
-              <FarmTypesFilter
+              {/* 农场类型 */}
+              {/* <FarmTypesFilter
                 boostedOnly={boostedOnly}
                 handleSetBoostedOnly={setBoostedOnly}
                 stableSwapOnly={stableSwapOnly}
                 handleSetStableSwapOnly={setStableSwapOnly}
                 farmTypesEnableCount={farmTypesEnableCount}
                 handleSetFarmTypesEnableCount={setFarmTypesEnableCount}
-              />
-              <ToggleWrapper>
+              /> */}
+              {/* 仅限已质押 */}
+              {/* <ToggleWrapper>
                 <Toggle
                   id="staked-only-farms"
                   checked={stakedOnly}
@@ -403,11 +418,12 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
                   scale="sm"
                 />
                 <Text> {t('Staked only')}</Text>
-              </ToggleWrapper>
+              </ToggleWrapper> */}
             </Flex>
           </ViewControls>
           <FilterContainer>
-            <LabelWrapper>
+            {/* 搜索条件\热门等 */}
+            {/* <LabelWrapper>
               <Text textTransform="uppercase" color="textSubtle" fontSize="12px" bold>
                 {t('Sort by')}
               </Text>
@@ -440,7 +456,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
                 ]}
                 onOptionChange={handleSortOptionChange}
               />
-            </LabelWrapper>
+            </LabelWrapper> */}
             <LabelWrapper style={{ marginLeft: 16 }}>
               <Text textTransform="uppercase" color="textSubtle" fontSize="12px" bold>
                 {t('Search')}
@@ -449,7 +465,8 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
             </LabelWrapper>
           </FilterContainer>
         </ControlContainer>
-        {isInactive && (
+        {/* 跳转到pancake的v1的Farm */}
+        {/* {isInactive && (
           <FinishedTextContainer>
             <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
               {t("Don't see the farm you are staking?")}
@@ -471,7 +488,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
               </FinishedTextLink>
             </Flex>
           </FinishedTextContainer>
-        )}
+        )} */}
         {viewMode === ViewMode.TABLE ? (
           <Table farms={chosenFarmsMemoized} cakePrice={cakePrice} userDataReady={userDataReady} />
         ) : (
@@ -483,7 +500,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
           </Flex>
         )}
         {poolLength && <div ref={observerRef} />}
-        <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        <StyledImage src="/images/decorations/bnbtiger.png" alt="Pancake illustration" width={120} height={103} />
       </Page>
     </FarmsContext.Provider>
   )

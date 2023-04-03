@@ -12,6 +12,7 @@ import { useERC20 } from 'hooks/useContract'
 import { getDecimalAmount } from '@pancakeswap/utils/formatBalance'
 import { useApprovePool } from 'views/Pools/hooks/useApprove'
 import { usePool } from 'state/pools/hooks'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 import useStakePool from '../../hooks/useStakePool'
 import useUnstakePool from '../../hooks/useUnstakePool'
@@ -41,6 +42,7 @@ const StakeModalContainer = ({
   const { pool: singlePool } = usePool(sousId)
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const [amount, setAmount] = useState('')
+  const { chainId } = useActiveWeb3React()
 
   const { onUnstake } = useUnstakePool(sousId, enableEmergencyWithdraw)
   const { onStake } = useStakePool(sousId, isBnbPool)
@@ -54,10 +56,10 @@ const StakeModalContainer = ({
   )
 
   const onDone = useCallback(() => {
-    dispatch(updateUserStakedBalance({ sousId, account }))
-    dispatch(updateUserPendingReward({ sousId, account }))
-    dispatch(updateUserBalance({ sousId, account }))
-  }, [dispatch, sousId, account])
+    dispatch(updateUserStakedBalance({ sousId, account,chainId }))
+    dispatch(updateUserPendingReward({ sousId, account,chainId }))
+    dispatch(updateUserBalance({ sousId, account,chainId }))
+  }, [dispatch, sousId, account, chainId])
 
   const handleConfirmClick = useCallback(
     async (stakeAmount: string) => {
@@ -117,7 +119,7 @@ const StakeModalContainer = ({
 
   const handleEnableApprove = async () => {
     await handleApprove()
-    dispatch(updateUserAllowance({ sousId, account }))
+    dispatch(updateUserAllowance({ sousId, account,chainId }))
   }
 
   return (

@@ -66,12 +66,12 @@ export const getVaultPoolAddress = (vaultKey: VaultKey) => {
   return getAddress(addresses[vaultKey])
 }
 
-export const getCakeVaultAddress = () => {
-  return getAddress(addresses.cakeVault)
+export const getCakeVaultAddress = (chainId: number = ChainId.BSC) => {
+  return getAddress(addresses.cakeVault, chainId)
 }
 
-export const getCakeFlexibleSideVaultAddress = () => {
-  return getAddress(addresses.cakeFlexibleSideVault)
+export const getCakeFlexibleSideVaultAddress = (chainId = ChainId.BSC) => {
+  return getAddress(addresses.cakeFlexibleSideVault, chainId)
 }
 
 export const getBunnySpecialCakeVaultAddress = () => {

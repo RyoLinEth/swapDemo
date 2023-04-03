@@ -12,6 +12,8 @@ import { bscRpcProvider } from 'utils/providers'
 import cakeVaultAbi from 'config/abi/cakeVault.json'
 import { FAST_INTERVAL } from 'config/constants'
 import { VaultKey } from 'state/types'
+import { ChainId } from '@pancakeswap/sdk'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import { fetchPublicVaultData } from './fetchPublicVaultData'
 
 export const ifoPoolV1Contract = '0x1B2A2f6ed4A1401E8C73B4c2B6172455ce2f78E8'
@@ -58,11 +60,11 @@ const getIfoPoolData = async (account) => {
   return transformData(ifoPoolData)
 }
 
-const getCakePoolData = async (account) => {
+const getCakePoolData = async (account, chainId = ChainId.BSC) => {
   const [vaultData, userData, feesData] = await Promise.all([
     fetchPublicVaultData(cakeVaultAddress),
     fetchVaultUserV1(account),
-    fetchVaultFees(cakeVaultAddress),
+    fetchVaultFees(chainId, cakeVaultAddress),
   ])
   const cakeData = {
     ...vaultData,
@@ -101,13 +103,14 @@ const transformData = ({
 
 export const useVaultPoolByKeyV1 = (key: VaultKey) => {
   const { address: account } = useAccount()
+  const { chainId } = useActiveChainId()
   const { data, mutate } = useSWR(
     account ? [key, 'v1'] : null,
     async () => {
       if (key === VaultKey.IfoPool) {
         return getIfoPoolData(account)
       }
-      return getCakePoolData(account)
+      return getCakePoolData(account, chainId)
     },
     {
       revalidateOnFocus: false,

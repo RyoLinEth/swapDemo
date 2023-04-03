@@ -134,7 +134,7 @@ yarn turbo run build --filter=blog
 > + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
 
 
-## 3 挖矿页面
+## 3 Pool单币质押页面
 
 >+ 单币质押挖矿页面Pool:
 >   + 包裹下面PoolControls内容的外层页面,这个页面没什么逻辑,只传入一个pool: apps\web\src\views\Pools\index.tsx
@@ -153,3 +153,25 @@ yarn turbo run build --filter=blog
 
 >+ Token相关
 >   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
+
+## 4 Farm农场页面
+
+>+ 单币质押挖矿页面Farm:
+>   + Farm最上面的search条件和下面列表的内容区主wrapper,和对应的Farm列表的数据处理(相当于上面pool的2个页面，这里整合到一个了): apps\web\src\views\Farms\Farms.tsx
+
+>+ 数据相关： 所有页面，pool和farm页面的所有reducer，apps\web\src\state\index.ts
+>   + 存所有数据的Farm的reducer，state的key为pools： apps\web\src\state\farms\index.ts
+>   + 从reducer的state里面获取Farm数据的selector： apps\web\src\state\farms\selectors.ts
+>   + **配置所有Farm的配置文件**，结束的池子和未结束的Farm都是这里：packages\farms\constants\56.ts
+
+>+ 合约交互操作：
+>   + 类似service，从合约里面读取pool相关的各种参数：apps\web\src\state\pools\fetchPools.ts
+>   + pool交互相关abi配置：apps\web\src\config\abi\sousChef.json
+
+> 每一个pool都会调用setPoolsPublicData方法，来初始化质押相关的参数，这些都是从质押合约里面读出来的
+
+>+ Token相关
+>   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
+
+
+// const { chainId } = useActiveChainId()

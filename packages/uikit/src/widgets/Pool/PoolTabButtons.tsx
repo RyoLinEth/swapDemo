@@ -88,10 +88,11 @@ const PoolTabButtons = ({
   );
 
   const stakedOnlySwitch = (
-    <ToggleWrapper>
-      <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-      <Text> {t("Staked only")}</Text>
-    </ToggleWrapper>
+    <></>
+    // <ToggleWrapper>
+    //   <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
+    //   <Text> {t("Staked only")}</Text>
+    // </ToggleWrapper>
   );
 
   return (
