@@ -131,7 +131,7 @@ yarn turbo run build --filter=blog
 
 >+ 页面展示的swap对应的Token和价格
 > + 修改页面展示的swap代币的价格：apps\web\src\hooks\useBUSDPrice.ts
-> + 修改页面展示的swap的token信息，如修改bnbtiger(Cake\usdt\usdc)之类的：packages\tokens\src\common.ts
+> + 修改所有的基础token(bnbtiger(Cake\usdt\usdc))之类的：packages\tokens\src\common.ts
 
 
 ## 3 Pool单币质押页面
@@ -174,4 +174,23 @@ yarn turbo run build --filter=blog
 >   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
 
 
+```
 // const { chainId } = useActiveChainId()
+
+export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
+  const config = poolsConfig.find((pool) => pool.sousId === id)
+  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
+  return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
+}
+export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
+  const config = poolsConfig.find((pool) => pool.sousId === id)
+  return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
+}
+
+export const getActivePools = async (block?: number) => {
+
+  const poolContractAddress = getAddress(contractAddress)
+
+
+  const poolAddresses = eligiblePools.map(({ contractAddress }) => getAddress(contractAddress, ChainId.BSC))
+```

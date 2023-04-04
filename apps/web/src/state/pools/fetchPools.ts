@@ -15,27 +15,28 @@ import sousChefV3 from '../../config/abi/sousChefV3.json'
 // 进行中的池子
 const livePoolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0 && !p.isFinished)
 
-// 相当于map，把pool里面只留下 name和address参数，然后进行flat，进行铺平
+
+
+// 从合约获取对应代币的开始区块和结束区块
+export const fetchPoolsBlockLimits = async (chainId: number = ChainId.BSC) => {
+
+  // 相当于map，把pool里面只留下 name和address参数，然后进行flat，进行铺平
 const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
   return [
     {
-      address: getAddress(poolConfig.contractAddress),
+      address: getAddress(poolConfig.contractAddress, chainId),
       name: 'startBlock', // 这里这个name就是要从合约中读取的字段
     },
     {
-      address: getAddress(poolConfig.contractAddress),
+      address: getAddress(poolConfig.contractAddress, chainId),
       name: 'bonusEndBlock',
     },
   ]
 })
 
-// 从合约获取对应代币的开始区块和结束区块
-export const fetchPoolsBlockLimits = async (chainId: number = ChainId.BSC) => {
-
   // 这里合约的操作就是 sousChefABI这个json就是对应的合约的操作json，然后后面的startEndBlockCalls就是需要操作的合约
   // 从合约里面把 startBlock和bonusEndBlock字段读取出来; 这里读出来的值不是直接的number,所以需要下面操作进行转换.具体里面封装的逻辑,先不做处理
   console.log('调用fetchPoolsBlockLimits之前', chainId);
-  debugger
   const startEndBlockRaw = await multicall(sousChefABI, startEndBlockCalls, chainId)
 
   const startEndBlockResult = startEndBlockRaw.reduce((resultArray, item, index) => {
@@ -62,25 +63,26 @@ export const fetchPoolsBlockLimits = async (chainId: number = ChainId.BSC) => {
   })
 }
 
-const poolsBalanceOf = poolsConfig.map((poolConfig) => {
-  return {
-    address: poolConfig.stakingToken.address,
-    name: 'balanceOf',
-    params: [getAddress(poolConfig.contractAddress)],
-  }
-})
+
 
 // 获取质押的Token的总数
 export const fetchPoolsTotalStaking = async (chainId: number = ChainId.BSC) => {
+  const poolsBalanceOf = poolsConfig.map((poolConfig) => {
+    return {
+      address: poolConfig.stakingToken.address,
+      name: 'balanceOf',
+      params: [getAddress(poolConfig.contractAddress, chainId)],
+    }
+  })
   debugger
   console.log('调用fetchPoolsTotalStaking之前');
-  // const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf, chainId)
+  const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf, chainId)
   console.log('调用fetchPoolsTotalStaking之后');
 
   return poolsConfig.map((p, index) => ({
     sousId: p.sousId,
-    totalStaked: new BigNumber('6666666666666666666').toJSON(),
-    // totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
+    // totalStaked: new BigNumber('6666666666666666666').toJSON(),
+    totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
   }))
 }
 
@@ -95,7 +97,7 @@ export const fetchPoolsStakingLimits = async (
   // Get the staking limit for each valid pool
   const poolStakingCalls = validPools
     .map((validPool) => {
-      const contractAddress = getAddress(validPool.contractAddress)
+      const contractAddress = getAddress(validPool.contractAddress, chainId)
       return ['hasUserLimit', 'poolLimitPerUser', 'numberBlocksForUserLimit'].map((method) => ({
         address: contractAddress,
         name: method,
