@@ -38,4 +38,20 @@ export const bscTestnetTokens = {
     'BUSD',
     'Binance USD',
   ),
+  StakingToken: new ERC20Token(
+    ChainId.BSC_TESTNET,
+    '0x7EE1CcaB3fBd93e917a395F6163dD0C65c09749b',
+    18,
+    'StakingToken',
+    'StakingToken',
+    'https://app.angle.money/#/',
+  ),
+  RewardToken: new ERC20Token(
+    ChainId.BSC_TESTNET,
+    '0xC1041887fB028FeFc42e7cf7c742200821FE38A2',
+    18,
+    'RewardToken',
+    'RewardToken',
+    'https://app.angle.money/#/',
+  ),
 }
