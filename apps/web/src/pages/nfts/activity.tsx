@@ -1,7 +1,8 @@
 import Activity from 'views/Nft/market/Activity'
 
 const ActivityPage = () => {
-  return <Activity />
+  return <></>
+  // return <Activity />
 }
 
 export default ActivityPage

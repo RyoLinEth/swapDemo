@@ -29,21 +29,21 @@ const LotteryPage = styled.div`
 `
 
 const Lottery = () => {
-  useFetchLottery()
-  useStatusTransitions()
-  const { t } = useTranslation()
-  const { isDark, theme } = useTheme()
-  const {
-    currentRound: { status, endTime },
-  } = useLottery()
-  const [historyTabMenuIndex, setHistoryTabMenuIndex] = useState(0)
-  const endTimeAsInt = parseInt(endTime, 10)
-  const { nextEventTime, postCountdownText, preCountdownText } = useGetNextLotteryEvent(endTimeAsInt, status)
-  const { numUserRoundsRequested, handleShowMoreUserRounds } = useShowMoreUserHistory()
+  // useFetchLottery()
+  // useStatusTransitions()
+  // const { t } = useTranslation()
+  // const { isDark, theme } = useTheme()
+  // const {
+  //   currentRound: { status, endTime },
+  // } = useLottery()
+  // const [historyTabMenuIndex, setHistoryTabMenuIndex] = useState(0)
+  // const endTimeAsInt = parseInt(endTime, 10)
+  // const { nextEventTime, postCountdownText, preCountdownText } = useGetNextLotteryEvent(endTimeAsInt, status)
+  // const { numUserRoundsRequested, handleShowMoreUserRounds } = useShowMoreUserHistory()
 
   return (
     <>
-      <LotteryPage>
+      {/* <LotteryPage>
         <PageSection background={TITLE_BG} index={1} hasCurvedDivider={false}>
           <Hero />
         </PageSection>
@@ -113,7 +113,7 @@ const Lottery = () => {
         >
           <HowToPlay />
         </PageSection>
-      </LotteryPage>
+      </LotteryPage> */}
     </>
   )
 }

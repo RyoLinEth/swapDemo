@@ -52,7 +52,7 @@ const TabsComponent: React.FC<React.PropsWithChildren<TabsComponentProps>> = ({ 
   return (
     <Tabs>
       <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
-        <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem>
+        {/* <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem> */}
         <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
       </ButtonMenu>
     </Tabs>
@@ -83,11 +83,11 @@ const WalletModal: React.FC<React.PropsWithChildren<WalletModalProps>> = ({
           <CloseIcon width="24px" color="text" />
         </IconButton>
       </ModalHeader>
-      {view !== WalletView.WRONG_NETWORK && <TabsComponent view={view} handleClick={handleClick} />}
+      {/* {view !== WalletView.WRONG_NETWORK && <TabsComponent view={view} handleClick={handleClick} />} */}
       <ModalBody p="24px" width="100%">
-        {view === WalletView.WALLET_INFO && (
+        {/* {view === WalletView.WALLET_INFO && (
           <WalletInfo hasLowNativeBalance={hasLowNativeBalance} switchView={handleClick} onDismiss={onDismiss} />
-        )}
+        )} */}
         {view === WalletView.TRANSACTIONS && <WalletTransactions onDismiss={onDismiss} />}
         {view === WalletView.WRONG_NETWORK && <WalletWrongNetwork onDismiss={onDismiss} />}
       </ModalBody>

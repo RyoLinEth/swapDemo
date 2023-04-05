@@ -6,13 +6,14 @@ import { teamsById } from '../../utils/teamsById'
 
 const TeamsPage = ({ fallback }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <SWRConfig
-      value={{
-        fallback,
-      }}
-    >
-      <Teams />
-    </SWRConfig>
+    <></>
+    // <SWRConfig
+    //   value={{
+    //     fallback,
+    //   }}
+    // >
+    //   <Teams />
+    // </SWRConfig>
   )
 }
 

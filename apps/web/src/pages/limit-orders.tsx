@@ -1,7 +1,8 @@
 import LimitOrders from '../views/LimitOrders'
 
 const LimitOrdersPage = () => {
-  return <LimitOrders />
+  return <></>
+  // return <LimitOrders />
 }
 
 export default LimitOrdersPage

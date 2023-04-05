@@ -11,39 +11,40 @@ import configs from './config'
 const PREDICTION_TOKEN_KEY = 'prediction-token'
 
 const PredictionConfigProviders = ({ children }) => {
-  const { query } = useRouter()
-  const { token } = query
-  const [selectedToken, setConfig] = useState(() => {
-    const initToken = localStorage?.getItem(PREDICTION_TOKEN_KEY) as PredictionSupportedSymbol
+  // const { query } = useRouter()
+  // const { token } = query
+  // const [selectedToken, setConfig] = useState(() => {
+  //   const initToken = localStorage?.getItem(PREDICTION_TOKEN_KEY) as PredictionSupportedSymbol
 
-    if ([PredictionSupportedSymbol.BNB, PredictionSupportedSymbol.CAKE].includes(initToken)) {
-      return initToken
-    }
+  //   if ([PredictionSupportedSymbol.BNB, PredictionSupportedSymbol.CAKE].includes(initToken)) {
+  //     return initToken
+  //   }
 
-    return PredictionSupportedSymbol.CAKE
-  })
+  //   return PredictionSupportedSymbol.CAKE
+  // })
 
-  useEffect(() => {
-    const upperToken = _toUpper(token as string) as PredictionSupportedSymbol
+  // useEffect(() => {
+  //   const upperToken = _toUpper(token as string) as PredictionSupportedSymbol
 
-    if ([PredictionSupportedSymbol.BNB, PredictionSupportedSymbol.CAKE].includes(upperToken)) {
-      setConfig(upperToken)
-      localStorage?.setItem(PREDICTION_TOKEN_KEY, upperToken)
-    }
-  }, [token])
+  //   if ([PredictionSupportedSymbol.BNB, PredictionSupportedSymbol.CAKE].includes(upperToken)) {
+  //     setConfig(upperToken)
+  //     localStorage?.setItem(PREDICTION_TOKEN_KEY, upperToken)
+  //   }
+  // }, [token])
 
-  const config = useMemo(() => {
-    return configs[selectedToken]
-  }, [selectedToken])
+  // const config = useMemo(() => {
+  //   return configs[selectedToken]
+  // }, [selectedToken])
 
-  const store = useMemo(() => {
-    return makeStore(reducers, initialState, config)
-  }, [config])
+  // const store = useMemo(() => {
+  //   return makeStore(reducers, initialState, config)
+  // }, [config])
 
   return (
-    <ConfigProvider config={config}>
-      <LocalReduxProvider store={store}>{children}</LocalReduxProvider>
-    </ConfigProvider>
+    <></>
+    // <ConfigProvider config={config}>
+    //   <LocalReduxProvider store={store}>{children}</LocalReduxProvider>
+    // </ConfigProvider>
   )
 }
 

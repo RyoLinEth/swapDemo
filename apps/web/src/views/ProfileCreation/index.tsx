@@ -9,28 +9,28 @@ import ProfileCreationProvider from './contexts/ProfileCreationProvider'
 import Steps from './Steps'
 
 const ProfileCreation = () => {
-  const { address: account } = useAccount()
-  const { isInitialized, isLoading, hasProfile } = useProfile()
-  const router = useRouter()
+  // const { address: account } = useAccount()
+  // const { isInitialized, isLoading, hasProfile } = useProfile()
+  // const router = useRouter()
 
-  useEffect(() => {
-    if (account && hasProfile) {
-      router.push(`/profile/${account.toLowerCase()}`)
-    }
-  }, [account, hasProfile, router])
+  // useEffect(() => {
+  //   if (account && hasProfile) {
+  //     router.push(`/profile/${account.toLowerCase()}`)
+  //   }
+  // }, [account, hasProfile, router])
 
-  if (!isInitialized || isLoading) {
-    return <PageLoader />
-  }
+  // if (!isInitialized || isLoading) {
+  //   return <PageLoader />
+  // }
 
   return (
     <>
-      <ProfileCreationProvider>
+      {/* <ProfileCreationProvider>
         <Page>
           <Header />
           <Steps />
         </Page>
-      </ProfileCreationProvider>
+      </ProfileCreationProvider> */}
     </>
   )
 }

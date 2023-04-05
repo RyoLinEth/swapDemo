@@ -16,7 +16,7 @@ const Content = styled.div`
 const Voting = () => {
   return (
     <>
-      <Flex flexDirection="column" minHeight="calc(100vh - 64px)">
+      {/* <Flex flexDirection="column" minHeight="calc(100vh - 64px)">
         <Chrome>
           <Hero />
         </Chrome>
@@ -26,7 +26,7 @@ const Voting = () => {
         <Chrome>
           <Footer />
         </Chrome>
-      </Flex>
+      </Flex> */}
     </>
   )
 }

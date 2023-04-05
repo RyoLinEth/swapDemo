@@ -29,12 +29,12 @@ const ProxyFarmCardContainer = ({ farm }) => {
 }
 
 const FarmsPage = () => {
-  const { address: account } = useAccount()
-  const { chosenFarmsMemoized } = useContext(FarmsContext)
-  const cakePrice = usePriceCakeBusd()
+  // const { address: account } = useAccount()
+  // const { chosenFarmsMemoized } = useContext(FarmsContext)
+  // const cakePrice = usePriceCakeBusd()
   return (
     <>
-      {chosenFarmsMemoized.map((farm) =>
+      {/* {chosenFarmsMemoized.map((farm) =>
         farm.boosted ? (
           <ProxyFarmContainer farm={farm} key={farm.pid}>
             <ProxyFarmCardContainer farm={farm} />
@@ -49,13 +49,13 @@ const FarmsPage = () => {
             removed={false}
           />
         ),
-      )}
+      )} */}
     </>
   )
 }
 
-FarmsPage.Layout = FarmsPageLayout
+// FarmsPage.Layout = FarmsPageLayout
 
-FarmsPage.chains = SUPPORT_FARMS
+// FarmsPage.chains = SUPPORT_FARMS
 
 export default FarmsPage

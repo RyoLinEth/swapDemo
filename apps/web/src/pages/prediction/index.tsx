@@ -2,7 +2,8 @@ import PredictionConfigProviders from '../../views/Predictions/context/Predictio
 import Predictions from '../../views/Predictions'
 
 export default function Prediction() {
-  return <Predictions />
+  return <></>
+  // return <Predictions />
 }
 
-Prediction.Layout = PredictionConfigProviders
+// Prediction.Layout = PredictionConfigProviders

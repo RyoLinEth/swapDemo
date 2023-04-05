@@ -11,33 +11,34 @@ import PrizeFunds from './components/PrizeFunds'
 import FAQ from './components/FAQ'
 
 const Pottery: React.FC<React.PropsWithChildren> = () => {
-  usePotteryFetch()
-  const potWrapperEl = useRef<HTMLDivElement>(null)
+  // usePotteryFetch()
+  // const potWrapperEl = useRef<HTMLDivElement>(null)
 
-  const handleScroll = () => {
-    window.scrollTo({
-      top: potWrapperEl.current.offsetTop,
-      behavior: 'smooth',
-    })
-  }
+  // const handleScroll = () => {
+  //   window.scrollTo({
+  //     top: potWrapperEl.current.offsetTop,
+  //     behavior: 'smooth',
+  //   })
+  // }
 
   return (
-    <Box position="relative">
-      <Banner handleScroll={handleScroll} />
-      <Box ref={potWrapperEl}>
-        <Pot />
-      </Box>
-      <FinishedRounds />
-      <HowToPlay />
-      <PrizeFunds />
-      <FAQ />
-      {createPortal(
-        <>
-          <SubgraphHealthIndicator subgraphName="pancakeswap/pottery" />
-        </>,
-        document.body,
-      )}
-    </Box>
+    <></>
+    // <Box position="relative">
+    //   <Banner handleScroll={handleScroll} />
+    //   <Box ref={potWrapperEl}>
+    //     <Pot />
+    //   </Box>
+    //   <FinishedRounds />
+    //   <HowToPlay />
+    //   <PrizeFunds />
+    //   <FAQ />
+    //   {createPortal(
+    //     <>
+    //       <SubgraphHealthIndicator subgraphName="pancakeswap/pottery" />
+    //     </>,
+    //     document.body,
+    //   )}
+    // </Box>
   )
 }
 

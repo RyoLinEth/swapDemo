@@ -66,8 +66,8 @@ function BloctoWarning() {
 export const FarmsPageLayout: React.FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   return (
     <>
-      <BloctoWarning />
-      <Farms>{children}</Farms>
+      {/* <BloctoWarning />
+      <Farms>{children}</Farms> */}
     </>
   )
 }
