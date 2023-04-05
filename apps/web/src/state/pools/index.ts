@@ -141,7 +141,6 @@ export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
     try {
       console.log('调用合约之前');
-      debugger
       // 只有进行中的池子，会调用这个函数
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
         fetchPoolsBlockLimits(chainId), // 读取开始区块\结束区块

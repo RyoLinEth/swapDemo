@@ -81,16 +81,17 @@ const config: (
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
-      label: t('Earn'),
-      href: '/farms',
+      label: t('Pools'),
+      // label: t('Earn'),
+      href: '/pools',
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
       items: [
-        {
-          label: t('Farms'),
-          href: '/farms',
-        },
+        // {
+        //   label: t('Farms'),
+        //   href: '/farms',
+        // },
         {
           label: t('Pools'),
           href: '/pools',
@@ -98,33 +99,46 @@ const config: (
         },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
+    // {
+    //   label: t('Win'),
+    //   href: '/prediction',
+    //   icon: TrophyIcon,
+    //   fillIcon: TrophyFillIcon,
+    //   supportChainIds: SUPPORT_ONLY_BSC,
+    //   items: [
+    //     {
+    //       label: t('Trading Competition'),
+    //       href: '/competition',
+    //       image: '/images/decorations/tc.png',
+    //       hideSubNav: true,
+    //     },
+    //     {
+    //       label: t('Prediction (BETA)'),
+    //       href: '/prediction',
+    //       image: '/images/decorations/prediction.png',
+    //     },
+    //     {
+    //       label: t('Lottery'),
+    //       href: '/lottery',
+    //       image: '/images/decorations/lottery.png',
+    //     },
+    //     {
+    //       label: t('Pottery (BETA)'),
+    //       href: '/pottery',
+    //       image: '/images/decorations/lottery.png',
+    //     },
+    //   ],
+    // },
     {
-      label: t('Win'),
-      href: '/prediction',
+      label: t('IFO'),
+      href: '/ifo',
       icon: TrophyIcon,
       fillIcon: TrophyFillIcon,
-      supportChainIds: SUPPORT_ONLY_BSC,
       items: [
         {
-          label: t('Trading Competition'),
-          href: '/competition',
-          image: '/images/decorations/tc.png',
-          hideSubNav: true,
-        },
-        {
-          label: t('Prediction (BETA)'),
-          href: '/prediction',
-          image: '/images/decorations/prediction.png',
-        },
-        {
-          label: t('Lottery'),
-          href: '/lottery',
-          image: '/images/decorations/lottery.png',
-        },
-        {
-          label: t('Pottery (BETA)'),
-          href: '/pottery',
-          image: '/images/decorations/lottery.png',
+          label: t('IFO'),
+          href: '/ifo',
+          image: '/images/ifos/ifo-bunny.png',
         },
       ],
     },
@@ -133,7 +147,6 @@ const config: (
       href: `${nftsBaseUrl}`,
       icon: NftIcon,
       fillIcon: NftFillIcon,
-      supportChainIds: SUPPORT_ONLY_BSC,
       image: '/images/decorations/nft.png',
       items: [
         {
@@ -150,52 +163,52 @@ const config: (
         },
       ],
     },
-    {
-      label: '',
-      href: '/info',
-      icon: MoreIcon,
-      hideSubNav: true,
-      items: [
-        {
-          label: t('Info'),
-          href: '/info',
-        },
-        {
-          label: t('IFO'),
-          href: '/ifo',
-          supportChainIds: SUPPORT_ONLY_BSC,
-          image: '/images/ifos/ifo-bunny.png',
-        },
-        {
-          label: t('Voting'),
-          href: '/voting',
-          supportChainIds: SUPPORT_ONLY_BSC,
-          image: '/images/voting/voting-bunny.png',
-        },
-        {
-          type: DropdownMenuItemType.DIVIDER,
-        },
-        {
-          label: t('Leaderboard'),
-          href: '/teams',
-          supportChainIds: SUPPORT_ONLY_BSC,
-          image: '/images/decorations/leaderboard.png',
-        },
-        {
-          type: DropdownMenuItemType.DIVIDER,
-        },
-        {
-          label: t('Blog'),
-          href: 'https://blog.pancakeswap.finance',
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-        {
-          label: t('Docs'),
-          href: 'https://docs.pancakeswap.finance',
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-      ].map((item) => addMenuItemSupported(item, chainId)),
-    },
+    // {
+    //   label: '',
+    //   href: '/info',
+    //   icon: MoreIcon,
+    //   hideSubNav: true,
+    //   items: [
+    //     {
+    //       label: t('Info'),
+    //       href: '/info',
+    //     },
+    //     {
+    //       label: t('IFO'),
+    //       href: '/ifo',
+    //       supportChainIds: SUPPORT_ONLY_BSC,
+    //       image: '/images/ifos/ifo-bunny.png',
+    //     },
+    //     {
+    //       label: t('Voting'),
+    //       href: '/voting',
+    //       supportChainIds: SUPPORT_ONLY_BSC,
+    //       image: '/images/voting/voting-bunny.png',
+    //     },
+    //     {
+    //       type: DropdownMenuItemType.DIVIDER,
+    //     },
+    //     {
+    //       label: t('Leaderboard'),
+    //       href: '/teams',
+    //       supportChainIds: SUPPORT_ONLY_BSC,
+    //       image: '/images/decorations/leaderboard.png',
+    //     },
+    //     {
+    //       type: DropdownMenuItemType.DIVIDER,
+    //     },
+    //     {
+    //       label: t('Blog'),
+    //       href: 'https://blog.pancakeswap.finance',
+    //       type: DropdownMenuItemType.EXTERNAL_LINK,
+    //     },
+    //     {
+    //       label: t('Docs'),
+    //       href: 'https://docs.pancakeswap.finance',
+    //       type: DropdownMenuItemType.EXTERNAL_LINK,
+    //     },
+    //   ].map((item) => addMenuItemSupported(item, chainId)),
+    // },
   ].map((item) => addMenuItemSupported(item, chainId))
 
 export default config
