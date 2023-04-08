@@ -9,7 +9,7 @@
   "rules": {
     "no-restricted-syntax": 0,
     "import/no-unresolved": 0,
-    "no-console": ["warn", { "allow": ["info", "warn", "error", "debug"] }],
+    // "no-console": ["warn", { "allow": ["info", "warn", "error", "debug"] }],
     "no-plusplus": 0,
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
     "no-underscore-dangle": 0,
@@ -32,6 +32,17 @@
     "radix": 0,
     "import/no-extraneous-dependencies": 0,
     "jsx-a11y/media-has-caption": 0,
+    // Exchange
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-unused-vars": "off",
+    "no-console":"off",
+    "no-debugger": "off",
+    // "no-unused-vars": ["error", {
+    //   // 允许声明未使用变量
+    //   "varsIgnorePattern": ".*",
+    //   // 参数不检查
+    //   "args": "none"
+    // }],
     // Exchange
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state", "memo"] }],
     "react/require-default-props": 0,
