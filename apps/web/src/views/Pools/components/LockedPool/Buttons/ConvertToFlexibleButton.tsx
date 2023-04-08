@@ -46,7 +46,7 @@ const ConvertToFlexibleButton: React.FC<React.PropsWithChildren<ButtonProps>> = 
       dispatch(fetchCakeVaultUserData({ account,chainId }))
       mutate(['userCakeLockStatus', account])
     }
-  }, [t, toastSuccess, account, callWithGasPrice, dispatch, fetchWithCatchTxError, vaultPoolContract, mutate])
+  }, [chainId, t, toastSuccess, account, callWithGasPrice, dispatch, fetchWithCatchTxError, vaultPoolContract, mutate])
 
   return (
     <Button width="100%" disabled={pendingTx} onClick={handleUnlock} variant="secondary" {...props}>

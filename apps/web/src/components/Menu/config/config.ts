@@ -130,18 +130,31 @@ const config: (
     //   ],
     // },
     {
-      label: t('IFO'),
+      label: 'Ido',
       href: '/ifo',
       icon: TrophyIcon,
       fillIcon: TrophyFillIcon,
       items: [
         {
-          label: t('IFO'),
+          label: 'Ido',
           href: '/ifo',
           image: '/images/ifos/ifo-bunny.png',
         },
       ],
     },
+    // {
+    //   label: t('IFO'),
+    //   href: '/ifo',
+    //   icon: TrophyIcon,
+    //   fillIcon: TrophyFillIcon,
+    //   items: [
+    //     {
+    //       label: t('IFO'),
+    //       href: '/ifo',
+    //       image: '/images/ifos/ifo-bunny.png',
+    //     },
+    //   ],
+    // },
     // {
     //   label: t('NFT'),
     //   href: `${nftsBaseUrl}`,

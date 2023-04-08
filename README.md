@@ -101,6 +101,7 @@ yarn turbo run build --filter=blog
 >+ 主菜单：外层调用的menu，相当于layout，包括所有数据的传入 apps\web\src\components\Menu\index.tsx。传参，从这里面传入，调用的是下面的 uikit的menu
 > + 主菜单，纯ui文件，数据是从上面那里传入的。最外层布局文件：packages\uikit\src\widgets\Menu\Menu.tsx。 包含头部菜单和底部菜单，内容区是通过路由传入的
 > + 所有菜单的配置文件：apps\web\src\components\Menu\config\config.ts
+> + 菜单相关的路由元数据(改了菜单，这里也要进行修改才行)：apps\web\src\config\constants\meta.ts
 
 >+ 网络配置: 网络选择(展开与屏蔽测试网) apps\web\src\components\NetworkSwitcher.tsx
 > + 修改网络配置(主网测试网什么的): apps\web\src\utils\wagmi.ts

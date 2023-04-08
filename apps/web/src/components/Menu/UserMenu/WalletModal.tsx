@@ -52,11 +52,17 @@ const TabsComponent: React.FC<React.PropsWithChildren<TabsComponentProps>> = ({ 
   return (
     <Tabs>
       <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
-        {/* <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem> */}
+        <></>
         <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
       </ButtonMenu>
     </Tabs>
   )
+  // <Tabs>
+  //   <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
+  //     {/* <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem> */}
+  //     <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
+  //   </ButtonMenu>
+  // </Tabs>
 }
 
 const WalletModal: React.FC<React.PropsWithChildren<WalletModalProps>> = ({

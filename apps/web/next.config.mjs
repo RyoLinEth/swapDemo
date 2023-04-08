@@ -64,6 +64,7 @@ const config = {
         pathname: '/mainnet/**',
       },
     ],
+    unoptimized: true
   },
   async rewrites() {
     return [
