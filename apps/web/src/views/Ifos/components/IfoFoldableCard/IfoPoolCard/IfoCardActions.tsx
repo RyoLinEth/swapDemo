@@ -17,6 +17,7 @@ interface Props {
   isLoading: boolean
   isEligible: boolean
   enableStatus: EnableStatus
+  hideBtn: boolean // 当钱包连接得时候，隐藏按钮
 }
 
 const IfoCardActions: React.FC<React.PropsWithChildren<Props>> = ({
@@ -28,6 +29,7 @@ const IfoCardActions: React.FC<React.PropsWithChildren<Props>> = ({
   isLoading,
   isEligible,
   enableStatus,
+  hideBtn = false,
 }) => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
@@ -39,6 +41,9 @@ const IfoCardActions: React.FC<React.PropsWithChildren<Props>> = ({
 
   if (!account) {
     return <ConnectWalletButton width="100%" />
+  }
+  if (hideBtn) {
+    return <></>
   }
 
   if (!hasProfile) {

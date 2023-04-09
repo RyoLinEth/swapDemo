@@ -202,7 +202,6 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
           ) : (
             <>
             {/* 未连接钱包 */}
-            666
             {/* 顶部的,要募集多少代币,和当前已经募集了多少代币 */}
               <IfoCardTokens
                 criterias={criterias}
@@ -217,7 +216,6 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                 enableStatus={enableStatus}
               />
               <IfoTopInviteInfo />
-              33
               <Box mt="24px">
                 {/* 连接钱包按钮 */}
                 <IfoCardActions
@@ -229,9 +227,9 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                   hasProfile={hasActiveProfile}
                   isLoading={isLoading}
                   enableStatus={enableStatus}
+                  hideBtn
                 />
               </Box>
-              44
                 {/* 底部的card的所有detail,比如销毁多少cake,募集多少资金之类的 */}
               {/* <Box pt="24px">
                 <IfoCardDetails
