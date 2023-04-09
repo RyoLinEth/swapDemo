@@ -32,9 +32,9 @@ import { IfoRibbon } from './IfoRibbon'
 import { EnableStatus } from './types'
 
 interface IfoFoldableCardProps {
-  ifo?: Ifo
-  publicIfoData?: PublicIfoData
-  walletIfoData?: WalletIfoData
+  ifo: Ifo
+  publicIfoData: PublicIfoData
+  walletIfoData: WalletIfoData
 }
 
 const StyledCard = styled(Card)<{ $isCurrent?: boolean }>`
@@ -187,10 +187,10 @@ export const IfoCurrentCard = ({
           <IfoCard ifo={ifo} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />
           {/* 可以点击展开的详细资料 */}
           <StyledCardFooter>
-            {/* <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
+            <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
               {isExpanded ? t('Hide') : t('Details')}
-            </ExpandableLabel> */}
-            {/* {isExpanded && <IfoAchievement ifo={ifo} publicIfoData={publicIfoData} />} */}
+            </ExpandableLabel>
+            {isExpanded && <IfoAchievement ifo={ifo} publicIfoData={publicIfoData} />}
           </StyledCardFooter>
         </StyledCard>
       </Box>
@@ -250,13 +250,111 @@ const IfoFoldableCard = ({
 
 // active的ifo 右边的卡片，公开销售和私人销售
 const IfoCard: React.FC<React.PropsWithChildren<IfoFoldableCardProps>> = ({ ifo, publicIfoData, walletIfoData }) => {
+  const currentBlock = useCurrentBlock()
+  const { fetchIfoData: fetchPublicIfoData, isInitialized: isPublicIfoDataInitialized, secondsUntilEnd } = publicIfoData
+  const {
+    contract,
+    fetchIfoData: fetchWalletIfoData,
+    resetIfoData: resetWalletIfoData,
+    isInitialized: isWalletDataInitialized,
+  } = walletIfoData
+  const [enableStatus, setEnableStatus] = useState(EnableStatus.DISABLED)
+  const { t } = useTranslation()
+  const { address: account } = useAccount()
+  const raisingTokenContract = useERC20(ifo.currency.address, false)
+  // Continue to fetch 2 more minutes / is vesting need get latest data
+  const isRecentlyActive =
+    (publicIfoData.status !== 'finished' ||
+      (publicIfoData.status === 'finished' && secondsUntilEnd >= -120) ||
+      (publicIfoData.status === 'finished' &&
+        ifo.version >= 3.2 &&
+        (publicIfoData[PoolIds.poolBasic].vestingInformation.percentage > 0 ||
+          publicIfoData[PoolIds.poolUnlimited].vestingInformation.percentage > 0))) &&
+    ifo.isActive
+  const onApprove = useIfoApprove(ifo, contract.address)
+  const { toastSuccess } = useToast()
+  const { fetchWithCatchTxError } = useCatchTxError()
+  const isWindowVisible = useIsWindowVisible()
+
+  const hasVesting = useMemo(() => {
+    return (
+      account &&
+      ifo.version >= 3.2 &&
+      publicIfoData.status === 'finished' &&
+      (publicIfoData[PoolIds.poolBasic].vestingInformation.percentage > 0 ||
+        publicIfoData[PoolIds.poolUnlimited].vestingInformation.percentage > 0) &&
+      (walletIfoData[PoolIds.poolBasic].amountTokenCommittedInLP.gt(0) ||
+        walletIfoData[PoolIds.poolUnlimited].amountTokenCommittedInLP.gt(0))
+    )
+  }, [account, ifo, publicIfoData, walletIfoData])
+
+  useSWRImmutable(
+    currentBlock &&
+      (isRecentlyActive
+        ? ['fetchPublicIfoData', currentBlock, ifo.id]
+        : !isPublicIfoDataInitialized
+        ? ['fetchPublicIfoData', ifo.id]
+        : null),
+    async () => {
+      fetchPublicIfoData(currentBlock)
+    },
+  )
+
+  useSWRImmutable(
+    isWindowVisible &&
+      (isRecentlyActive || !isWalletDataInitialized || hasVesting) &&
+      account && ['fetchWalletIfoData', account, ifo.id],
+    async () => {
+      fetchWalletIfoData()
+    },
+    isRecentlyActive || hasVesting
+      ? {
+          refreshInterval: FAST_INTERVAL,
+        }
+      : {},
+  )
+
+  useEffect(() => {
+    if (!account && isWalletDataInitialized) {
+      resetWalletIfoData()
+    }
+  }, [account, isWalletDataInitialized, resetWalletIfoData])
+
+  const handleApprove = async () => {
+    const receipt = await fetchWithCatchTxError(() => {
+      setEnableStatus(EnableStatus.IS_ENABLING)
+      return onApprove()
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        t('Successfully Enabled!'),
+        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+          {t('You can now participate in the %symbol% IFO.', { symbol: ifo.token.symbol })}
+        </ToastDescriptionWithTx>,
+      )
+      setEnableStatus(EnableStatus.ENABLED)
+    } else {
+      setEnableStatus(EnableStatus.DISABLED)
+    }
+  }
+
+  useEffect(() => {
+    const checkAllowance = async () => {
+      const approvalRequired = await requiresApproval(raisingTokenContract, account, contract.address)
+      setEnableStatus(approvalRequired ? EnableStatus.DISABLED : EnableStatus.ENABLED)
+    }
+
+    if (account) {
+      checkAllowance()
+    }
+  }, [account, raisingTokenContract, contract, setEnableStatus])
 
   return (
     <>
       <StyledCardBody>
         <CardsWrapper
-          shouldReverse
-          singleCard
+          shouldReverse={ifo.version >= 3.1}
+          singleCard={!publicIfoData.poolBasic || !walletIfoData.poolBasic}
         >
           {/* 私人销售 */}
           {/* {publicIfoData.poolBasic && walletIfoData.poolBasic && (
@@ -270,7 +368,14 @@ const IfoCard: React.FC<React.PropsWithChildren<IfoFoldableCardProps>> = ({ ifo,
             />
           )} */}
           {/* 公开销售 */}
-          <IfoPoolCard />
+          <IfoPoolCard
+            poolId={PoolIds.poolUnlimited}
+            ifo={ifo}
+            publicIfoData={publicIfoData}
+            walletIfoData={walletIfoData}
+            onApprove={handleApprove}
+            enableStatus={enableStatus}
+          />
         </CardsWrapper>
       </StyledCardBody>
     </>

@@ -12,7 +12,7 @@ const IfoStepBackground = styled(Box)`
 
 interface TypeProps {
   ifoSection: ReactElement
-  ifoSteps: ReactElement
+  ifoSteps?: ReactElement
 }
 
 // ifo的整体布局页面

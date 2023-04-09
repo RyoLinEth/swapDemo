@@ -1,24 +1,7 @@
 /* eslint-disable no-restricted-globals */
-import { useMemo, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
-  Text,
-  Flex,
-  Box,
-  CheckmarkCircleIcon,
-  FlexProps,
-  HelpIcon,
-  useTooltip,
-  Button,
-  AutoRenewIcon,
-  BunnyPlaceholderIcon,
-  Message,
-  MessageText,
-  ErrorIcon,
-  BalanceWithLoading,
-  IfoSkeletonCardTokens,
-  IfoPercentageOfTotal,
-  IfoVestingAvailableToClaim,
-  useToast
+  Text
 } from '@pancakeswap/uikit'
 import swal from 'sweetalert'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -27,21 +10,8 @@ import { useAccount } from 'wagmi'
 import contractABI from 'config/abi/ido-idoABI.json';
 import usdtABI from 'config/abi/ido-usdtABI.json';
 import ClaimABI from 'config/abi/ido-ClaimABI.json'
-import { Token } from '@pancakeswap/sdk'
 import { ethers } from 'ethers';
-import { Ifo, PoolIds } from 'config/constants/types'
-import { bscTokens } from '@pancakeswap/tokens'
-import { cakeBnbLpToken } from 'config/constants/ifo'
-import { PublicIfoData, WalletIfoData } from 'views/Ifos/types'
 import { useTranslation } from '@pancakeswap/localization'
-import { getBalanceNumber, formatNumber } from '@pancakeswap/utils/formatBalance'
-import { useIfoCredit } from 'state/pools/hooks'
-import { TokenImage, TokenPairImage } from 'components/TokenImage'
-import { EnableStatus } from '../types'
-import IFORequirements from './IFORequirements'
-import { MessageTextLink } from '../../IfoCardStyles'
-import StakeVaultButton from '../StakeVaultButton'
-import { AnyKindOfDictionary } from 'lodash';
 
 
 
@@ -85,8 +55,8 @@ const StyleLabel = styled.div`
 
 `
 const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16";
-const usdtAddress = "0x55d398326f99059fF775485246999027B3197955";
-const contractAddress = "0x4c144A05D8B3e5B68973009935a68d55DD61be6D";
+const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
+const contractAddress = "0x8A426d810A80D33C943fcBe6219476Ff85f1b376";
 const defaultInviter = "0x16c21c28FED3e3B545493e111dB87842D11281AD";
 
 const IfoTopInviteInfo = () => {

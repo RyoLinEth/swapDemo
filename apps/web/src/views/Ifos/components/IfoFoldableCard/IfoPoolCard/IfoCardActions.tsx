@@ -33,7 +33,7 @@ const IfoCardActions: React.FC<React.PropsWithChildren<Props>> = ({
 }) => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
-  const userPoolCharacteristics = walletIfoData[poolId]
+  const userPoolCharacteristics = walletIfoData?.[poolId]
 
   if (isLoading) {
     return <IfoSkeletonCardActions />

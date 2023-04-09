@@ -39,12 +39,12 @@ const StyledCardFooter = styled(CardFooter)`
 `
 
 interface IfoCardProps {
-  poolId?: PoolIds
-  ifo?: Ifo
-  publicIfoData?: PublicIfoData
-  walletIfoData?: WalletIfoData
-  onApprove?: () => Promise<any>
-  enableStatus?: EnableStatus
+  poolId: PoolIds
+  ifo: Ifo
+  publicIfoData: PublicIfoData
+  walletIfoData: WalletIfoData
+  onApprove: () => Promise<any>
+  enableStatus: EnableStatus
 }
 
 // card的一些配置
@@ -118,47 +118,47 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   onApprove,
   enableStatus,
 }) => {
-  // const { t } = useTranslation()
-  // const { address: account } = useAccount()
+  const { t } = useTranslation()
+  const { address: account } = useAccount()
 
-  // const { admissionProfile, pointThreshold, vestingInformation } = publicIfoData[poolId]
+  const { admissionProfile, pointThreshold, vestingInformation } = publicIfoData[poolId]
 
-  // const { needQualifiedNFT, needQualifiedPoints } = useMemo(() => {
-  //   return ifo.version >= 3.1 && poolId === PoolIds.poolBasic
-  //     ? {
-  //         needQualifiedNFT: Boolean(admissionProfile),
-  //         needQualifiedPoints: pointThreshold ? pointThreshold > 0 : false,
-  //       }
-  //     : {}
-  // }, [ifo.version, admissionProfile, pointThreshold, poolId])
+  const { needQualifiedNFT, needQualifiedPoints } = useMemo(() => {
+    return ifo.version >= 3.1 && poolId === PoolIds.poolBasic
+      ? {
+          needQualifiedNFT: Boolean(admissionProfile),
+          needQualifiedPoints: pointThreshold ? pointThreshold > 0 : false,
+        }
+      : {}
+  }, [ifo.version, admissionProfile, pointThreshold, poolId])
 
-  // const config = cardConfig(t, poolId, {
-  //   version: ifo.version,
-  //   needQualifiedNFT,
-  //   needQualifiedPoints,
-  // })
+  const config = cardConfig(t, poolId, {
+    version: ifo.version,
+    needQualifiedNFT,
+    needQualifiedPoints,
+  })
 
-  // const { hasActiveProfile, isLoading: isProfileLoading } = useProfile()
-  // // const { targetRef, tooltip, tooltipVisible } = useTooltip(config.tooltip, { placement: 'bottom' })
+  const { hasActiveProfile, isLoading: isProfileLoading } = useProfile()
+  // const { targetRef, tooltip, tooltipVisible } = useTooltip(config.tooltip, { placement: 'bottom' })
 
-  // const isLoading = isProfileLoading || publicIfoData.status === 'idle'
+  const isLoading = isProfileLoading || publicIfoData.status === 'idle'
 
-  // const { isEligible, criterias } = useCriterias(walletIfoData[poolId], {
-  //   needQualifiedNFT,
-  //   needQualifiedPoints,
-  // })
+  const { isEligible, criterias } = useCriterias(walletIfoData[poolId], {
+    needQualifiedNFT,
+    needQualifiedPoints,
+  })
 
-  // const isVesting = useMemo(() => {
-  //   return (
-  //     account &&
-  //     ifo.version >= 3.2 &&
-  //     vestingInformation.percentage > 0 &&
-  //     publicIfoData.status === 'finished' &&
-  //     walletIfoData[poolId].amountTokenCommittedInLP.gt(0)
-  //   )
-  // }, [account, ifo, poolId, publicIfoData, vestingInformation, walletIfoData])
+  const isVesting = useMemo(() => {
+    return (
+      account &&
+      ifo.version >= 3.2 &&
+      vestingInformation.percentage > 0 &&
+      publicIfoData.status === 'finished' &&
+      walletIfoData[poolId].amountTokenCommittedInLP.gt(0)
+    )
+  }, [account, ifo, poolId, publicIfoData, vestingInformation, walletIfoData])
 
-  const cardTitle = '公开销售'
+  const cardTitle = ifo.cIFO ? `${config.title} (cIFO)` : config.title
 
   const [isExpanded, setIsExpanded] = useState(false)
   debugger
@@ -168,7 +168,7 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
       {/* {tooltipVisible && tooltip} */}
       <StyledCard>
         {/* card的头部header */}
-        <CardHeader p="16px 24px">
+        <CardHeader p="16px 24px" variant={config.variant}>
           <Flex justifyContent="space-between" alignItems="center">
             <Text bold fontSize="20px" lineHeight={1}>
               {cardTitle}
@@ -179,21 +179,69 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
           </Flex>
         </CardHeader>
         <CardBody p="12px">
-        <IfoTopInviteInfo />
+          {/* 连接钱包之后 */}
+          {isVesting ? (
+            <>
+            777
+              <IfoVestingCard ifo={ifo} poolId={poolId} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />
+              <StyledCardFooter>
+                <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
+                  {isExpanded ? t('Hide') : t('Details')}
+                </ExpandableLabel>
+                {isExpanded && (
+                  <IfoCardDetails
+                    isEligible={isEligible}
+                    poolId={poolId}
+                    ifo={ifo}
+                    publicIfoData={publicIfoData}
+                    walletIfoData={walletIfoData}
+                  />
+                )}
+              </StyledCardFooter>
+            </>
+          ) : (
+            <>
+            {/* 未连接钱包 */}
+            {/* 顶部的,要募集多少代币,和当前已经募集了多少代币 */}
+              <IfoCardTokens
+                criterias={criterias}
+                isEligible={isEligible}
+                poolId={poolId}
+                ifo={ifo}
+                publicIfoData={publicIfoData}
+                walletIfoData={walletIfoData}
+                hasProfile={hasActiveProfile}
+                isLoading={isLoading}
+                onApprove={onApprove}
+                enableStatus={enableStatus}
+              />
+              <IfoTopInviteInfo />
               <Box mt="24px">
                 {/* 连接钱包按钮 */}
                 <IfoCardActions
-                  isEligible={false}
+                  isEligible={isEligible}
                   poolId={poolId}
                   ifo={ifo}
                   publicIfoData={publicIfoData}
                   walletIfoData={walletIfoData}
-                  hasProfile={false}
-                  isLoading={false}
+                  hasProfile={hasActiveProfile}
+                  isLoading={isLoading}
                   enableStatus={enableStatus}
                   hideBtn
                 />
               </Box>
+                {/* 底部的card的所有detail,比如销毁多少cake,募集多少资金之类的 */}
+              {/* <Box pt="24px">
+                <IfoCardDetails
+                  isEligible={isEligible}
+                  poolId={poolId}
+                  ifo={ifo}
+                  publicIfoData={publicIfoData}
+                  walletIfoData={walletIfoData}
+                />
+              </Box> */}
+            </>
+          )}
         </CardBody>
       </StyledCard>
     </>

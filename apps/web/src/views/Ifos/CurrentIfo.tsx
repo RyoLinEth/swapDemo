@@ -9,36 +9,31 @@ import IfoContainer from './components/IfoContainer'
 import IfoSteps from './components/IfoSteps'
 
 interface TypeProps {
-  activeIfo: Ifo
+  activeIfo?: Ifo
 }
 
 const CurrentIfo: React.FC<React.PropsWithChildren<TypeProps>> = ({ activeIfo }) => {
-  const publicIfoData = useGetPublicIfoV3Data(activeIfo)
-  const walletIfoData = useGetWalletIfoV3Data(activeIfo)
+  // const publicIfoData = useGetPublicIfoV3Data(activeIfo)
+  // const walletIfoData = useGetWalletIfoV3Data(activeIfo)
 
-  const { poolBasic, poolUnlimited } = walletIfoData
+  // const { poolBasic, poolUnlimited } = walletIfoData
 
-  console.log('data', publicIfoData, walletIfoData);
+  // console.log('data', publicIfoData, walletIfoData);
 
-  const isCommitted = useMemo(
-    () =>
-      poolBasic.amountTokenCommittedInLP.isGreaterThan(0) || poolUnlimited.amountTokenCommittedInLP.isGreaterThan(0),
-    [poolBasic.amountTokenCommittedInLP, poolUnlimited.amountTokenCommittedInLP],
-  )
+  // const isCommitted = useMemo(
+  //   () =>
+  //     poolBasic.amountTokenCommittedInLP.isGreaterThan(0) || poolUnlimited.amountTokenCommittedInLP.isGreaterThan(0),
+  //   [poolBasic.amountTokenCommittedInLP, poolUnlimited.amountTokenCommittedInLP],
+  // )
 
   return (
     <IfoContainer
       // ifo顶部右侧的ifo公开销售和私有销售
-      ifoSection={<IfoCurrentCard ifo={activeIfo} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />}
+      ifoSection={<IfoCurrentCard />}
       // ifo下面的步骤条
-      ifoSteps={
-        <IfoSteps
-          isLive={publicIfoData.status === 'live'}
-          hasClaimed={poolBasic.hasClaimed || poolUnlimited.hasClaimed}
-          isCommitted={isCommitted}
-          ifoCurrencyAddress={activeIfo.currency.address}
-        />
-      }
+      // ifoSteps={
+      //   <IfoSteps />
+      // }
     />
   )
 }
