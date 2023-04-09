@@ -237,15 +237,16 @@ const IfoCardTokens: React.FC<React.PropsWithChildren<IfoCardTokensProps>> = ({
       getBalanceNumber(credit) === 0
     ) {
       message = (
-        <Message my="24px" p="8px" variant="danger">
-          <Box>
-            <MessageText display="inline">{t('You don’t have any iCAKE available for IFO public sale.')}</MessageText>{' '}
-            <MessageTextLink display="inline" fontWeight={700} href="/ifo#ifo-how-to" color="failure">
-              {t('How does it work?')} »
-            </MessageTextLink>
-          </Box>
-        </Message>
-      )
+        <></>
+        )
+        // <Message my="24px" p="8px" variant="danger">
+        //   <Box>
+        //     <MessageText display="inline">{t('You don’t have any iCAKE available for IFO public sale.')}</MessageText>{' '}
+        //     <MessageTextLink display="inline" fontWeight={700} href="/ifo#ifo-how-to" color="failure">
+        //       {t('How does it work?')} »
+        //     </MessageTextLink>
+        //   </Box>
+        // </Message>
     }
 
     if (account && !hasProfile) {

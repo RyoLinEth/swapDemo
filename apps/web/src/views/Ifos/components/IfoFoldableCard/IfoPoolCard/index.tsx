@@ -232,8 +232,8 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                 />
               </Box>
               44
-              <Box pt="24px">
                 {/* 底部的card的所有detail,比如销毁多少cake,募集多少资金之类的 */}
+              {/* <Box pt="24px">
                 <IfoCardDetails
                   isEligible={isEligible}
                   poolId={poolId}
@@ -241,7 +241,7 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                   publicIfoData={publicIfoData}
                   walletIfoData={walletIfoData}
                 />
-              </Box>
+              </Box> */}
             </>
           )}
         </CardBody>

@@ -25,7 +25,7 @@ const IfoContainer: React.FC<React.PropsWithChildren<TypeProps>> = ({ ifoSection
       <Container>
         <IfoLayoutWrapper>
           {/* ifo顶部的质押cake和下面的领取代币 */}
-          <IfoPoolVaultCard />
+          {/* <IfoPoolVaultCard /> */}
           {/* ifo顶部右侧的公开销售和私人销售 */}
           {ifoSection}
         </IfoLayoutWrapper>
