@@ -8,6 +8,8 @@ import SoonIfo from './SoonIfo'
 const activeIfo = ifosConfig.find((ifo) => ifo.isActive)
 
 const Ifo = () => {
+  // console.log('6666666', activeIfo, ifosConfig);
+  // 当前active的ifo，或者空的ifo
   return activeIfo ? <CurrentIfo activeIfo={activeIfo} /> : <SoonIfo />
 }
 

@@ -375,7 +375,6 @@ export const PoolsSlice = createSlice({
   initialState,
   reducers: {
     setPoolPublicData: (state, action) => {
-      console.log('setPoolPublicData', state, action);
       const { sousId } = action.payload
       const poolIndex = state.data.findIndex((pool) => pool.sousId === sousId)
       state.data[poolIndex] = {

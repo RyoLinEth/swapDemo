@@ -26,7 +26,7 @@ export const IfoPageLayout = ({ children }) => {
         ]}
         activeItem={isExact ? '/ifo' : '/ifo/history'}
       />
-      <Hero />
+      {/* <Hero /> */}
       {children}
     </IfoProvider>
   )

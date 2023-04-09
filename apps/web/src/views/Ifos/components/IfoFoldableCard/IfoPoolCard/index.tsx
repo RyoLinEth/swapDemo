@@ -23,6 +23,7 @@ import IfoCardActions from './IfoCardActions'
 import IfoCardDetails from './IfoCardDetails'
 import IfoCardTokens from './IfoCardTokens'
 import IfoVestingCard from './IfoVestingCard'
+import IfoTopInviteInfo from './IfoTopInviteInfo'
 
 const StyledCard = styled(Card)`
   width: 100%;
@@ -46,6 +47,7 @@ interface IfoCardProps {
   enableStatus: EnableStatus
 }
 
+// card的一些配置
 export const cardConfig = (
   t: ContextApi['t'],
   poolId: PoolIds,
@@ -107,6 +109,7 @@ export const cardConfig = (
   }
 }
 
+// active的ifo 右边的卡片公开销售和私人销售卡片
 const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   poolId,
   ifo,
@@ -136,7 +139,7 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   })
 
   const { hasActiveProfile, isLoading: isProfileLoading } = useProfile()
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(config.tooltip, { placement: 'bottom' })
+  // const { targetRef, tooltip, tooltipVisible } = useTooltip(config.tooltip, { placement: 'bottom' })
 
   const isLoading = isProfileLoading || publicIfoData.status === 'idle'
 
@@ -158,24 +161,28 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   const cardTitle = ifo.cIFO ? `${config.title} (cIFO)` : config.title
 
   const [isExpanded, setIsExpanded] = useState(false)
+  debugger
 
   return (
     <>
-      {tooltipVisible && tooltip}
+      {/* {tooltipVisible && tooltip} */}
       <StyledCard>
+        {/* card的头部header */}
         <CardHeader p="16px 24px" variant={config.variant}>
           <Flex justifyContent="space-between" alignItems="center">
             <Text bold fontSize="20px" lineHeight={1}>
               {cardTitle}
             </Text>
-            <div ref={targetRef}>
+            {/* <div ref={targetRef}>
               <HelpIcon />
-            </div>
+            </div> */}
           </Flex>
         </CardHeader>
         <CardBody p="12px">
+          {/* 连接钱包之后 */}
           {isVesting ? (
             <>
+            777
               <IfoVestingCard ifo={ifo} poolId={poolId} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />
               <StyledCardFooter>
                 <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded((prev) => !prev)}>
@@ -194,6 +201,9 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
             </>
           ) : (
             <>
+            {/* 未连接钱包 */}
+            666
+            {/* 顶部的,要募集多少代币,和当前已经募集了多少代币 */}
               <IfoCardTokens
                 criterias={criterias}
                 isEligible={isEligible}
@@ -206,7 +216,10 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                 onApprove={onApprove}
                 enableStatus={enableStatus}
               />
+              <IfoTopInviteInfo />
+              33
               <Box mt="24px">
+                {/* 连接钱包按钮 */}
                 <IfoCardActions
                   isEligible={isEligible}
                   poolId={poolId}
@@ -218,7 +231,9 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
                   enableStatus={enableStatus}
                 />
               </Box>
+              44
               <Box pt="24px">
+                {/* 底部的card的所有detail,比如销毁多少cake,募集多少资金之类的 */}
                 <IfoCardDetails
                   isEligible={isEligible}
                   poolId={poolId}

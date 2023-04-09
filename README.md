@@ -175,23 +175,12 @@ yarn turbo run build --filter=blog
 >   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
 
 
-```
-// const { chainId } = useActiveChainId()
+## 5 ido/ifo页面
 
-export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
-  return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
-}
-export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
-}
+>+ ifo的整体布局页面：apps\web\src\views\Ifos\components\IfoContainer.tsx
+> + ifo顶部左边的质押cake和领取代币：apps\web\src\views\Ifos\components\IfoPoolVaultCard.tsx
+> + active的ifo 右边的卡片整体wrapper：apps\web\src\views\Ifos\components\IfoFoldableCard\index.tsx
+>   + active的ifo 右边的卡片公开销售和私人销售卡片：apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\index.tsx
 
-export const getActivePools = async (block?: number) => {
-
-  const poolContractAddress = getAddress(contractAddress)
-
-
-  const poolAddresses = eligiblePools.map(({ contractAddress }) => getAddress(contractAddress, ChainId.BSC))
-```
+>+ 自己写的页面: 
+> + 邀请人的数据页面: apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\IfoTopInviteInfo.tsx

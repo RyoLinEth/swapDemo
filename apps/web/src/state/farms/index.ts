@@ -29,8 +29,6 @@ const fetchFarmPublicDataPkg = async ({ pids, chainId, chain }): Promise<[Serial
   const farmsCanFetch = farmsConfig.filter((farmConfig) => pids.includes(farmConfig.pid))
   const priceHelperLpsConfig = getFarmsPriceHelperLpFiles(chainId)
 
-  console.log('fetchFarmPublicDataPkg，这里虽然报错，但是可以读取到值得，不用管这里', );
-
   // 这里虽然报错，但是可以读取到值得，不用管这里
   const { farmsWithPrice, poolLength, regularCakePerBlock } = await farmFetcher.fetchFarms({
     chainId,
@@ -59,7 +57,6 @@ export const fetchInitialFarmsData = createAsyncThunk<
   }
 >('farms/fetchInitialFarmsData', async ({ chainId }) => {
   const farmDataList = await getFarmConfig(chainId)
-  console.log('fetchInitialFarmsData', farmDataList);
   
   return {
     data: farmDataList.map((farm) => ({
@@ -90,7 +87,6 @@ export const fetchFarmsPublicDataAsync = createAsyncThunk<
     if (state.farms.chainId !== chainId) {
       await dispatch(fetchInitialFarmsData({ chainId }))
     }
-    console.log('fetchFarmsPublicDataAsync', state.farms.chainId, chainId);
     const chain = chains.find((c) => c.id === chainId)
     if (!chain || !farmFetcher.isChainSupported(chain.id)) throw new Error('chain not supported')
     try {
@@ -258,7 +254,6 @@ export const farmsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    console.log('farmsSlice extraReducers',builder);
     builder.addCase(resetUserState, (state) => {
       state.data = state.data.map((farm) => {
         return {

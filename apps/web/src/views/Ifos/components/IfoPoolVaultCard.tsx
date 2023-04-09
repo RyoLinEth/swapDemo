@@ -17,11 +17,13 @@ const IfoPoolVaultCard = () => {
 
   return (
     <Flex width="100%" maxWidth={400} alignItems="center" flexDirection="column">
-      {isSmallerThanXl ? (
+      {/* ifo上面的质押cake */}
+      {/* {isSmallerThanXl ? (
         <IfoPoolVaultCardMobile pool={cakePool} />
       ) : (
         <CakeVaultCard pool={cakePool} showSkeleton={false} showStakedOnly={false} showICake />
-      )}
+      )} */}
+      {/* ifo cake下面的，代币线性释放 */}
       <IfoVesting pool={cakePool} />
     </Flex>
   )

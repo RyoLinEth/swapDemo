@@ -18,6 +18,8 @@ const CurrentIfo: React.FC<React.PropsWithChildren<TypeProps>> = ({ activeIfo })
 
   const { poolBasic, poolUnlimited } = walletIfoData
 
+  console.log('data', publicIfoData, walletIfoData);
+
   const isCommitted = useMemo(
     () =>
       poolBasic.amountTokenCommittedInLP.isGreaterThan(0) || poolUnlimited.amountTokenCommittedInLP.isGreaterThan(0),
@@ -26,7 +28,9 @@ const CurrentIfo: React.FC<React.PropsWithChildren<TypeProps>> = ({ activeIfo })
 
   return (
     <IfoContainer
+      // ifo顶部右侧的ifo公开销售和私有销售
       ifoSection={<IfoCurrentCard ifo={activeIfo} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />}
+      // ifo下面的步骤条
       ifoSteps={
         <IfoSteps
           isLive={publicIfoData.status === 'live'}

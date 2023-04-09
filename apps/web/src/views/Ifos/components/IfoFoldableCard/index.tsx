@@ -143,6 +143,7 @@ const NoHatBunny = ({ isLive, isCurrent }: { isLive?: boolean; isCurrent?: boole
 }
 
 // Active Ifo
+// active的ifo 右边的卡片，布局组件
 export const IfoCurrentCard = ({
   ifo,
   publicIfoData,
@@ -169,21 +170,22 @@ export const IfoCurrentCard = ({
           zIndex={6}
           maxWidth={['400px', '400px', '400px', '100%']}
         >
-          <Header $isCurrent ifoId={ifo.id} />
-          <IfoRibbon publicIfoData={publicIfoData} />
-          {shouldShowBunny && <NoHatBunny isLive={publicIfoData.status === 'live'} />}
+          {/* <Header $isCurrent ifoId={ifo.id} />
+          <IfoRibbon publicIfoData={publicIfoData} /> */}
+          {/* {shouldShowBunny && <NoHatBunny isLive={publicIfoData.status === 'live'} />} */}
         </Box>
       )}
       <Box position="relative" width="100%" maxWidth={['400px', '400px', '400px', '400px', '400px', '100%']}>
-        {!isMobile && shouldShowBunny && <NoHatBunny isCurrent isLive={publicIfoData.status === 'live'} />}
+        {/* {!isMobile && shouldShowBunny && <NoHatBunny isCurrent isLive={publicIfoData.status === 'live'} />} */}
         <StyledCard $isCurrent>
-          {!isMobile && (
+          {/* {!isMobile && (
             <>
               <Header $isCurrent ifoId={ifo.id} />
               <IfoRibbon publicIfoData={publicIfoData} />
             </>
-          )}
+          )} */}
           <IfoCard ifo={ifo} publicIfoData={publicIfoData} walletIfoData={walletIfoData} />
+          {/* 可以点击展开的详细资料 */}
           <StyledCardFooter>
             <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
               {isExpanded ? t('Hide') : t('Details')}
@@ -246,6 +248,7 @@ const IfoFoldableCard = ({
   )
 }
 
+// active的ifo 右边的卡片，公开销售和私人销售
 const IfoCard: React.FC<React.PropsWithChildren<IfoFoldableCardProps>> = ({ ifo, publicIfoData, walletIfoData }) => {
   const currentBlock = useCurrentBlock()
   const { fetchIfoData: fetchPublicIfoData, isInitialized: isPublicIfoDataInitialized, secondsUntilEnd } = publicIfoData
@@ -353,7 +356,8 @@ const IfoCard: React.FC<React.PropsWithChildren<IfoFoldableCardProps>> = ({ ifo,
           shouldReverse={ifo.version >= 3.1}
           singleCard={!publicIfoData.poolBasic || !walletIfoData.poolBasic}
         >
-          {publicIfoData.poolBasic && walletIfoData.poolBasic && (
+          {/* 私人销售 */}
+          {/* {publicIfoData.poolBasic && walletIfoData.poolBasic && (
             <IfoPoolCard
               poolId={PoolIds.poolBasic}
               ifo={ifo}
@@ -362,7 +366,8 @@ const IfoCard: React.FC<React.PropsWithChildren<IfoFoldableCardProps>> = ({ ifo,
               onApprove={handleApprove}
               enableStatus={enableStatus}
             />
-          )}
+          )} */}
+          {/* 公开销售 */}
           <IfoPoolCard
             poolId={PoolIds.poolUnlimited}
             ifo={ifo}

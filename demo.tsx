@@ -353,267 +353,77 @@ const Resume = ({ classicHeader, darkTheme, defaultAccount, language }) => {
         console.log(result)
     }
 
-    const educationDetails = [
-        {
-            Quota: "50",
-            title: language === "中" ? "小貓咪" : "Pussy",
-            place: language === "中" ? "小貓咪" : "Little cats",
-            // desc: "Lisque persius interesset his et, in quot quidam persequeris vim, ad mea essent possim iriure.",
-        },
-        {
-            Quota: "100",
-            title: language === "中" ? "貓咪" : "Cat",
-            place: language === "中" ? "一般貓咪" : "Normal Cats",
-            // desc: "Lisque persius interesset his et, in quot quidam persequeris vim, ad mea essent possim iriure.",
-        },
-        {
-            Quota: "200",
-            title: language === "中" ? "老闆貓咪" : "Boss Cat",
-            place: language === "中" ? "貓咪之王" : "The King of Cats",
-            // desc: "Lisque persius interesset his et, in quot quidam persequeris vim, ad mea essent possim iriure.",
-        },
-    ];
-
     return (
-        <section
-            id="resume"
-            className={"section " + (darkTheme ? "bg-dark-1" : "")}
-        >
-            <div className={"container " + (classicHeader ? "" : "px-lg-5")}>
-                {/* Heading */}
-                <div className="position-relative d-flex text-center mb-5">
-                    <h2
-                        className={
-                            "text-24  text-uppercase fw-600 w-100 mb-0 " +
-                            (darkTheme ? "text-muted opacity-1" : "text-light opacity-4")
-                        }
-                    >
-                        {language === "中" ? <>貢獻</> : <>Contribution</>}
-                    </h2>
-                    <p
-                        className={
-                            "text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0 " +
-                            (darkTheme ? "text-white" : "text-dark")
-                        }
-                    >
-                        {" "}
-                        IDO
-                        <span className="heading-separator-line border-bottom border-3 border-primary d-block mx-auto" />
-                    </p>
+        <div className="row gx-5">
+
+            {/* 第一个块，参与ido */}
+            <div>
+                <p>1. {language === "中" ? <>用 USDT 認購</> : <>Make Contribution with USDT</>}</p>
+
+                <div>
+                    {/* 下面为 ust购买的点击按钮，通过index来确认 */}
+                    {educationDetails.length > 0 &&
+                        ['50', '100', '200'].map((Quota, index) => (
+                            <div key={index} onClick={() => makeApprove(index)}>
+                                {/* <div key={index} onClick={() => handleContribute(index)}> */}
+                                <div>{Quota}</div>
+                            </div>
+                        ))}
                 </div>
-                {/* Heading end*/}
-                <div className="row gx-5">
-                    {/* My Education */}
 
-                    <div onClick={() => setIsLoading(false)}>
-                        {
-                            isLoading &&
-                            <Loading language={language} />
-                        }
-                    </div>
+                {/* 邀请者的 address */}
+                <span>{language === "中" ? <> 當前邀請者 : </> : <>Current Inviter : </>}
+                    <span>{inviterAddress === defaultInviter ? <span>{language === "中" ? " 無邀請者" : " No Inviter"}</span> : <span>{inviterAddress}</span>}</span>
+                </span>
+            </div>
 
-                    <div className="col-md-6">
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <h2
-                                className={
-                                    "text-6 fw-600 mb-4 " + (darkTheme ? "text-white" : "")
-                                }
-                            >
-                                {language === "中" ? <>參與 IDO</> : <>Participate in IDO</>}
-                                {/* {language === "中" ? <>如何參與 IDO</> : <>How to participate IDO</>} */}
-                            </h2>
-                            {/*
-                                ===============================================
-                                ===============================================
-
-                                                Countdown Timer
-
-                                ===============================================
-                                ===============================================
-                            */}
-
-                            <h2
-                                className={
-                                    "text-6 fw-600 mb-4 " + (darkTheme ? "text-white" : "")
-                                }
-                            >IDO {language !== "中" ? 'has end' : '已結束'}</h2>
-
-                            {/* <Countdown language={language} darkTheme={darkTheme} /> */}
-                        </div>
-
-                        <div
-                            className={
-                                "bg-white  rounded p-4 mb-4 " +
-                                (darkTheme ? "bg-dark" : "bg-white border")
-                            }
-                            style={{ display: 'flex', flexDirection: 'column' }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                {/* <img src={usdtImage} alt="usdtImage" style={{ width: "120px" }} /> */}
-                                <p className="badge bg-primary text-2 fw-400">
-                                    1. {language === "中" ? <>用 USDT 認購</> : <>Make Contribution with USDT</>}
-                                </p><br />
-                            </div>
-
-                            <div style={{ display: "flex", flexDirection: "row", color: "white", flexWrap: "wrap" }}>
-                                {educationDetails.length > 0 &&
-                                    educationDetails.map((value, index) => (
-                                        <div key={index} onClick={() => makeApprove(index)}>
-                                            {/* <div key={index} onClick={() => handleContribute(index)}> */}
-                                            <div style={{ flex: 1 }}>
-                                                <div className="parallax"
-                                                    style={{
-                                                        width: "90px",
-                                                        height: "90px",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        paddingLeft: "5px",
-                                                        backgroundImage: 'url("images/outring.png")',
-                                                        backgroundSize: "cover",
-                                                        backgroundPosition: "center",
-                                                        backgroundRepeat: "no-repeat",
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    {value.Quota}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                            </div>
-
-                            <p className={darkTheme ? "text-primary" : "text-danger"}>
-                                {language === "中" ? <>點擊上方按鈕參與</> : <>Click on the above button to join</>}
-                                <br /><br />
-                                <span style={{ color: 'white' }}>{language === "中" ? <> 當前邀請者 : </> : <>Current Inviter : </>}
-                                    <span>
-                                        {inviterAddress === defaultInviter
-                                            ?
-                                            <span>
-                                                {
-                                                    language === "中" ? " 無邀請者" : " No Inviter"
-                                                }
-                                            </span>
-                                            :
-                                            <span style={{ wordBreak: "break-word" }}>
-                                                {inviterAddress}
-                                            </span>
-                                        }</span>
-                                </span>
-                            </p>
-
-                        </div>
-
-                        <div
-                            className={
-                                "bg-white  rounded p-4 mb-4 " +
-                                (darkTheme ? "bg-dark" : "bg-white border")
-                            }
-                            style={{ display: 'flex', flexDirection: 'column' }}
-                        >
-
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                {/* <img src={usdtImage} alt="usdtImage" style={{ width: "120px" }} /> */}
-                                <p className="badge bg-primary text-2 fw-400">
-                                    2. {language === "中" ? <>邀請好友 獲得 USDT</> : <>Earn USDT with Invitation</>}
-                                </p><br />
-                            </div>
-                            <p style={{ wordBreak: 'break-word', color: "white" }}>{
-                                personalLink !== null ? personalLink :
-                                    <>{
-                                        language !== "中" ? "Please Connect Your Wallet" : "請連接錢包"
-                                    }</>
-                            }</p>
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                {/* <a
-                                    className="btn btn-primary rounded-pill"
-                                    style={{ maxWidth: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                                    onClick={copyLink}
-                                >
-                                    {language === "中" ? <>複製</> : <>Copy</>}
-                                </a> */}
-
-                                <CopyToClipboard
-                                    text={personalLink}
-                                    onCopy={copyLink}
-                                >
-                                    <button
-                                        className="btn btn-primary rounded-pill"
-                                        style={{ maxWidth: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                                    >
-                                        {language === "中" ? <>複製</> : <>Copy</>}
-                                    </button>
-                                </CopyToClipboard>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div>
-                            <div>
-                                <h2
-                                    className={
-                                        "text-6 fw-600 mb-4 " + (darkTheme ? "text-white" : "")
-                                    }
-                                >
-                                    {language === "中" ? <>我的貢獻</> : <>My Contribution</>}
-                                </h2>
-                                <div
-                                    className={
-                                        "bg-white  rounded p-4 mb-4 " +
-                                        (darkTheme ? "bg-dark" : "bg-white border")
-                                    }
-                                    style={{ display: 'flex', flexDirection: 'row' }}
-                                >
-                                    <div style={{ flex: '1' }}>
-                                        <p className="badge bg-primary text-2 fw-400">
-                                            {language === "中" ? <>認購額度</> : <>Contribution</>}
-                                        </p>
-                                        <h3 className={"text-5 " + (darkTheme ? "text-white" : "")}>
-                                            {contributionAmount} Cat
-                                        </h3>
-                                        <p className={darkTheme ? "text-primary" : "text-danger"}>
-                                            {language === "中" ? <>聰明的選擇</> : <>Smart Choice</>}
-                                        </p>
-                                    </div>
-                                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <a
-                                            className="btn btn-primary rounded-pill"
-                                            style={{ maxWidth: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                                            onClick={handleClaim}
-                                        >
-                                            {language === "中" ? <>提幣</> : <>Claim</>}
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className={
-                                        "bg-white  rounded p-4 mb-4 " +
-                                        (darkTheme ? "bg-dark" : "bg-white border")
-                                    }
-                                    style={{ display: 'flex', flexDirection: 'column' }}
-                                >
-                                    <div style={{ flex: '1' }}>
-                                        <p className="badge bg-primary text-2 fw-400">
-                                            {language === "中" ? <>邀請獎勵</> : <>Invitation reward</>}
-                                        </p>
-                                        <h3 className={"text-5 " + (darkTheme ? "text-white" : "")}>
-                                            {language === "中" ? <>業績 (自動到帳) </> : <>Income (auto)</>}：{referralAmount} USDT
-                                        </h3>
-                                        <p className={darkTheme ? "text-primary" : "text-danger"}>
-                                            {language === "中" ? <>上級地址</> : <>Parent node</>}：
-                                            {parentAddress === "0x..." ?
-                                                <span>{language === "中" ? "沒有上級地址" : "No Parent Node"} </span> : parentAddress}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            {/* 第二个块，复制链接 */}
+            <div>
+                    <p>
+                        2. {language === "中" ? <>邀請好友 獲得 USDT</> : <>Earn USDT with Invitation</>}
+                    </p>
+                <p>{
+                    personalLink !== null ? personalLink :
+                        <>{
+                            language !== "中" ? "Please Connect Your Wallet" : "請連接錢包"
+                        }</>
+                }</p>
+                <div>
+                    {/* 复制链接 */}
+                    <CopyToClipboard
+                        text={personalLink}
+                        onCopy={copyLink}
+                    >
+                        <span>{language === "中" ? <>複製</> : <>Copy</>}</span>
+                    </CopyToClipboard>
                 </div>
             </div>
-        </section >
+
+            {/* 第三个块，提币 */}
+            <div>
+                <div>
+                    <p>{language === "中" ? <>認購額度</> : <>Contribution</>}</p>
+                    <h3>{contributionAmount} Cat</h3>
+                    <p>{language === "中" ? <>聰明的選擇</> : <>Smart Choice</>}</p>
+                </div>
+                <div>
+                    <a onClick={handleClaim}>{language === "中" ? <>提幣</> : <>Claim</>}</a>
+                </div>
+            </div>
+
+            {/* 第四个块，邀请奖励 */}
+            <div>
+                <div>
+                    <p>{language === "中" ? <>邀請獎勵</> : <>Invitation reward</>}</p>
+                    <h3>{language === "中" ? <>業績 (自動到帳) </> : <>Income (auto)</>}：{referralAmount} USDT</h3>
+                    <p>
+                        {language === "中" ? <>上級地址</> : <>Parent node</>}：
+                        {parentAddress === "0x..." ?
+                            <span>{language === "中" ? "沒有上級地址" : "No Parent Node"} </span> : parentAddress}
+                    </p>
+                </div>
+            </div>
+        </div>
     );
 };
 
