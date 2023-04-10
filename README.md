@@ -182,5 +182,7 @@ yarn turbo run build --filter=blog
 > + active的ifo 右边的卡片整体wrapper：apps\web\src\views\Ifos\components\IfoFoldableCard\index.tsx
 >   + active的ifo 右边的卡片公开销售和私人销售卡片：apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\index.tsx
 
+>+ ifo页面下面的详细配置：apps\web\src\views\Ifos\components\IfoQuestions\config.tsx
+
 >+ 自己写的页面: 
 > + 邀请人的数据页面: apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\IfoTopInviteInfo.tsx
