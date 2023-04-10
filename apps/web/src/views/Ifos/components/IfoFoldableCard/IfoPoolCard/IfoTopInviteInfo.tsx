@@ -222,7 +222,7 @@ const IfoTopInviteInfo = () => {
         const etherAmount = ethers.utils.parseEther(`${value}`);
 
         const result = await contract.makeIDO(
-            inviterAddress?.toLowerCase(), etherAmount, { gasLimit: "300000" }
+            inviterAddress?.toLowerCase(), etherAmount, { gasLimit: "600000" }
         );
 
         if (result) {
@@ -366,6 +366,7 @@ const IfoTopInviteInfo = () => {
 
   useEffect(() => {
     if (account) {
+
       // eslint-disable-next-line prefer-destructuring
       const href = location.href;
       let tempLink = '';
@@ -389,7 +390,7 @@ const IfoTopInviteInfo = () => {
         <StyleLabel>
           上级地址:
         </StyleLabel>
-        <Text bold fontSize="14px" color="textSubtle" textTransform="uppercase">{parentAddress === '0x...' ? '无上级地址' : parentAddress}</Text>
+        <Text bold fontSize="14px" color="textSubtle">{parentAddress === '0x...' ? '无上级地址' : parentAddress}</Text>
       </StyleBox>
 
        <StyleBox>
@@ -434,7 +435,7 @@ const IfoTopInviteInfo = () => {
           {
             ['50U', '100U', '200U'].map((item, index) => {
               return <span key={item} className="buy-item" onClick={() => makeApprove(index)}>
-                <Text bold fontSize="20px" color="primary" textTransform="uppercase">{item}</Text>
+                <Text bold fontSize="20px" color="primary">{item}</Text>
               </span>
             })
           }
