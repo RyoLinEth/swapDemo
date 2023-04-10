@@ -131,7 +131,7 @@ const MultipleBanner: React.FC<React.PropsWithChildren> = () => {
         autoplay={{ delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
         loop
         pagination={{ clickable: true }}
-        style={{padding: 0}}
+        style={{padding: 0, background: '#756b50', borderRadius: '30px', height: '230px'}}
       >
         {bannerList.map((banner, index) => {
           const childKey = `Banner${index}`

@@ -26,9 +26,6 @@ const StyledHeroSection = styled(PageSection)`
   ${({ theme }) => theme.mediaQueries.md} {
     padding-top: 48px;
   }
-  ${({ theme }) => theme.mediaQueries.xs} {
-    display: none
-  }
   ${({ theme }) => theme.mediaQueries.sm} {
     display: flex
   }
@@ -220,7 +217,8 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         {/* <CakeDataRow /> */}
       </PageSection>
       <StyledHeroSection
-        innerProps={{ style: { margin: '0', width: '100%', padding: 0} }}
+        innerProps={{ style: HomeSectionContainerStyles }}
+        // innerProps={{ style: { margin: '0', width: '100%', padding: 0} }}
         containerProps={{
           id: 'home-2',
         }}
