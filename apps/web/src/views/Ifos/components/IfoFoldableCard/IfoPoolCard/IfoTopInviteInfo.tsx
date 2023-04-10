@@ -54,7 +54,7 @@ const StyleLabel = styled.div`
   }
 
 `
-const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16";
+const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16"; // 此合约暂时还没有
 const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
 const contractAddress = "0x8A426d810A80D33C943fcBe6219476Ff85f1b376";
 const defaultInviter = "0x16c21c28FED3e3B545493e111dB87842D11281AD";
@@ -67,7 +67,7 @@ const IfoTopInviteInfo = () => {
   const [referralAmount, setReferralAmount] = useState<string>('0');
   const [isJoined, setIsJoined] = useState(false);
   const [isClaimActive, setIsClaimActive] = useState(false);
-  const [isIDOActive, setIsIDOActive] = useState(true);
+  const [isIDOActive, setIsIDOActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
 
@@ -111,7 +111,7 @@ const IfoTopInviteInfo = () => {
 
   // 初始化inviterAddress
   const initInviterAddress = () => {
-    if (inviterAddress !== defaultInviter || isInviterSet) return;
+    if (isInviterSet) return;
     try {
         const inputString = window.location.search;
 
@@ -256,8 +256,9 @@ const IfoTopInviteInfo = () => {
             swal("Error", "Failed to Contribute", "error");
         }
 
-    } catch (err) {}
-
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // 购买ido
@@ -368,12 +369,16 @@ const IfoTopInviteInfo = () => {
       // eslint-disable-next-line prefer-destructuring
       const href = location.href;
       let tempLink = '';
-      if (href?.includes('?')) {
-        tempLink = `${href}&`
-      } else {
-        tempLink = `${href}?`
-      }
-      setPersonalLink(`${tempLink}inviter=${account}`);
+      const regStr = `INVITER=${inviterAddress}`;
+      if (href?.includes(`INVITER=${inviterAddress}`)) {
+        const reg = new RegExp(regStr,'g');
+        tempLink = href.replace(reg, `INVITER=${account}`);
+      } else if (href?.includes('?')) {
+          tempLink = `${href}&INVITER=${account}`
+        } else {
+          tempLink = `${href}?INVITER=${account}`
+        }
+      setPersonalLink(tempLink);
       initContract();
     }
   }, [account]);
@@ -403,7 +408,7 @@ const IfoTopInviteInfo = () => {
             )
           }
         </StyleLabel>
-        <Text bold fontSize="14px" color="textSubtle" textTransform="uppercase">{personalLink || '請連接錢包'}</Text>
+        <Text bold fontSize="14px" color="textSubtle">{personalLink || '請連接錢包'}</Text>
       </StyleBox>
 
        <StyleBox>

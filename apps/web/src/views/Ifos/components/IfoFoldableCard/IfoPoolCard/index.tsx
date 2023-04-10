@@ -161,7 +161,6 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   const cardTitle = '公开销售'
 
   const [isExpanded, setIsExpanded] = useState(false)
-  debugger
 
   return (
     <>
