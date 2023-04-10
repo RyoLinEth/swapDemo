@@ -383,7 +383,6 @@ export const PoolsSlice = createSlice({
       }
     },
     setPoolUserData: (state, action) => {
-      console.log('setPoolUserData', state, action);
       const { sousId } = action.payload
       state.data = state.data.map((pool) => {
         if (pool.sousId === sousId) {

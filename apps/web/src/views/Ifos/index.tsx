@@ -9,7 +9,7 @@ export const IfoPageLayout = ({ children }) => {
   const { t } = useTranslation()
   const router = useRouter()
   const isExact = router.route === '/ifo'
-  useFetchIfo()
+  // useFetchIfo()
 
   return (
     <IfoProvider>
