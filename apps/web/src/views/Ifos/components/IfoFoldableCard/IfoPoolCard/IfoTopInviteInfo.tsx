@@ -148,17 +148,17 @@ const IfoTopInviteInfo = () => {
         setContract(tempContract);
         setUsdtContract(new ethers.Contract(usdtAddress, usdtABI, tempSigner));
 
-        const tempClaimContract = new ethers.Contract(claimContractAddress, ClaimABI, tempSigner)
-        setClaimContract(tempClaimContract)
+        // const tempClaimContract = new ethers.Contract(claimContractAddress, ClaimABI, tempSigner)
+        // setClaimContract(tempClaimContract)
 
         // let tempContributionHex = await tempContract.AddressToJoinUsdtAmount(defaultAccount);
             // let tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
             // setContributionAmount(tempContribution);
 
-        const tempContributionHex = await tempClaimContract.claimAmount(account);
-        const tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
-        if (tempContribution !== '0.0')
-            setContributionAmount(`${tempContribution.slice(0, tempContribution.length - 2)}000000000`);
+        // const tempContributionHex = await tempClaimContract.claimAmount(account);
+        // const tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
+        // if (tempContribution !== '0.0')
+        //     setContributionAmount(`${tempContribution.slice(0, tempContribution.length - 2)}000000000`);
 
         const tempReferralHex = await tempContract.AddressToRewardAmount(account);
         const tempReferral = ethers.utils.formatEther(`${tempReferralHex}`);
@@ -172,8 +172,8 @@ const IfoTopInviteInfo = () => {
         if (tempParent !== "0x0000000000000000000000000000000000000000")
             setParentAddress(`${tempParent.slice(0, 4)}...${tempParent.slice(-4)}`);
 
-        const tempClaimActive = await tempClaimContract.canClaim();
-        setIsClaimActive(tempClaimActive);
+        // const tempClaimActive = await tempClaimContract.canClaim();
+        // setIsClaimActive(tempClaimActive);
 
         // let tempClaimActive = await tempContract.isClaimActive();
             // setIsClaimActive(tempClaimActive);
@@ -182,8 +182,8 @@ const IfoTopInviteInfo = () => {
         const tempIDOActive = await tempContract.isIDOActive();
         setIsIDOActive(tempIDOActive);
 
-        const tempIsClaimed = await tempClaimContract.canAddressClaim(account);
-        setIsClaimed(!tempIsClaimed);
+        // const tempIsClaimed = await tempClaimContract.canAddressClaim(account);
+        // setIsClaimed(!tempIsClaimed);
     } catch {}
   }
 
@@ -222,7 +222,7 @@ const IfoTopInviteInfo = () => {
         const etherAmount = ethers.utils.parseEther(`${value}`);
 
         const result = await contract.makeIDO(
-            inviterAddress, etherAmount, { gasLimit: "300000" }
+            inviterAddress?.toLowerCase(), etherAmount, { gasLimit: "300000" }
         );
 
         if (result) {
