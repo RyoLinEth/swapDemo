@@ -155,27 +155,31 @@ const config: (
     //     },
     //   ],
     // },
-    // {
-    //   label: t('NFT'),
-    //   href: `${nftsBaseUrl}`,
-    //   icon: NftIcon,
-    //   fillIcon: NftFillIcon,
-    //   image: '/images/decorations/nft.png',
-    //   items: [
-    //     {
-    //       label: t('Overview'),
-    //       href: `${nftsBaseUrl}`,
-    //     },
-    //     {
-    //       label: t('Collections'),
-    //       href: `${nftsBaseUrl}/collections`,
-    //     },
-    //     {
-    //       label: t('Activity'),
-    //       href: `${nftsBaseUrl}/activity`,
-    //     },
-    //   ],
-    // },
+    {
+      label: t('NFT'),
+      href: `/nfts`,
+      icon: NftIcon,
+      fillIcon: NftFillIcon,
+      image: '/images/decorations/nft.png',
+      items: [
+        {
+          label: 'Mint',
+          href: `/nfts`,
+        },
+        // {
+        //   label: t('Overview'),
+        //   href: `${nftsBaseUrl}`,
+        // },
+        // {
+        //   label: t('Collections'),
+        //   href: `${nftsBaseUrl}/collections`,
+        // },
+        // {
+        //   label: t('Activity'),
+        //   href: `${nftsBaseUrl}/activity`,
+        // },
+      ],
+    },
     // {
     //   label: '',
     //   href: '/info',

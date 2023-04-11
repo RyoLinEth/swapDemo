@@ -131,7 +131,7 @@ const NftBanner: React.FC<React.PropsWithChildren> = () => {
         autoplay={{ delay: 5000, pauseOnMouseEnter: true, disableOnInteraction: false }}
         loop
         pagination={{ clickable: true }}
-        style={{padding: 0}}
+        style={{padding: 0 }}
       >
         {bannerList.map((banner, index) => {
           const childKey = `Banner${index}`
