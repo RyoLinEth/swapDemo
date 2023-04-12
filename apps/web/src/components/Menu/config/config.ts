@@ -97,6 +97,11 @@ const config: (
           href: '/pools',
           // supportChainIds: SUPPORT_ONLY_BSC,
         },
+        {
+          label: 'Create Pools',
+          href: '/pools/create-pools',
+          // supportChainIds: SUPPORT_ONLY_BSC,
+        },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     // {
