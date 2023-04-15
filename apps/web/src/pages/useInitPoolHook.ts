@@ -36,11 +36,49 @@ const useInitPoolHook = () => {
           }
       }
       const tempData = [
-        ...tempRunningPool,
-        ...tempEndPool
+        ...tempRunningPool.map(item => {
+          return {
+            sousId: ethers.utils.formatEther(item?.[0]),
+            stakingToken: item?.[1],
+            earningToken: item?.[2],
+              contractAddress: {
+              97: item?.[3],
+              56: item?.[3],
+            },
+            poolCategory: item?.[4],
+            tokenPerBlock: ethers.utils.formatEther(item?.[5]),
+
+          };
+        }),
+        ...tempEndPool.map(item => {
+          return {
+            sousId: ethers.utils.formatEther(item?.[0]),
+            stakingToken: item?.[1],
+            earningToken: item?.[2],
+              contractAddress: {
+              97: item?.[3],
+              56: item?.[3],
+            },
+            poolCategory: item?.[4],
+            tokenPerBlock: ethers.utils.formatEther(item?.[5]),
+            isFinished: true, // 表示结束状态的字断
+          };
+        })
       ];
       sessionStorage.setItem('pool', JSON.stringify(tempData));
       setIsInit(true)
+      // {
+      //   sousId: 0, // 这个0，代表cake池子，即第一个池子
+      //   stakingToken: bscTokens.cake,
+      //   earningToken: bscTokens.cake,
+      //   contractAddress: {
+      //     97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
+      //     56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
+      //   },
+      //   poolCategory: PoolCategory.CORE,
+      //   tokenPerBlock: '10',
+      //   isFinished: false,
+      // },
       // setIsFiltered(true)
     }
 
