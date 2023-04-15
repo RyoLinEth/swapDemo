@@ -17,18 +17,20 @@ import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Script from 'next/script'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { DefaultSeo } from 'next-seo'
 import { PageMeta } from 'components/Layout/Page'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
+import pools from 'config/constants/pools'
 import { Blocklist, Updaters } from '..'
 import { SEO } from '../../next-seo.config'
 import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
+import useInitPoolHook from './useInitPoolHook'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -153,6 +155,16 @@ type AppPropsWithLayout = AppProps & {
 const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const {initPool, isInit} = useInitPoolHook();
+
+  useEffect(() => {
+    const data = sessionStorage.getItem('pool');
+    if (data) {
+      console.log('data');
+    } else {
+      initPool()
+    }
+  }, [isInit]);
   if (Component.pure) {
     return <Component {...pageProps} />
   }
@@ -161,6 +173,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const Layout = Component.Layout || Fragment
   const ShowMenu = Component.mp ? Fragment : Menu
   const isShowScrollToTopButton = Component.isShowScrollToTopButton || true
+
+  console.log('进入app', pools);
 
   return (
     <ProductionErrorBoundary>

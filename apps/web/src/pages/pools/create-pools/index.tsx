@@ -5,6 +5,7 @@ import { Stepper, Step } from 'react-form-stepper';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { ethers } from 'ethers'
+import pools from 'config/constants/pools'
 
 
 import StepOne from "./StepOne";
@@ -20,6 +21,9 @@ import CreatePoolABI from '../ABI/CreatePool.json'
 const CreatePoolContract = "0xdFfbd6df5C039B27096e760fFD5B734dc33368F3"
 
 const Wizard = () => {
+
+    console.log('进入create-pool', pools);
+    
 
     const { address: account } = useAccount()
     // const { account } = props
