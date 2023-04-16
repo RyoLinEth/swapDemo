@@ -73,18 +73,18 @@ export const vaultPoolConfig = {
 
 // 进行中的池子
 export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
-  {
-    sousId: 0, // 这个0，代表cake池子，即第一个池子
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.cake,
-    contractAddress: {
-      97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
-      56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '10',
-    isFinished: false,
-  },
+  // {
+  //   sousId: 0, // 这个0，代表cake池子，即第一个池子
+  //   stakingToken: bscTokens.cake,
+  //   earningToken: bscTokens.cake,
+  //   contractAddress: {
+  //     97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
+  //     56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
+  //   },
+  //   poolCategory: PoolCategory.CORE,
+  //   tokenPerBlock: '10',
+  //   isFinished: false,
+  // },
   // {
   //   sousId: 999,
   //   stakingToken: bscTokens.StakingToken, // 质押的Token

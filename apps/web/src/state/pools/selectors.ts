@@ -24,8 +24,6 @@ export const makePoolWithUserDataLoadingSelector = (sousId) =>
 export const poolsWithUserDataLoadingSelector = createSelector(
   [selectPoolsData, selectUserDataLoaded],
   (pools, userDataLoaded) => {
-    console.log('pools', pools);
-    
     // transformPool处理pools里面的所有数据，比如给pools加上一些字断之类的。不过也不是加太多的参数，大多数的参数还是在reducer的setPoolsPublicData里面添加的
     return { pools: pools.map(transformPool), userDataLoaded }
   },
@@ -47,23 +45,23 @@ export const makeVaultPoolByKey = (key) => createSelector([selectVault(key)], (v
 export const poolsWithVaultSelector = createSelector(
   [
     poolsWithUserDataLoadingSelector, // 所有结束和未结束的池子，加上userDataLoaded(用户钱包是否登陆)状态
-    makeVaultPoolByKey(VaultKey.CakeVault), // 获取手动锁仓池子的配置；反序列化CakeVault = 'cakeVault', 还不知道是干嘛的CakeFlexibleSideVault = 'cakeFlexibleSideVault',
-    makeVaultPoolByKey(VaultKey.CakeFlexibleSideVault),// 获取灵活锁仓池子的配置；反序列化CakeFlexibleSideVault = 'cakeFlexibleSideVault', 还不知道是干嘛的
+    // makeVaultPoolByKey(VaultKey.CakeVault), // 获取手动锁仓池子的配置；反序列化CakeVault = 'cakeVault', 还不知道是干嘛的CakeFlexibleSideVault = 'cakeFlexibleSideVault',
+    // makeVaultPoolByKey(VaultKey.CakeFlexibleSideVault),// 获取灵活锁仓池子的配置；反序列化CakeFlexibleSideVault = 'cakeFlexibleSideVault', 还不知道是干嘛的
   ],
-  (poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault) => {
-    console.log('poolselect6', poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault);
+  (poolsWithUserDataLoading) => {
+  // (poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault) => {
     const { pools, userDataLoaded } = poolsWithUserDataLoading
     // 初始得cakePool，质押自己挖自己
-    const cakePool = pools.find((pool) => !pool.isFinished && pool.sousId === 0)
+    // const cakePool = pools.find((pool) => !pool.isFinished && pool.sousId === 0)
     const withoutCakePool = pools.filter((pool) => pool.sousId !== 0)
 
     // 自动的cake池子，就是质押之后，奖励自动复投；还有一种就是手动的池子，质押之后 需要手动提取收益
-    const cakeAutoVault = {
-      ...cakePool,
-      ...deserializedLockedCakeVault,
-      vaultKey: VaultKey.CakeVault,
-      userData: { ...cakePool?.userData, ...deserializedLockedCakeVault?.userData },
-    }
+    // const cakeAutoVault = {
+    //   ...cakePool,
+    //   ...deserializedLockedCakeVault,
+    //   vaultKey: VaultKey.CakeVault,
+    //   userData: { ...cakePool?.userData, ...deserializedLockedCakeVault?.userData },
+    // }
 
     // 当前池子pool的锁仓状态
     // export enum VaultPosition {
@@ -73,27 +71,28 @@ export const poolsWithVaultSelector = createSelector(
     //   LockedEnd, // 锁仓模式，锁仓时间结束，可以取出
     //   AfterBurning, // 这个应该是结束锁仓
     // }
-    const lockedVaultPosition = getVaultPosition(deserializedLockedCakeVault.userData)
+    // const lockedVaultPosition = getVaultPosition(deserializedLockedCakeVault.userData)
     // 是否灵活锁仓(随时可取)
-    const hasFlexibleSideSharesStaked = deserializedFlexibleSideCakeVault.userData.userShares.gt(0)
+    // const hasFlexibleSideSharesStaked = deserializedFlexibleSideCakeVault.userData.userShares.gt(0)
 
     // 自动的灵活取cake池子。实测 这个值是空的[]
-    const cakeAutoFlexibleSideVault =
-      lockedVaultPosition > VaultPosition.Flexible || hasFlexibleSideSharesStaked
-        ? [
-            {
-              ...cakePool,
-              ...deserializedFlexibleSideCakeVault,
-              vaultKey: VaultKey.CakeFlexibleSideVault,
-              userData: { ...cakePool?.userData, ...deserializedFlexibleSideCakeVault.userData },
-            },
-          ]
-        : []
+    // const cakeAutoFlexibleSideVault =
+    //   lockedVaultPosition > VaultPosition.Flexible || hasFlexibleSideSharesStaked
+    //     ? [
+    //         {
+    //           ...cakePool,
+    //           ...deserializedFlexibleSideCakeVault,
+    //           vaultKey: VaultKey.CakeFlexibleSideVault,
+    //           userData: { ...cakePool?.userData, ...deserializedFlexibleSideCakeVault.userData },
+    //         },
+    //       ]
+    //     : []
         // console.log('pools', [cakeAutoVault, ...cakeAutoFlexibleSideVault, ...withoutCakePool]);
         
 
     // 这个返回值就是cake池子，和其它的所有池子
-    return { pools: [cakeAutoVault, ...cakeAutoFlexibleSideVault, ...withoutCakePool], userDataLoaded }
+    return { pools: [...withoutCakePool], userDataLoaded }
+    // return { pools: [cakeAutoVault, ...cakeAutoFlexibleSideVault, ...withoutCakePool], userDataLoaded }
   },
 )
 

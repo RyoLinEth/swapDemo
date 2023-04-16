@@ -105,8 +105,6 @@ export const usePool = (sousId: number): { pool: Pool.DeserializedPool<Token>; u
 export const usePoolsWithVault = () => {
   // console.log('进入里面的刷新');
   const temp = useSelector(poolsWithVaultSelector)
-  console.log('进入里面的刷新2', temp);
-  
   return temp
 }
 

@@ -117,17 +117,17 @@ const useInitPoolHook = () => {
             };
           })
         ];
-        tempData.unshift({
-          sousId: 0, // 这个0，代表cake池子，即第一个池子
-          stakingToken: bscTokens.cake.serialize,
-          earningToken: bscTokens.cake?.serialize,
-          contractAddress: {
-            97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
-            56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
-          },
-          poolCategory: PoolCategory.CORE,
-          tokenPerBlock: '10',
-        },);
+        // tempData.unshift({
+        //   sousId: 0, // 这个0，代表cake池子，即第一个池子
+        //   stakingToken: bscTokens.cake.serialize,
+        //   earningToken: bscTokens.cake?.serialize,
+        //   contractAddress: {
+        //     97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
+        //     56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
+        //   },
+        //   poolCategory: PoolCategory.CORE,
+        //   tokenPerBlock: '10',
+        // },);
         // @ts-ignore
         allPool.pools = tempData;
         batch(() => {

@@ -44,7 +44,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   const { pools, userDataLoaded } = usePoolsWithVault()
   // console.log('前面的pools', pools, allPool);
 
-  // usePoolsPageFetch()
+  usePoolsPageFetch()
 
   // console.log('pools', account, pools, userDataLoaded);
 
@@ -90,7 +90,8 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 <CardLayout>
                   {chosenPools.map((pool) =>
                     pool.vaultKey ? (
-                      <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
+                      // <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
+                      <></>
                     ) : (
                       <Pool.PoolCard<Token>
                         key={pool.sousId}
@@ -126,12 +127,13 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 <Pool.PoolsTable>
                   {chosenPools.map((pool) =>
                     pool.vaultKey ? (
-                      <VaultPoolRow
-                        initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
-                        key={pool.vaultKey}
-                        vaultKey={pool.vaultKey}
-                        account={account}
-                      />
+                      <></>
+                      // <VaultPoolRow
+                      //   initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
+                      //   key={pool.vaultKey}
+                      //   vaultKey={pool.vaultKey}
+                      //   account={account}
+                      // />
                     ) : (
                       <PoolRow
                         initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
