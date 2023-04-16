@@ -73,18 +73,18 @@ export const vaultPoolConfig = {
 
 // 进行中的池子
 export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
-  {
-    sousId: 0, // 这个0，代表cake池子，即第一个池子
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.cake,
-    contractAddress: {
-      97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
-      56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '10',
-    isFinished: false,
-  },
+  // {
+  //   sousId: 0, // 这个0，代表cake池子，即第一个池子
+  //   stakingToken: bscTokens.cake,
+  //   earningToken: bscTokens.cake,
+  //   contractAddress: {
+  //     97: '0xB4A466911556e39210a6bB2FaECBB59E4eB7E43d',
+  //     56: '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652',
+  //   },
+  //   poolCategory: PoolCategory.CORE,
+  //   tokenPerBlock: '10',
+  //   isFinished: false,
+  // },
   // {
   //   sousId: 999,
   //   stakingToken: bscTokens.StakingToken, // 质押的Token
@@ -97,18 +97,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
   //   version: 3, // 版本，也不知道有什么用处
   // },
-  // {
-  //   sousId: 323,
-  //   stakingToken: bscTokens.cake, // 质押的Token
-  //   earningToken: bscTokens.sd, // 赚取的Token
-  //   contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
-  //     56: '0xaEC63F134a7853C6DaC9BA428d7962cD7C6c5e30',
-  //     97: '',
-  //   },
-  //   poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
-  //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
-  //   version: 3, // 版本，也不知道有什么用处
-  // },
+  {
+    sousId: 323,
+    stakingToken: bscTokens.cake, // 质押的Token
+    earningToken: bscTokens.sd, // 赚取的Token
+    contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
+      56: '0xaEC63F134a7853C6DaC9BA428d7962cD7C6c5e30',
+      97: '',
+    },
+    poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
+    tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
+    version: 3, // 版本，也不知道有什么用处
+  },
   // {
   //   sousId: 322,
   //   stakingToken: bscTokens.cake,

@@ -176,6 +176,7 @@ export const fetchPoolsPublicDataAsync =
             }).length > 0
         )
       })
+      // const a = 
       const poolsWithDifferentFarmToken =
         activePriceHelperLpsConfig.length > 0 ? await fetchFarms(priceHelperLpsConfig, chainId) : []
       const farmsData = getState().farms.data
@@ -192,7 +193,10 @@ export const fetchPoolsPublicDataAsync =
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
       // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement、apr 参数
-      const liveData = poolsConfig.map((pool) => {
+      let liveData = [];
+      for (let i = 0; i < poolsConfig.length; i++) {
+        const pool = poolsConfig?.[i];
+      // const liveData = poolsConfig.map((pool) => {
         const blockLimit = blockLimitsSousIdMap[pool.sousId]
         const totalStaking = totalStakingsSousIdMap[pool.sousId]
         const isPoolEndBlockExceeded =
@@ -201,10 +205,19 @@ export const fetchPoolsPublicDataAsync =
 
         const stakingTokenAddress = isAddress(pool.stakingToken.address)
         // 价格是从上面的prices数组里面去读取
-        const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
-
+        let stakingTokenPrice = 0
+        if (stakingTokenAddress) {
+          let tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${stakingTokenAddress}`).then(response => response.json());
+          stakingTokenPrice = tempRes?.pairs?.[0]?.priceUsd
+        }
+        // const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
         const earningTokenAddress = isAddress(pool.earningToken.address)
-        const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
+        let earningTokenPrice = 0
+        if (earningTokenAddress) {
+          let tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${earningTokenAddress}`).then(response => response.json());
+          earningTokenPrice = tempRes?.pairs?.[0]?.priceUsd
+        }
+        // const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
         // 获取当前pool的apr
         const apr = !isPoolFinished
           ? getPoolApr(
@@ -217,7 +230,7 @@ export const fetchPoolsPublicDataAsync =
 
         const profileRequirement = profileRequirements[pool.sousId] ? profileRequirements[pool.sousId] : undefined
 
-        return {
+        liveData.push({
           ...blockLimit,
           ...totalStaking,
           profileRequirement,
@@ -225,8 +238,44 @@ export const fetchPoolsPublicDataAsync =
           earningTokenPrice,
           apr,
           isFinished: isPoolFinished,
-        }
-      })
+        })
+      // })
+    }
+      // const liveData = poolsConfig.map((pool) => {
+      //   const blockLimit = blockLimitsSousIdMap[pool.sousId]
+      //   const totalStaking = totalStakingsSousIdMap[pool.sousId]
+      //   const isPoolEndBlockExceeded =
+      //     currentBlock > 0 && blockLimit ? currentBlock > Number(blockLimit.endBlock) : false
+      //   const isPoolFinished = pool.isFinished || isPoolEndBlockExceeded
+
+      //   const stakingTokenAddress = isAddress(pool.stakingToken.address)
+      //   // 价格是从上面的prices数组里面去读取
+      //   const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
+
+      //   const earningTokenAddress = isAddress(pool.earningToken.address)
+      //   const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
+      //   // 获取当前pool的apr
+      //   const apr = !isPoolFinished
+      //     ? getPoolApr(
+      //         stakingTokenPrice,
+      //         earningTokenPrice,
+      //         getBalanceNumber(new BigNumber(totalStaking.totalStaked), pool.stakingToken.decimals),
+      //         parseFloat(pool.tokenPerBlock),
+      //       )
+      //     : 0
+
+      //   const profileRequirement = profileRequirements[pool.sousId] ? profileRequirements[pool.sousId] : undefined
+
+      //   return {
+      //     ...blockLimit,
+      //     ...totalStaking,
+      //     profileRequirement,
+      //     stakingTokenPrice,
+      //     earningTokenPrice,
+      //     apr,
+      //     isFinished: isPoolFinished,
+      //   }
+      // })
 
       dispatch(setPoolsPublicData(liveData))
     } catch (error) {

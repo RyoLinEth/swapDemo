@@ -90,8 +90,8 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 <CardLayout>
                   {chosenPools.map((pool) =>
                     pool.vaultKey ? (
-                      <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
-                      // <></>
+                      // <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
+                      <></>
                     ) : (
                       <Pool.PoolCard<Token>
                         key={pool.sousId}
