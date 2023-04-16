@@ -54,7 +54,7 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
     userData,
   } = useVaultPoolByKey(vaultKey)
 
-  const tokenAddress = earningToken.address || ''
+  const tokenAddress = earningToken?.address || ''
   const poolContractAddress = getAddress(contractAddress)
   const cakeVaultContractAddress = getVaultPoolAddress(vaultKey)
 

@@ -155,6 +155,12 @@ yarn turbo run build --filter=blog
 >+ Token相关
 >   + Token图标: 所有页面Token对应的挖矿页面的图标(图标需要有一个svg一个png,并且需要用token的名字做后缀): apps\web\public\images\tokens
 
+>+ 合约读取池子思路: 下面思路如果走不通，就需要去修改selector里面的池子数据，直接初始化它，说不定就行了
+> + 最上层页面，调用hook，然后从合约中读取所有的池子
+> + 之前的池子配置文件，导出变量allPool，把合约中国读出来的池子放到allPool上
+>+ 修改之前所有使用pool的地方，改为自己的这个allPool上的值
+>+ 需要注意，修改了allPool之后，函数外层定义的变量不会被修改，所以，对于赋值 pools = allPool.pools的地方，要全部把他替换到函数内部去
+
 ## 4 Farm农场页面
 
 >+ 单币质押挖矿页面Farm:

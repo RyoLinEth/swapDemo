@@ -1,15 +1,20 @@
 import { formatUnits } from '@ethersproject/units'
-import pools from 'config/constants/pools'
+// import pools from 'config/constants/pools'
+import {allPool} from 'config/constants/pools'
 import { getSouschefContract, getSouschefV2Contract } from 'utils/contractHelpers'
 import { describe, it } from 'vitest'
+
+// const pools = allPool.pools
 
 // Pool 0 is special (cake pool)
 // Pool 78 is a broken pool, not used, and break the tests
 const idsToRemove = [0, 78]
 // Test only against the last 10 pools, for performance concern
-const poolsToTest = pools.filter((pool) => !idsToRemove.includes(pool.sousId)).slice(0, 10)
+// const poolsToTest = pools.filter((pool) => !idsToRemove.includes(pool.sousId)).slice(0, 10)
 
 describe.concurrent('Config pools', () => {
+  const pools = allPool.pools
+  const poolsToTest = pools.filter((pool) => !idsToRemove.includes(pool.sousId)).slice(0, 10)
   it.each(pools.map((pool) => pool.sousId))('Pool #%d has an unique sousId', (sousId) => {
     const duplicates = pools.filter((p) => sousId === p.sousId)
     expect(duplicates).toHaveLength(1)

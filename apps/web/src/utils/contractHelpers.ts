@@ -2,9 +2,13 @@ import type { Signer } from '@ethersproject/abstract-signer'
 import type { Provider } from '@ethersproject/providers'
 import { provider } from 'utils/wagmi'
 import { Contract } from '@ethersproject/contracts'
-import poolsConfig from 'config/constants/pools'
+// import poolsConfig from 'config/constants/pools'
 import { PoolCategory } from 'config/constants/types'
 import { CAKE } from '@pancakeswap/tokens'
+
+import {allPool} from 'config/constants/pools'
+
+// const poolsConfig = allPool.pools
 
 // Addresses
 import {
@@ -193,11 +197,13 @@ export const getMMLinkedPoolContract = (signer?: Signer | Provider, chainId?: nu
   return getContract({ abi: mmLinkedPoolAbi, address: getMMLinkedPoolAddress(chainId), signer }) as MmLinkedPool
 }
 export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
+  const poolsConfig = allPool.pools
   const config = poolsConfig.find((pool) => pool.sousId === id)
   const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
   return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
 }
 export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
+  const poolsConfig = allPool.pools
   const config = poolsConfig.find((pool) => pool.sousId === id)
   return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
 }

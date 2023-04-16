@@ -1,4 +1,4 @@
-import poolsConfig from 'config/constants/pools'
+// import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import erc20ABI from 'config/abi/erc20.json'
 import multicall, { multicallv3 } from 'utils/multicall'
@@ -9,15 +9,23 @@ import fromPairs from 'lodash/fromPairs'
 import multiCallAbi from 'config/abi/Multicall.json'
 import { ChainId } from '@pancakeswap/sdk'
 
+import {allPool} from 'config/constants/pools'
+
+// const poolsConfig = allPool.pools
+
 // Pool 0, Cake / Cake is a different kind of contract (master chef)
 // BNB pools use the native BNB token (wrapping ? unwrapping is done at the contract level)
-const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
-const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
-const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
+// const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
+// const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+// const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
 
 const multicallAddress = getMulticallAddress()
 
 export const fetchPoolsAllowance = async (account, chainId = ChainId.BSC) => {
+  const poolsConfig = allPool.pools
+  const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
+  const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
   const calls = nonBnbPools.map((pool) => ({
     address: pool.stakingToken.address,
     name: 'allowance',
@@ -29,6 +37,10 @@ export const fetchPoolsAllowance = async (account, chainId = ChainId.BSC) => {
 }
 
 export const fetchUserBalances = async (account, chainId = ChainId.BSC) => {
+  const poolsConfig = allPool.pools
+  const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
+  const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
   // Non BNB pools
   const tokens = uniq(nonBnbPools.map((pool) => pool.stakingToken.address))
   const tokenBalanceCalls = tokens.map((token) => ({
@@ -64,6 +76,10 @@ export const fetchUserBalances = async (account, chainId = ChainId.BSC) => {
 }
 
 export const fetchUserStakeBalances = async (account, chainId = ChainId.BSC) => {
+  const poolsConfig = allPool.pools
+  const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
+  const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
   const calls = nonMasterPools.map((p) => ({
     address: getAddress(p.contractAddress, chainId),
     name: 'userInfo',
@@ -76,6 +92,10 @@ export const fetchUserStakeBalances = async (account, chainId = ChainId.BSC) => 
 }
 
 export const fetchUserPendingRewards = async (account, chainId = ChainId.BSC) => {
+  const poolsConfig = allPool.pools
+  const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
+  const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
   const calls = nonMasterPools.map((p) => ({
     address: getAddress(p.contractAddress, chainId),
     name: 'pendingReward',

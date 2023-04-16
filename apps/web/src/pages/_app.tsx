@@ -23,7 +23,7 @@ import { PageMeta } from 'components/Layout/Page'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
-import pools from 'config/constants/pools'
+import pools, {allPool} from 'config/constants/pools'
 import { Blocklist, Updaters } from '..'
 import { SEO } from '../../next-seo.config'
 import { SentryErrorBoundary } from '../components/ErrorBoundary'
@@ -160,7 +160,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   useEffect(() => {
     const data = sessionStorage.getItem('pool');
     if (data) {
-      console.log('data');
+      allPool.pools = JSON.parse(data)
+      console.log('首页data');
     } else {
       initPool()
     }
@@ -173,8 +174,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const Layout = Component.Layout || Fragment
   const ShowMenu = Component.mp ? Fragment : Menu
   const isShowScrollToTopButton = Component.isShowScrollToTopButton || true
-
-  console.log('进入app', pools);
 
   return (
     <ProductionErrorBoundary>

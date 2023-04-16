@@ -9,6 +9,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { Token } from '@pancakeswap/sdk'
 import { TokenPairImage } from 'components/TokenImage'
 
+import {allPool} from 'config/constants/pools'
 import CardActions from './components/PoolCard/CardActions'
 import AprRow from './components/PoolCard/AprRow'
 import CardFooter from './components/PoolCard/CardFooter'
@@ -41,9 +42,9 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   const { address: account } = useAccount()
   // 为所有的池子,已结束的池子和正在进行中的池子,都是这个pool,这里面是所有池子的全量数据
   const { pools, userDataLoaded } = usePoolsWithVault()
-  // console.log('获取池子', pools);
+  // console.log('前面的pools', pools, allPool);
 
-  usePoolsPageFetch()
+  // usePoolsPageFetch()
 
   // console.log('pools', account, pools, userDataLoaded);
 

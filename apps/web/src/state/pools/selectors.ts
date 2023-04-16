@@ -24,6 +24,8 @@ export const makePoolWithUserDataLoadingSelector = (sousId) =>
 export const poolsWithUserDataLoadingSelector = createSelector(
   [selectPoolsData, selectUserDataLoaded],
   (pools, userDataLoaded) => {
+    console.log('pools', pools);
+    
     // transformPool处理pools里面的所有数据，比如给pools加上一些字断之类的。不过也不是加太多的参数，大多数的参数还是在reducer的setPoolsPublicData里面添加的
     return { pools: pools.map(transformPool), userDataLoaded }
   },
@@ -49,6 +51,7 @@ export const poolsWithVaultSelector = createSelector(
     makeVaultPoolByKey(VaultKey.CakeFlexibleSideVault),// 获取灵活锁仓池子的配置；反序列化CakeFlexibleSideVault = 'cakeFlexibleSideVault', 还不知道是干嘛的
   ],
   (poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault) => {
+    console.log('poolselect6', poolsWithUserDataLoading, deserializedLockedCakeVault, deserializedFlexibleSideCakeVault);
     const { pools, userDataLoaded } = poolsWithUserDataLoading
     // 初始得cakePool，质押自己挖自己
     const cakePool = pools.find((pool) => !pool.isFinished && pool.sousId === 0)
@@ -59,7 +62,7 @@ export const poolsWithVaultSelector = createSelector(
       ...cakePool,
       ...deserializedLockedCakeVault,
       vaultKey: VaultKey.CakeVault,
-      userData: { ...cakePool.userData, ...deserializedLockedCakeVault.userData },
+      userData: { ...cakePool?.userData, ...deserializedLockedCakeVault?.userData },
     }
 
     // 当前池子pool的锁仓状态
@@ -82,7 +85,7 @@ export const poolsWithVaultSelector = createSelector(
               ...cakePool,
               ...deserializedFlexibleSideCakeVault,
               vaultKey: VaultKey.CakeFlexibleSideVault,
-              userData: { ...cakePool.userData, ...deserializedFlexibleSideCakeVault.userData },
+              userData: { ...cakePool?.userData, ...deserializedFlexibleSideCakeVault.userData },
             },
           ]
         : []

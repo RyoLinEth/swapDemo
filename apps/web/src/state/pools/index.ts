@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import keyBy from 'lodash/keyBy'
-import poolsConfig from 'config/constants/pools'
+// import poolsConfig from 'config/constants/pools'
 import {
   PoolsState,
   SerializedPool,
@@ -23,6 +23,7 @@ import { isAddress } from 'utils'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { bscRpcProvider } from 'utils/providers'
 import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps/index'
+import {allPool} from 'config/constants/pools'
 import fetchFarms from '../farms/fetchFarms'
 import getFarmsPrices from '../farms/getFarmsPrices'
 import {
@@ -42,6 +43,8 @@ import { getTokenPricesFromFarm } from './helpers'
 import { resetUserState } from '../global/actions'
 import { fetchUserIfoCredit, fetchPublicIfoData } from './fetchUserIfo'
 import { fetchVaultUser, fetchFlexibleSideVaultUser } from './fetchVaultUser'
+
+// const poolsConfig = allPool.pools
 
 // 池子初始的所有数据，这个应该是样式数据之类的
 export const initialPoolVaultState = Object.freeze({
@@ -78,17 +81,18 @@ export const initialIfoState = Object.freeze({
 })
 
 // 池子初始的所有数据
-const initialState: PoolsState = {
-  data: [...poolsConfig], // 所有池子的数据
-  userDataLoaded: false, // 是否加载了用户数据，用户钱包登陆之后，这个值为true
-  cakeVault: initialPoolVaultState,
-  ifo: initialIfoState,
-  cakeFlexibleSideVault: initialPoolVaultState,
-}
+// const initialState: PoolsState = {
+//   data: [...poolsConfig], // 所有池子的数据
+//   userDataLoaded: false, // 是否加载了用户数据，用户钱包登陆之后，这个值为true
+//   cakeVault: initialPoolVaultState,
+//   ifo: initialIfoState,
+//   cakeFlexibleSideVault: initialPoolVaultState,
+// }
 
 const cakeVaultAddress = getCakeVaultAddress()
 
 export const fetchCakePoolPublicDataAsync = () => async (dispatch, getState) => {
+  const poolsConfig = allPool.pools
   const farmsData = getState().farms.data
   const prices = getTokenPricesFromFarm(farmsData)
 
@@ -139,6 +143,7 @@ export const fetchCakePoolUserDataAsync = (account: string, chainId: number = Ch
 // 从质押合约里面读取，给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
 export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
+    const poolsConfig = allPool.pools
     try {
       console.log('调用合约之前');
       // 只有进行中的池子，会调用这个函数
@@ -228,6 +233,7 @@ export const fetchPoolsStakingLimitsAsync = (chainId: number = ChainId.BSC) => a
   const poolsWithStakingLimit = getState()
     .pools.data.filter(({ stakingLimit }) => stakingLimit !== null && stakingLimit !== undefined)
     .map((pool) => pool.sousId)
+    const poolsConfig = allPool.pools
 
   try {
     const stakingLimits = await fetchPoolsStakingLimits(poolsWithStakingLimit, chainId)
@@ -265,6 +271,7 @@ export const fetchPoolsUserDataAsync = createAsyncThunk<
       fetchUserStakeBalances(account, chainId),
       fetchUserPendingRewards(account, chainId),
     ])
+    const poolsConfig = allPool.pools
 
     const userData = poolsConfig.map((pool) => ({
       sousId: pool.sousId,
@@ -361,6 +368,14 @@ export const fetchUserIfoCreditDataAsync = (account: string) => async (dispatch)
     console.error('[Ifo Credit Action] Error fetching user Ifo credit data', error)
   }
 }
+// 初始化pool的数据，从合约中直接拉取
+export const setInitPoolsData = (data: any) => async (dispatch) => {
+  try {
+    dispatch(setInitData(data))
+  } catch (error) {
+    console.error('[Ifo Credit Action] Error fetching user Ifo credit data', error)
+  }
+}
 export const fetchCakeFlexibleSideVaultUserData = createAsyncThunk<SerializedVaultUser, { account: string }>(
   'cakeFlexibleSideVault/fetchUser',
   async ({ account }) => {
@@ -372,7 +387,13 @@ export const fetchCakeFlexibleSideVaultUserData = createAsyncThunk<SerializedVau
 // 池子Pools的reducer，存所有的数据
 export const PoolsSlice = createSlice({
   name: 'Pools',
-  initialState,
+  initialState: {
+    data: [...allPool.pools], // 所有池子的数据
+    userDataLoaded: false, // 是否加载了用户数据，用户钱包登陆之后，这个值为true
+    cakeVault: initialPoolVaultState,
+    ifo: initialIfoState,
+    cakeFlexibleSideVault: initialPoolVaultState,
+  },
   reducers: {
     setPoolPublicData: (state, action) => {
       const { sousId } = action.payload
@@ -401,6 +422,13 @@ export const PoolsSlice = createSlice({
         const livePoolData = livePoolsSousIdMap[pool.sousId]
         return { ...pool, ...livePoolData }
       })
+    },
+    setInitData: (state, action) => {
+      console.log('init', action);
+      // 初始化data里面的所有数据。通过从合约里面读取，然后再来进行初始化，应该就可以了
+      state.data = [
+        ...action.payload
+      ]
     },
     // IFO
     setIfoUserCreditData: (state, action) => {
@@ -497,6 +525,6 @@ export const PoolsSlice = createSlice({
 })
 
 // Actions
-export const { setPoolsPublicData, setPoolPublicData, setPoolUserData, setIfoUserCreditData } = PoolsSlice.actions
+export const { setPoolsPublicData, setPoolPublicData, setPoolUserData, setIfoUserCreditData, setInitData } = PoolsSlice.actions
 
 export default PoolsSlice.reducer

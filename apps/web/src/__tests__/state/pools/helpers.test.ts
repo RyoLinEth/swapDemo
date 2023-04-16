@@ -1,9 +1,12 @@
 import { SerializedWrappedToken } from '@pancakeswap/token-lists'
 import { Pool } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
-import poolsConfig from 'config/constants/pools'
+// import poolsConfig from 'config/constants/pools'
+import {allPool} from 'config/constants/pools'
 import { transformPool, transformUserData } from 'state/pools/helpers'
 import { SerializedPool } from 'state/types'
+
+// const poolsConfig = allPool.pools
 
 describe('transformUserData', () => {
   it.each([
@@ -50,6 +53,7 @@ describe('transformUserData', () => {
 })
 
 describe('transformPool', () => {
+  const poolsConfig = allPool.pools
   // Transform pool object with the sous id for a label. For display purposes only.
   const poolTable: [number, Pool.SerializedPoolConfig<SerializedWrappedToken>][] = poolsConfig.map(
     (poolsConfigItem) => [poolsConfigItem.sousId, poolsConfigItem],

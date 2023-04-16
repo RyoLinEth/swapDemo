@@ -7,11 +7,12 @@ import { useFastRefreshEffect, useSlowRefreshEffect } from 'hooks/useRefreshEffe
 import { FAST_INTERVAL } from 'config/constants'
 import useSWRImmutable from 'swr/immutable'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
-import { livePools } from 'config/constants/pools'
+// import { livePools } from 'config/constants/pools'
 import { Pool } from '@pancakeswap/uikit'
 import { Token } from '@pancakeswap/sdk'
 
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import {allPool} from 'config/constants/pools'
 import {
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
@@ -38,10 +39,16 @@ import {
   makeVaultPoolWithKeySelector,
 } from './selectors'
 
-const lPoolAddresses = livePools.filter(({ sousId }) => sousId !== 0).map(({ earningToken }) => earningToken.address)
+
+// const poolsConfig = allPool.pools
+
+// const lPoolAddresses = poolsConfig.filter(({ sousId, isFinished }) => sousId !== 0 && !isFinished).map(({ earningToken }) => earningToken.address)
+// const lPoolAddresses = livePools.filter(({ sousId }) => sousId !== 0).map(({ earningToken }) => earningToken.address)
 
 // Only fetch farms for live pools
 const getActiveFarms = async (chainId: number) => {
+  const poolsConfig = allPool.pools
+const lPoolAddresses = poolsConfig.filter(({ sousId, isFinished }) => sousId !== 0 && !isFinished).map(({ earningToken }) => earningToken.address)
   const farmsConfig = await getFarmConfig(chainId)
   return farmsConfig
     .filter(
@@ -96,7 +103,11 @@ export const usePool = (sousId: number): { pool: Pool.DeserializedPool<Token>; u
 
 // 所有的池子Pool的数据。包含已结束和未结束的
 export const usePoolsWithVault = () => {
-  return useSelector(poolsWithVaultSelector)
+  // console.log('进入里面的刷新');
+  const temp = useSelector(poolsWithVaultSelector)
+  console.log('进入里面的刷新2', temp);
+  
+  return temp
 }
 
 export const useDeserializedPoolByVaultKey = (vaultKey) => {
