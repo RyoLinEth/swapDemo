@@ -2,18 +2,21 @@ import React, { Fragment, useState, useEffect } from "react";
 import { ethers } from 'ethers'
 import { ChainId, ERC20Token } from "@pancakeswap/sdk";
 import {allPool} from 'config/constants/pools'
-import CreatePoolABI from './pools/ABI/CreatePool.json';
-import TokenABI from './pools/ABI/TokenABI.json'
 import { PoolCategory } from "@pancakeswap/uikit/src/widgets/Pool";
 import { bscTokens } from "@pancakeswap/tokens";
 import { batch, useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
 import { setInitPoolsData } from "state/pools";
+import { useActiveChainId } from "hooks/useActiveChainId";
+import TokenABI from './pools/ABI/TokenABI.json'
+import CreatePoolABI from './pools/ABI/CreatePool.json';
 
 const CreatePoolContract = "0xdFfbd6df5C039B27096e760fFD5B734dc33368F3"
 
 const useInitPoolHook = () => {
     const dispatch = useAppDispatch()
+
+    const chainId = useActiveChainId()
 
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
@@ -27,6 +30,7 @@ const useInitPoolHook = () => {
     const [isInit, setIsInit] = useState(false);
 
     const filterData = async (poolsData, _provider, _tempSigner) => {
+      const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId;
       try {
         let block = await _provider.getBlock("latest", false, true);
         console.log("Filtering")
@@ -49,7 +53,7 @@ const useInitPoolHook = () => {
             //   'Binance USD',
             // )
             const a = new ERC20Token(
-              ChainId.BSC_TESTNET,
+              tempChainId,
               tempStakingToken,
               decimals,
               name,
@@ -62,7 +66,7 @@ const useInitPoolHook = () => {
             const symbol2 = await tempTokenContract2.symbol();
             const decimals2 = await tempTokenContract2.decimals();
             // const b = new ERC20Token(
-            //   ChainId.BSC_TESTNET,
+            //   tempChainId,
             //   '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5',
             //   18,
             //   'BAKE',
@@ -70,7 +74,7 @@ const useInitPoolHook = () => {
             //   'https://www.bakeryswap.org/',
             // )
             const b = new ERC20Token(
-              ChainId.BSC_TESTNET,
+              tempChainId,
               tempEarningToken,
               decimals2,
               name2,
