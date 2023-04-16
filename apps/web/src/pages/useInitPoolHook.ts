@@ -25,10 +25,8 @@ const useInitPoolHook = () => {
 
     const [blockNumber, setBlockNumber] = useState(0);
     const [isInit, setIsInit] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     const filterData = async (poolsData, _provider, _tempSigner) => {
-      if (isInit) return;
       try {
         let block = await _provider.getBlock("latest", false, true);
         console.log("Filtering")
@@ -135,11 +133,11 @@ const useInitPoolHook = () => {
         })
         sessionStorage.setItem('pool', JSON.stringify(tempData));
         setIsInit(true)
-        setIsLoading(false);
+        window.isLoadingPool = false;
+        window.isInitPool = true;
 
       } catch(err) {
-        console.log('err', err);
-        setIsLoading(false);
+        window.isLoadingPool = false;
       }
       // {
       //   sousId: 0, // 这个0，代表cake池子，即第一个池子
@@ -158,7 +156,6 @@ const useInitPoolHook = () => {
 
     const updateEthers = async () => {
         try {
-          setIsLoading(true);
           let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
           setProvider(tempProvider);
 
@@ -171,21 +168,33 @@ const useInitPoolHook = () => {
           let poolsData = await tempContract.viewSmartChef()
           if (poolsData !== null) {
             filterData(poolsData, tempProvider, tempSigner)
+            return;
           }
+          window.isLoadingPool = false;
         } catch(err) {
-          console.log('666', err);
-          setIsLoading(false);
+          window.isLoadingPool = false;
         }
     }
 
     const initPool = () => {
+      // 如果已经初始化过了，就直接return
+      if (window.isInitPool) {
+        return;
+      }
       debugger
       const data = sessionStorage.getItem('pool');
+      // 如果值存到了session里面，就从session里面读值，来初始化 state；并且把初始化状态改为true
       if (data) {
+        allPool.pools = JSON.parse(data);
+        batch(() => {
+          dispatch(setInitPoolsData(JSON.parse(data)))
+        })
+        window.isInitPool = true;
         console.log('输出', data);
         return;
       }
-      if (!isLoading) {
+      if (!window.isLoadingPool) {
+        window.isLoadingPool = true;
         updateEthers()
       }
     }

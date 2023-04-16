@@ -158,13 +158,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const {initPool, isInit} = useInitPoolHook();
 
   useEffect(() => {
-    const data = sessionStorage.getItem('pool');
-    if (data) {
-      allPool.pools = JSON.parse(data)
-      console.log('首页data');
-    } else {
-      initPool()
-    }
+    initPool()
   }, [isInit]);
   if (Component.pure) {
     return <Component {...pageProps} />

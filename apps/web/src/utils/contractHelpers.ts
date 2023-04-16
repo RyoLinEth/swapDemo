@@ -199,12 +199,12 @@ export const getMMLinkedPoolContract = (signer?: Signer | Provider, chainId?: nu
 export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
   const poolsConfig = allPool.pools
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
+  const abi = config?.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
   return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
 }
 export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
   const poolsConfig = allPool.pools
-  const config = poolsConfig.find((pool) => pool.sousId === id)
+  const config = poolsConfig?.find((pool) => pool.sousId === id)
   return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
 }
 
