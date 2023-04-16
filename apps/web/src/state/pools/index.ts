@@ -143,6 +143,7 @@ export const fetchCakePoolUserDataAsync = (account: string, chainId: number = Ch
 // 从质押合约里面读取，给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
 export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
+    debugger
     const poolsConfig = allPool.pools
     try {
       console.log('调用合约之前');
@@ -158,6 +159,7 @@ export const fetchPoolsPublicDataAsync =
       const blockLimitsSousIdMap = keyBy(blockLimits, 'sousId')
       const totalStakingsSousIdMap = keyBy(totalStakings, 'sousId')
 
+      // 获取所有lp价格的config。这里是直接获取的在pancake上面有的lp的。处理apr和代币price的都是在这里面
       const priceHelperLpsConfig = getPoolsPriceHelperLpFiles(chainId)
       const activePriceHelperLpsConfig = priceHelperLpsConfig.filter((priceHelperLpConfig) => {
         return (
@@ -177,6 +179,7 @@ export const fetchPoolsPublicDataAsync =
       const poolsWithDifferentFarmToken =
         activePriceHelperLpsConfig.length > 0 ? await fetchFarms(priceHelperLpsConfig, chainId) : []
       const farmsData = getState().farms.data
+      // bnb或者busd池子
       const bnbBusdFarm =
         activePriceHelperLpsConfig.length > 0
           ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
@@ -185,9 +188,10 @@ export const fetchPoolsPublicDataAsync =
         ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
         : []
 
+        // 所有价格的数组
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
-      // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
+      // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement、apr 参数
       const liveData = poolsConfig.map((pool) => {
         const blockLimit = blockLimitsSousIdMap[pool.sousId]
         const totalStaking = totalStakingsSousIdMap[pool.sousId]
@@ -196,10 +200,12 @@ export const fetchPoolsPublicDataAsync =
         const isPoolFinished = pool.isFinished || isPoolEndBlockExceeded
 
         const stakingTokenAddress = isAddress(pool.stakingToken.address)
+        // 价格是从上面的prices数组里面去读取
         const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
 
         const earningTokenAddress = isAddress(pool.earningToken.address)
         const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
+        // 获取当前pool的apr
         const apr = !isPoolFinished
           ? getPoolApr(
               stakingTokenPrice,

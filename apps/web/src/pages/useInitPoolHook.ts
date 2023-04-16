@@ -33,7 +33,6 @@ const useInitPoolHook = () => {
       const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId;
       try {
         let block = await _provider.getBlock("latest", false, true);
-        console.log("Filtering")
         const tempRunningPool = [];
         const tempEndPool = [];
         for (let i = 0; i < poolsData.length; i++) {
@@ -101,7 +100,7 @@ const useInitPoolHook = () => {
                 56: item?.[3],
               },
               poolCategory: item?.[4],
-              tokenPerBlock: ethers.utils.formatEther(item?.[5]),
+              tokenPerBlock: ethers.utils.formatUnits(item?.[5], '9'),
             };
           }),
           ...tempEndPool.map(item => {
@@ -114,7 +113,8 @@ const useInitPoolHook = () => {
                 56: item?.[3],
               },
               poolCategory: item?.[4],
-              tokenPerBlock: ethers.utils.formatEther(item?.[5]),
+              // TODO: 此处的精度可能是需要进行修改的
+              tokenPerBlock: ethers.utils.formatUnits(item?.[5], '9'),
               isFinished: true, // 表示结束状态的字断
             };
           })
@@ -185,7 +185,6 @@ const useInitPoolHook = () => {
       if (window.isInitPool) {
         return;
       }
-      debugger
       const data = sessionStorage.getItem('pool');
       // 如果值存到了session里面，就从session里面读值，来初始化 state；并且把初始化状态改为true
       if (data) {
@@ -194,7 +193,6 @@ const useInitPoolHook = () => {
           dispatch(setInitPoolsData(JSON.parse(data)))
         })
         window.isInitPool = true;
-        console.log('输出', data);
         return;
       }
       if (!window.isLoadingPool) {

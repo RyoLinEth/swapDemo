@@ -140,14 +140,16 @@ yarn turbo run build --filter=blog
 >+ 单币质押挖矿页面Pool:
 >   + 包裹下面PoolControls内容的外层页面,这个页面没什么逻辑,只传入一个pool: apps\web\src\views\Pools\index.tsx
 >   + Pool最上面的search条件和下面列表的内容区主wrapper,和对应的pool列表的数据处理: packages\uikit\src\widgets\Pool\PoolControls.tsx
+>   + 年利率组件(Pool最上面展示的年利率)：packages\uikit\src\widgets\Pool\Apr.tsx
 
 >+ 数据相关： 所有页面，pool和farm页面的所有reducer，apps\web\src\state\index.ts
->   + 存所有数据的Pool的reducer，state的key为pools： apps\web\src\state\pools\index.ts
+>   + 存**所有数据的Pool的reducer**，state的key为pools,和**从合约里面读取所有代币和pool相关的数据**： apps\web\src\state\pools\index.ts
+>     + 给基础的**pool数据增加页面要用的其它数据**：fetchPoolsPublicDataAsync方法。如增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement、apr，代币价格 参数
+>       + 上面的那个函数中调用，类似service，**从合约里面读取pool相关的各种参数，具体的一些方法**：apps\web\src\state\pools\fetchPools.ts
 >   + 从reducer的state里面获取pool数据的selector： apps\web\src\state\pools\selectors.ts
 >   + **配置所有池子的配置文件**，结束的池子和未结束的池子都是这里：apps\web\src\config\constants\pools.tsx
 
 >+ 合约交互操作：
->   + 类似service，从合约里面读取pool相关的各种参数：apps\web\src\state\pools\fetchPools.ts
 >   + pool交互相关abi配置：apps\web\src\config\abi\sousChef.json
 
 > 每一个pool都会调用setPoolsPublicData方法，来初始化质押相关的参数，这些都是从质押合约里面读出来的

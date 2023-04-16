@@ -32,6 +32,7 @@ interface AprProps<T> extends FlexProps {
   autoCompoundFrequency: number;
 }
 
+// 年利率组件
 export function Apr<T>({
   pool,
   showIcon,
@@ -90,6 +91,7 @@ export function Apr<T>({
         <>
           {shouldShowApr ? (
             <>
+            {/* 显示年利率数字的组件 */}
               <BalanceWithLoading
                 onClick={(event) => {
                   if (!showIcon) return;
@@ -102,6 +104,7 @@ export function Apr<T>({
                 unit="%"
               />
               {!isFinished && showIcon && (
+                // 计算年记录的计算器按钮
                 <Button onClick={openRoiModal} variant="text" width="20px" height="20px" padding="0px" marginLeft="4px">
                   <CalculateIcon color="textSubtle" width="20px" />
                 </Button>

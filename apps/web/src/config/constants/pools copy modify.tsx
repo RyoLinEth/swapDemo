@@ -133,18 +133,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   //   tokenPerBlock: '8.68',
   //   version: 3,
   // },
-  // {
-  //   sousId: 320,
-  //   stakingToken: bscTokens.cake,
-  //   earningToken: bscTokens.axlusdc,
-  //   contractAddress: {
-  //     56: '0x08287F4942A7B68DDb87D20Becd4fdadF4aE206e',
-  //     97: '',
-  //   },
-  //   poolCategory: PoolCategory.CORE,
-  //   tokenPerBlock: '0.0135',
-  //   version: 3,
-  // },
+  {
+    sousId: 320,
+    stakingToken: bscTokens.cake,
+    earningToken: bscTokens.axlusdc,
+    contractAddress: {
+      56: '0x08287F4942A7B68DDb87D20Becd4fdadF4aE206e',
+      97: '',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.0135',
+    version: 3,
+  },
   // {
   //   sousId: 306,
   //   stakingToken: bscTokens.cake,

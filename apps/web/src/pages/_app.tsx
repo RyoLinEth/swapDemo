@@ -155,11 +155,11 @@ type AppPropsWithLayout = AppProps & {
 const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const {initPool, isInit} = useInitPoolHook();
+  // const {initPool, isInit} = useInitPoolHook();
 
-  useEffect(() => {
-    initPool()
-  }, [isInit]);
+  // useEffect(() => {
+  //   // initPool()
+  // }, [isInit]);
   if (Component.pure) {
     return <Component {...pageProps} />
   }

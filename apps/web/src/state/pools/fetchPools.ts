@@ -14,8 +14,7 @@ import sousChefV2 from '../../config/abi/sousChefV2.json'
 import sousChefV3 from '../../config/abi/sousChefV3.json'
 
 
-
-// 从合约获取对应代币的开始区块和结束区块
+// 从合约获取对应代币的开始区块和结束区块。用来给基础的pool加上一些数据，来展示到页面上，在reducer的fetchPoolsPublicDataAsync方法中调用
 export const fetchPoolsBlockLimits = async (chainId: number = ChainId.BSC) => {
   const poolsConfig = allPool.pools
 
@@ -67,7 +66,7 @@ const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
 
 
 
-// 获取质押的Token的总数
+// 获取质押的Token的总数。用来给基础的pool加上一些数据，来展示到页面上，在reducer的fetchPoolsPublicDataAsync方法中调用
 export const fetchPoolsTotalStaking = async (chainId: number = ChainId.BSC) => {
   const poolsConfig = allPool.pools
   const poolsBalanceOf = poolsConfig.map((poolConfig) => {
@@ -77,7 +76,6 @@ export const fetchPoolsTotalStaking = async (chainId: number = ChainId.BSC) => {
       params: [getAddress(poolConfig.contractAddress, chainId)],
     }
   })
-  debugger
   console.log('调用fetchPoolsTotalStaking之前');
   const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf, chainId)
   console.log('调用fetchPoolsTotalStaking之后');
@@ -127,6 +125,7 @@ export const fetchPoolsStakingLimits = async (
   )
 }
 
+// 用来给基础的pool加上一些数据，来展示到页面上，在reducer的fetchPoolsPublicDataAsync方法中调用
 export const fetchPoolsProfileRequirement = async (chainId: number = ChainId.BSC): Promise<{
   [key: string]: {
     required: boolean
@@ -135,7 +134,6 @@ export const fetchPoolsProfileRequirement = async (chainId: number = ChainId.BSC
 }> => {
   const poolsConfig = allPool.pools
   const livePoolsWithV3 = poolsConfig.filter((pool) => pool?.version === 3 && !pool?.isFinished)
-  debugger
   console.log('调用fetchPoolsProfileRequirement之前');
   const poolProfileRequireCalls = livePoolsWithV3
   .map((validPool) => {

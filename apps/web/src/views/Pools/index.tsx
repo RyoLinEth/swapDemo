@@ -42,7 +42,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   const { address: account } = useAccount()
   // 为所有的池子,已结束的池子和正在进行中的池子,都是这个pool,这里面是所有池子的全量数据
   const { pools, userDataLoaded } = usePoolsWithVault()
-  // console.log('前面的pools', pools, allPool);
+  console.log('前面的pools', pools);
 
   usePoolsPageFetch()
 
@@ -90,25 +90,14 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 <CardLayout>
                   {chosenPools.map((pool) =>
                     pool.vaultKey ? (
-                      // <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
-                      <></>
+                      <CakeVaultCard key={pool.vaultKey} pool={pool} showStakedOnly={stakedOnly} />
+                      // <></>
                     ) : (
                       <Pool.PoolCard<Token>
                         key={pool.sousId}
                         pool={pool}
                         isStaked={Boolean(pool?.userData?.stakedBalance?.gt(0))}
-                        cardContent={
-                          account ? (
-                            <CardActions pool={pool} stakedBalance={pool?.userData?.stakedBalance} />
-                          ) : (
-                            <>
-                              <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
-                                {t('Start earning')}
-                              </Text>
-                              <ConnectWalletButton />
-                            </>
-                          )
-                        }
+                        // 池子顶部卡片右上角的代币头像
                         tokenPairImage={
                           <TokenPairImage
                             primaryToken={pool.earningToken}
@@ -117,8 +106,24 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                             height={64}
                           />
                         }
-                        cardFooter={<CardFooter pool={pool} account={account} />}
+                        // 卡片顶部的年利率
                         aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} />}
+                        cardContent={
+                          // 卡片主内容区,中间的一大串,不包括顶部的年利率
+                          account ? (
+                            <CardActions pool={pool} stakedBalance={pool?.userData?.stakedBalance} />
+                          ) : (
+                            <>
+                            {/* 卡片主内容区的连接钱包按钮 */}
+                              <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
+                                {t('Start earning')}
+                              </Text>
+                              <ConnectWalletButton />
+                            </>
+                          )
+                        }
+                        // 卡片最底部的详细资料
+                        cardFooter={<CardFooter pool={pool} account={account} />}
                       />
                     ),
                   )}
