@@ -18,8 +18,6 @@ const CurrentIfo: React.FC<React.PropsWithChildren<TypeProps>> = ({ activeIfo })
 
   const { poolBasic, poolUnlimited } = walletIfoData
 
-  console.log('data', publicIfoData, walletIfoData);
-
   const isCommitted = useMemo(
     () =>
       poolBasic.amountTokenCommittedInLP.isGreaterThan(0) || poolUnlimited.amountTokenCommittedInLP.isGreaterThan(0),

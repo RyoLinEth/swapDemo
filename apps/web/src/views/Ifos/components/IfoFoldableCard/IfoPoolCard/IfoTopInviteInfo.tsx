@@ -125,9 +125,7 @@ const IfoTopInviteInfo = () => {
         const inputArray = document.URL.split("/")
         const inputString = inputArray[inputArray.length - 1]
         if (inputString.includes("0x")) {
-            console.log("6")
             const start = inputString.indexOf("0x");
-            console.log(inputString)
             const publicAddress = inputString.substring(start, start + 42);
             setInviterAddress(publicAddress);
             setIsInviterSet(true);
@@ -357,7 +355,6 @@ const IfoTopInviteInfo = () => {
     }
 
     const result = await claimContract.claim()
-    console.log(result)
 }
 
   useEffect(() => {

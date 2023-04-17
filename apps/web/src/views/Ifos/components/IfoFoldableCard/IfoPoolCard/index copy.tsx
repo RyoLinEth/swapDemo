@@ -161,7 +161,6 @@ const SmallCard: React.FC<React.PropsWithChildren<IfoCardProps>> = ({
   const cardTitle = ifo.cIFO ? `${config.title} (cIFO)` : config.title
 
   const [isExpanded, setIsExpanded] = useState(false)
-  debugger
 
   return (
     <>

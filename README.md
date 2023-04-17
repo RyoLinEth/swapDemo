@@ -194,3 +194,4 @@ yarn turbo run build --filter=blog
 
 >+ 自己写的页面: 
 > + 邀请人的数据页面: apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\IfoTopInviteInfo.tsx
+> + 从合约拉取所有的池子的数据：apps\web\src\pages\useInitPoolHook.ts

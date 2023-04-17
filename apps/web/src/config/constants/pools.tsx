@@ -97,18 +97,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
   //   version: 3, // 版本，也不知道有什么用处
   // },
-  {
-    sousId: 323,
-    stakingToken: bscTokens.cake, // 质押的Token
-    earningToken: bscTokens.sd, // 赚取的Token
-    contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
-      56: '0xaEC63F134a7853C6DaC9BA428d7962cD7C6c5e30',
-      97: '',
-    },
-    poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
-    tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
-    version: 3, // 版本，也不知道有什么用处
-  },
+  // {
+  //   sousId: 323,
+  //   stakingToken: bscTokens.cake, // 质押的Token
+  //   earningToken: bscTokens.sd, // 赚取的Token
+  //   contractAddress: { // 合约地址，这个合约地址是什么，目前还不清楚，有可能是质押对应的合约地址
+  //     56: '0xaEC63F134a7853C6DaC9BA428d7962cD7C6c5e30',
+  //     97: '',
+  //   },
+  //   poolCategory: PoolCategory.CORE, // 池子的类型，目前也不知道有什么区别
+  //   tokenPerBlock: '0.01022', // 每个区块产生多少，目前也不知道是怎么看的
+  //   version: 3, // 版本，也不知道有什么用处
+  // },
   // {
   //   sousId: 322,
   //   stakingToken: bscTokens.cake,
@@ -133,18 +133,18 @@ export const livePools: Pool.SerializedPoolConfig<SerializedWrappedToken>[] = [
   //   tokenPerBlock: '8.68',
   //   version: 3,
   // },
-  {
-    sousId: 320,
-    stakingToken: bscTokens.cake,
-    earningToken: bscTokens.axlusdc,
-    contractAddress: {
-      56: '0x08287F4942A7B68DDb87D20Becd4fdadF4aE206e',
-      97: '',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '0.0135',
-    version: 3,
-  },
+  // {
+  //   sousId: 320,
+  //   stakingToken: bscTokens.cake,
+  //   earningToken: bscTokens.axlusdc,
+  //   contractAddress: {
+  //     56: '0x08287F4942A7B68DDb87D20Becd4fdadF4aE206e',
+  //     97: '',
+  //   },
+  //   poolCategory: PoolCategory.CORE,
+  //   tokenPerBlock: '0.0135',
+  //   version: 3,
+  // },
   // {
   //   sousId: 306,
   //   stakingToken: bscTokens.cake,

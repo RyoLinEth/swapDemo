@@ -29,8 +29,6 @@ const StepThree = (props) => {
          // 該授權的數量
          let decimal = await rewardContract.decimals();
          const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
-         
-         console.log(approvedAmount, approvingAmount)
 
          if (approvedAmount >= approvingAmount)
             createPool()
@@ -43,7 +41,6 @@ const StepThree = (props) => {
    }
 
    const checkAllowanceAgain = async () => {
-      console.log("Checking Allowance Again")
       let rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
 
       // 已授權的數量
@@ -71,7 +68,6 @@ const StepThree = (props) => {
 
          // 授權
          let result = await rewardContract.approve(contract.address, approvingAmount)
-         console.log(result)
 
          checkAllowanceAgain()
       } catch (err) {
@@ -109,7 +105,6 @@ const StepThree = (props) => {
             ownerValue,
             sendingAmount
          )
-         console.log(result)
          setIsLoading(false)
       } catch (err) {
          if (err.reason != null || err.reason != undefined)
@@ -126,7 +121,6 @@ const StepThree = (props) => {
       const blockNumber = await provider.getBlockNumber();
 
       const convertedBlockNumber = blockNumber - Math.floor((block.timestamp - timestamp / 1000) / BlockTime)
-      console.log(convertedBlockNumber)
       return convertedBlockNumber;
    }
 

@@ -143,10 +143,8 @@ export const fetchCakePoolUserDataAsync = (account: string, chainId: number = Ch
 // 从质押合约里面读取，给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement 参数
 export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
-    debugger
     const poolsConfig = allPool.pools
     try {
-      console.log('调用合约之前');
       // 只有进行中的池子，会调用这个函数
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
         fetchPoolsBlockLimits(chainId), // 读取开始区块\结束区块
@@ -154,43 +152,42 @@ export const fetchPoolsPublicDataAsync =
         fetchPoolsProfileRequirement(chainId), // 读取profileRequirements
         currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(), // 读取当前的区块
       ])
-      console.log('调用合约之后');
 
       const blockLimitsSousIdMap = keyBy(blockLimits, 'sousId')
       const totalStakingsSousIdMap = keyBy(totalStakings, 'sousId')
 
       // 获取所有lp价格的config。这里是直接获取的在pancake上面有的lp的。处理apr和代币price的都是在这里面
-      const priceHelperLpsConfig = getPoolsPriceHelperLpFiles(chainId)
-      const activePriceHelperLpsConfig = priceHelperLpsConfig.filter((priceHelperLpConfig) => {
-        return (
-          poolsConfig
-            .filter(
-              (pool) => pool.earningToken.address.toLowerCase() === priceHelperLpConfig.token.address.toLowerCase(),
-            )
-            .filter((pool) => {
-              const poolBlockLimit = blockLimitsSousIdMap[pool.sousId]
-              if (poolBlockLimit) {
-                return poolBlockLimit.endBlock > currentBlock
-              }
-              return false
-            }).length > 0
-        )
-      })
+      // const priceHelperLpsConfig = getPoolsPriceHelperLpFiles(chainId)
+      // const activePriceHelperLpsConfig = priceHelperLpsConfig.filter((priceHelperLpConfig) => {
+      //   return (
+      //     poolsConfig
+      //       .filter(
+      //         (pool) => pool.earningToken.address.toLowerCase() === priceHelperLpConfig.token.address.toLowerCase(),
+      //       )
+      //       .filter((pool) => {
+      //         const poolBlockLimit = blockLimitsSousIdMap[pool.sousId]
+      //         if (poolBlockLimit) {
+      //           return poolBlockLimit.endBlock > currentBlock
+      //         }
+      //         return false
+      //       }).length > 0
+      //   )
+      // })
       // const a = 
-      const poolsWithDifferentFarmToken =
-        activePriceHelperLpsConfig.length > 0 ? await fetchFarms(priceHelperLpsConfig, chainId) : []
-      const farmsData = getState().farms.data
+      // const poolsWithDifferentFarmToken =
+      //   activePriceHelperLpsConfig.length > 0 ? await fetchFarms(priceHelperLpsConfig, chainId) : []
+      // const farmsData = getState().farms.data
       // bnb或者busd池子
-      const bnbBusdFarm =
-        activePriceHelperLpsConfig.length > 0
-          ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
-          : null
-      const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm
-        ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
-        : []
+      // const bnbBusdFarm =
+      //   activePriceHelperLpsConfig.length > 0
+      //     ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
+      //     : null
+      // const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm
+      //   ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
+      //   : []
 
         // 所有价格的数组
-      const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
+      // const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
       // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement、apr 参数
       let liveData = [];
@@ -479,7 +476,6 @@ export const PoolsSlice = createSlice({
       })
     },
     setInitData: (state, action) => {
-      console.log('init', action);
       // 初始化data里面的所有数据。通过从合约里面读取，然后再来进行初始化，应该就可以了
       state.data = [
         ...action.payload
@@ -487,7 +483,6 @@ export const PoolsSlice = createSlice({
     },
     // IFO
     setIfoUserCreditData: (state, action) => {
-      console.log('setIfoUserCreditData', state, action);
       const credit = action.payload
       state.ifo = { ...state.ifo, credit }
     },

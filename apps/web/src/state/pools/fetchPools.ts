@@ -37,7 +37,6 @@ const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
 
   // 这里合约的操作就是 sousChefABI这个json就是对应的合约的操作json，然后后面的startEndBlockCalls就是需要操作的合约
   // 从合约里面把 startBlock和bonusEndBlock字段读取出来; 这里读出来的值不是直接的number,所以需要下面操作进行转换.具体里面封装的逻辑,先不做处理
-  console.log('调用fetchPoolsBlockLimits之前', chainId, livePoolsWithEnd, poolsConfig, allPool);
   const startEndBlockRaw = await multicall(sousChefABI, startEndBlockCalls, chainId)
 
   const startEndBlockResult = startEndBlockRaw.reduce((resultArray, item, index) => {
@@ -52,7 +51,6 @@ const startEndBlockCalls = livePoolsWithEnd.flatMap((poolConfig) => {
 
     return resultArray
   }, [])
-  console.log('调用fetchPoolsBlockLimits之后', startEndBlockResult);
 
   return livePoolsWithEnd.map((cakePoolConfig, index) => {
     const [[startBlock], [endBlock]] = startEndBlockResult[index]
@@ -76,9 +74,7 @@ export const fetchPoolsTotalStaking = async (chainId: number = ChainId.BSC) => {
       params: [getAddress(poolConfig.contractAddress, chainId)],
     }
   })
-  console.log('调用fetchPoolsTotalStaking之前');
   const poolsTotalStaked = await multicall(erc20ABI, poolsBalanceOf, chainId)
-  console.log('调用fetchPoolsTotalStaking之后');
 
   return poolsConfig.map((p, index) => ({
     sousId: p.sousId,
@@ -134,7 +130,6 @@ export const fetchPoolsProfileRequirement = async (chainId: number = ChainId.BSC
 }> => {
   const poolsConfig = allPool.pools
   const livePoolsWithV3 = poolsConfig.filter((pool) => pool?.version === 3 && !pool?.isFinished)
-  console.log('调用fetchPoolsProfileRequirement之前');
   const poolProfileRequireCalls = livePoolsWithV3
   .map((validPool) => {
       const contractAddress = getAddress(validPool.contractAddress, chainId)
@@ -151,7 +146,6 @@ export const fetchPoolsProfileRequirement = async (chainId: number = ChainId.BSC
     options: { requireSuccess: false },
     chainId
   })
-  console.log('调用fetchPoolsProfileRequirement之后', poolProfileRequireResultRaw);
   const chunkSize = poolProfileRequireCalls.length / livePoolsWithV3.length
   const poolStakingChunkedResultRaw = chunk(poolProfileRequireResultRaw.flat(), chunkSize)
   return fromPairs(

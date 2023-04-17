@@ -42,7 +42,6 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   const { address: account } = useAccount()
   // 为所有的池子,已结束的池子和正在进行中的池子,都是这个pool,这里面是所有池子的全量数据
   const { pools, userDataLoaded } = usePoolsWithVault()
-  console.log('前面的pools', pools);
 
   usePoolsPageFetch()
 

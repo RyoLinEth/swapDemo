@@ -25,8 +25,6 @@ const CreatePoolContract = "0xdFfbd6df5C039B27096e760fFD5B734dc33368F3"
 const Wizard = () => {
     const pools = allPool.pools
 
-    console.log('进入create-pool', pools);
-
     const { address: account } = useAccount()
     // const { account } = props
 
@@ -78,8 +76,6 @@ const Wizard = () => {
         setEndTime(endTime)
         setRewardPerBlock(rewardPerBlock)
         setGoSteps(1)
-        console.log("SUBMITTING")
-        console.log(stakingToken, rewardToken, startTime, endTime, rewardPerBlock)
     };
 
     const handleStepTwoSubmit = (owner) => {

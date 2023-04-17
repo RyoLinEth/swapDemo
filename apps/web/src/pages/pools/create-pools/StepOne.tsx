@@ -76,7 +76,6 @@ const StepOne = ({
 
     const isAddress = async (string, address) => {
         if (ethers.utils.isAddress(address)) {
-            console.log(`${string} : ${address} is an address`);
             return true
         } else {
             alert(`${string} : ${address} is not an address`);
@@ -183,7 +182,6 @@ const StepOne = ({
             return;
         }
         const now = new Date().getTime();
-        console.log(now)
         if (endTime <= now) {
             setErrorText("Time Error, The End Time should be set after now")
             return;
