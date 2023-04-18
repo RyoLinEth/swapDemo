@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ethers } from 'ethers';
 import TokenABI from '../ABI/TokenABI.json'
 import ErrorMessage from '../../nfts/ErrorMessage'
+import { Button } from '@pancakeswap/uikit'
 
 const StepOne = ({
     defaultAccount, provider,
@@ -191,7 +192,22 @@ const StepOne = ({
     }
 
     return (
-        <section>
+        <>
+        <style jsx global>
+          {`
+            .step-one-item {
+                display: flex;
+                flex-direction: column;
+                height: 100%
+            }
+            .step-one-item .footer {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: auto;
+            }
+          `}
+        </style>
+        <section className='step-one-item'>
             <div className="row">
                 {
                     datas.map((data, index) => {
@@ -238,10 +254,16 @@ const StepOne = ({
                 }
             </div>
 
-            <div className="text-end toolbar toolbar-bottom p-2">
-                <button className="btn btn-primary sw-btn-next" onClick={() => handleStepOneSubmit(stakingToken, rewardToken, startTime, endTime, rewardPerBlock)}>Next</button>
+            <div className='footer'>
+                <Button type="button" variant="success" onClick={() => handleStepOneSubmit(stakingToken, rewardToken, startTime, endTime, rewardPerBlock)}>Next</Button>
+                {/* <button className="btn btn-primary sw-btn-next">111</button> */}
             </div>
+            {/* <div className="text-end toolbar toolbar-bottom p-2">
+
+            </div> */}
+            {/* <Button width="100%" mt="24px" variant="bubblegum" style={{border: '1px solid grey',}} onClick={handleMint}>Mint</Button> */}
         </section>
+        </>
     );
 };
 

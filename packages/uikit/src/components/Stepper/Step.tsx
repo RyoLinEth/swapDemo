@@ -100,8 +100,11 @@ export const Step: React.FC<React.PropsWithChildren<StepProps>> = ({
     <StyledStep mb={index < numberOfSteps - 1 ? "16px" : 0}>
       <ChildrenLeftWrapper isVisible={!isIndexPair}>{children}</ChildrenLeftWrapper>
       <Wrapper>
+        {/* 数字 */}
         <StepNumber status={statusFirstPart}>{index + 1}</StepNumber>
+        {/* 连接线 */}
         <Connector $isFirstStep={isFirst} $isLastStep={isLast} status={statusFirstPart} $isFirstPart />
+        {/* 下面不是第一个也不是最后一个 */}
         {!isFirst && !isLast && <Connector $isFirstStep={isFirst} $isLastStep={isLast} status={statusSecondPart} />}
       </Wrapper>
       <ChildrenRightWrapper isVisible={isIndexPair}>{children}</ChildrenRightWrapper>

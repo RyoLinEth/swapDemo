@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from '@pancakeswap/uikit'
 
 const StepFour = (props) => {
    const { isLoading, isRejected, setGoSteps, setIsRejected } = props
@@ -13,17 +14,11 @@ const StepFour = (props) => {
          }
 
          <div className="text-end toolbar toolbar-bottom p-2">
-            <button
-               className="btn btn-secondary sw-btn-prev me-1"
-               onClick={() => {
+            <Button mr="8px" type="button" variant="light" onClick={() => {
                   setGoSteps(2)
                   setIsRejected(false)
-               }}
-            >Prev</button>
-            <button
-               className="btn btn-primary sw-btn-next ms-1"
-               onClick={() => setGoSteps(4)}
-            >Submit</button>
+               }}>Prev</Button>
+           <Button type="button" variant="success" onClick={() => setGoSteps(4)}>Submit</Button>
          </div>
       </section>
    );

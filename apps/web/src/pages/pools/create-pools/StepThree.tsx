@@ -1,6 +1,7 @@
 import React from "react";
 import { ethers } from 'ethers'
 import TokenABI from '../ABI/TokenABI.json'
+import { Button } from '@pancakeswap/uikit'
 
 const StepThree = (props) => {
    const {
@@ -184,8 +185,30 @@ const StepThree = (props) => {
       maxWidth: '60vw'
    }
    return (
-      <section>
-         <div className="table-responsive">
+      <>
+        <style jsx global>
+          {`
+            .step-two-item {
+                display: flex;
+                flex-direction: column;
+                height: 100%
+            }
+            .step-two-item .content {
+               display: flex;
+               justify-content: center;
+            }
+            .step-two-item .footer {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: auto;
+            }
+            .text-label {
+               margin-bottom: 5px
+            }
+          `}
+        </style>
+      <section className='step-two-item'>
+         <div className="table-responsive content">
             <table className="table table-striped border-dark border">
                <tbody>
                   <tr>
@@ -206,15 +229,24 @@ const StepThree = (props) => {
             </table>
          </div>
 
-         <div className="text-end toolbar toolbar-bottom p-2">
+         <div className='footer'>
+           <Button mr="8px" type="button" variant="light" onClick={() => setGoSteps(1)}>Prev</Button>
+           <Button type="button" variant="success" onClick={() => {
+               checkAllowanceApproveAndCreatePool();
+               setGoSteps(3)
+               setIsLoading(true)
+            }}>Next</Button>
+         </div>
+         {/* <div className="text-end toolbar toolbar-bottom p-2">
             <button className="btn btn-secondary sw-btn-prev me-1" onClick={() => setGoSteps(1)}>Prev</button>
             <button className="btn btn-primary sw-btn-next ms-1" onClick={() => {
                checkAllowanceApproveAndCreatePool();
                setGoSteps(3)
                setIsLoading(true)
             }}>Next</button>
-         </div>
+         </div> */}
       </section>
+      </>
    );
 };
 

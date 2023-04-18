@@ -192,6 +192,10 @@ yarn turbo run build --filter=blog
 
 >+ ifo页面下面的详细配置：apps\web\src\views\Ifos\components\IfoQuestions\config.tsx
 
->+ 自己写的页面: 
-> + 邀请人的数据页面: apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\IfoTopInviteInfo.tsx
-> + 从合约拉取所有的池子的数据：apps\web\src\pages\useInitPoolHook.ts
+>+ 自己写的页面:
+> + 主页面: apps\web\src\views\Home\index.tsx
+> + pools:
+>   + 从合约拉取所有的池子的数据(在首页)：apps\web\src\pages\useInitPoolHook.ts
+>   + 创建池子页面：apps\web\src\pages\pools\create-pools\index.tsx
+> + ido邀请人的数据页面: apps\web\src\views\Ifos\components\IfoFoldableCard\IfoPoolCard\IfoTopInviteInfo.tsx
+> + nft mint页面: apps\web\src\pages\nfts\index.tsx
