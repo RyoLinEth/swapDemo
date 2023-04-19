@@ -1,7 +1,13 @@
 import React from "react";
 import { ethers } from 'ethers'
+import { Button, Card, Table, Th, Td, Box, Heading } from '@pancakeswap/uikit'
+import useTheme from 'hooks/useTheme'
 import TokenABI from '../ABI/TokenABI.json'
-import { Button } from '@pancakeswap/uikit'
+// import { Button, Card, Table, Th, Td } from '@pancakeswap/uikit'
+
+const headerHeight = "60px";
+const customHeadingColor = "#7645D9";
+const gradientStopPoint = `calc(${headerHeight} + 1px)`;
 
 const StepThree = (props) => {
    const {
@@ -17,6 +23,9 @@ const StepThree = (props) => {
       setIsLoading,
       setIsRejected
    } = (props)
+
+   const { theme } = useTheme()
+   const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`;
 
    const BlockTime = 3;
 
@@ -196,6 +205,7 @@ const StepThree = (props) => {
             .step-two-item .content {
                display: flex;
                justify-content: center;
+               margin: 20px 10px;
             }
             .step-two-item .footer {
                 display: flex;
@@ -205,28 +215,34 @@ const StepThree = (props) => {
             .text-label {
                margin-bottom: 5px
             }
+            .card thead tr th {
+               font-size: 18px
+            }
           `}
         </style>
       <section className='step-two-item'>
-         <div className="table-responsive content">
-            <table className="table table-striped border-dark border">
+         <div className="content" style={{ width: "100%" }}>
+            <Card className="card" style={{ width: "100%" }} isWarning>
+            <Box background={theme.colors.gradientCardHeader} p="16px" height={headerHeight}>
+              <Heading size="xl">Pool Information</Heading>
+            </Box>
+            <Table>
+               <thead>
+                  <tr>
+                  <Th>Parameter</Th>
+                  <Th>Value</Th>
+                  </tr>
+               </thead>
                <tbody>
-                  <tr>
-                     <td colspan="2" style={{ textAlign: 'center', fontWeight: 'bold' }}>Pool Information</td>
-                  </tr>
-
-                  <tr>
-                     <th className="col-3">Parameter</th>
-                     <th className="col-9" style={style}>Value</th>
-                  </tr>
-                  {datas.map((data, index) => (
-                     <tr key={index}>
-                        <td className="col-3">{data.title}</td>
-                        <td className="col-9" style={style}>{data.value}</td>
+                 {datas.map((data, index) => (
+                     <tr key={data.title}>
+                        <Td>{data.title}</Td>
+                        <Td>{data.value}</Td>
                      </tr>
                   ))}
                </tbody>
-            </table>
+            </Table>
+            </Card>
          </div>
 
          <div className='footer'>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from 'ethers';
+import { Button, Input, Text } from '@pancakeswap/uikit'
 import TokenABI from '../ABI/TokenABI.json'
 import ErrorMessage from '../../nfts/ErrorMessage'
-import { Button } from '@pancakeswap/uikit'
 
 const StepOne = ({
     defaultAccount, provider,
@@ -217,35 +217,32 @@ const StepOne = ({
                                 className="col-lg-6 mb-2"
                             >
                                 <div className="form-group mb-3">
-                                    <label className="text-label" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                        {data.title}
+                                    <Text bold style={{marginBottom: '8px', display: 'flex', justifyContent: 'space-between'}}>{data.title}
                                         {
                                             data.name !== null && data.name !== undefined &&
                                             <span style={{ paddingRight: '10px' }}>{" " + data.name}</span>
-                                        }
-                                    </label>
-                                    <input
+                                        }</Text>
+                                    <Input
                                         type={data.type}
                                         name="firstName"
-                                        className="form-control"
                                         placeholder={data.placeHolder}
-                                        required
-                                        // autoComplete="off"
-                                        onChange={data.function}
                                         defaultValue={data.value}
-                                    />
+                                        autoComplete="off"
+                                        onChange={data.function}
+                                        />
                                     {
                                         data.balance !== 0 && data.balance !== undefined &&
-                                        <div><label> Reward Token Balance : {data.balance}</label><br /></div>
+                                        <div><Text bold> Reward Token Balance : {data.balance}</Text><br /></div>
                                     }
                                     {
                                         data.balance !== 0 && data.balance !== undefined &&
-                                        startTime !== null && endTime !== null && endTime > startTime &&
-                                        <label>
-                                            {rewardPerBlock * (endTime - startTime) / 1000 > data.balance
-                                                ? "Not Enough Token"
-                                                : "Required Amount : " + rewardPerBlock * (endTime - startTime) / 1000}
-                                        </label>
+                                        startTime !== null && endTime !== null && endTime > startTime && (
+                                            <Text bold>
+                                                {rewardPerBlock * (endTime - startTime) / 1000 > data.balance
+                                            ? "Not Enough Token"
+                                            : "Required Amount : " + rewardPerBlock * (endTime - startTime) / 1000}
+                                            </Text>
+                                        )
                                     }
                                 </div>
                             </div>

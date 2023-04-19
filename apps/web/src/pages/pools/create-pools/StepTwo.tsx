@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from '@pancakeswap/uikit'
+import { Button, Text, Input } from '@pancakeswap/uikit'
 
 const StepTwo = ({
    setGoSteps,
@@ -49,21 +49,17 @@ const StepTwo = ({
                datas.map((data, index) => {
                   return (
                      <div
-                        key={index}
+                        key={data.title}
                         className="col-lg-6 mb-2"
                      >
                         <div className="form-group mb-3">
-                           <label className="text-label">{data.title}</label>
-                           <input
-                              type={data.type}
-                              className="form-control"
+                           <Text bold style={{marginBottom: '8px'}}>{data.title}</Text>
+                           <Input
                               placeholder={data.placeHolder}
-                              required
+                              defaultValue={data.value}
                               autoComplete="off"
                               onChange={data.function}
-                              defaultValue={data.value}
-                              id={index}
-                           />
+                              />
                            {
                               index === 0 && (
                                  <Button mt="20px" id="Wallet" type="button" variant="success" onClick={() => setOwner(defaultAccount)}>Use Linking Wallet</Button>

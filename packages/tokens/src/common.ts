@@ -1,13 +1,13 @@
 import { ChainId, ERC20Token } from '@pancakeswap/sdk'
 
-// export const CAKE_MAINNET = new ERC20Token(
-//   ChainId.BSC,
-//   '0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D',
-//   9,
-//   'BNBTiger',
-//   'Bnb Tiger Inu',
-//   'https://www.bnbtiger.top/#',
-// )
+export const CAKE_MAINNET = new ERC20Token(
+  ChainId.BSC,
+  '0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D',
+  9,
+  'BNBTiger',
+  'Bnb Tiger Inu',
+  'https://www.bnbtiger.top/#',
+)
 // export const CAKE_MAINNET = new ERC20Token(
 //   ChainId.BSC_TESTNET,
 //   '0xFa60D973F7642B748046464e165A65B7323b0DEE',
@@ -16,14 +16,14 @@ import { ChainId, ERC20Token } from '@pancakeswap/sdk'
 //   'PancakeSwap Token',
 //   'https://pancakeswap.finance/',
 // )
-export const CAKE_MAINNET = new ERC20Token(
-  ChainId.BSC,
-  '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
-  18,
-  'CAKE',
-  'PancakeSwap Token',
-  'https://pancakeswap.finance/',
-)
+// export const CAKE_MAINNET = new ERC20Token(
+//   ChainId.BSC,
+//   '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
+//   18,
+//   'CAKE',
+//   'PancakeSwap Token',
+//   'https://pancakeswap.finance/',
+// )
 
 export const CAKE_TESTNET = new ERC20Token(
   ChainId.BSC_TESTNET,
