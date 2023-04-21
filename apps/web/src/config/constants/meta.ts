@@ -31,6 +31,7 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/farms': { title: t('Farms'), image: `${ASSET_CDN}/web/og/farms.jpg` },
       // '/farms/auction': { title: t('Farm Auctions'), image: `${ASSET_CDN}/web/og/liquidity.jpg` },
       '/pools': { title: t('Pools'), image: `${ASSET_CDN}/web/og/pools.jpg` },
+      '/createPools': { title: 'Create Pools', image: `${ASSET_CDN}/web/og/pools.jpg` },
       '/lottery': { title: t('Lottery'), image: `${ASSET_CDN}/web/og/lottery.jpg` },
       '/ifo': { title: t('Initial Farm Offering'), image: `${ASSET_CDN}/web/og/ifo.jpg` },
       '/teams': { basePath: true, title: t('Leaderboard'), image: `${ASSET_CDN}/web/og/teams.jpg` },

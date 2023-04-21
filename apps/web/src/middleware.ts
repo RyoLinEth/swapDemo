@@ -17,6 +17,7 @@ export const config = {
     '/swap',
     '/liquidity',
     '/pools',
+    '/createPools',
     '/farms',
     '/add',
     '/ifo',
