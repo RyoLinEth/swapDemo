@@ -23,37 +23,41 @@ const StepOne = ({
     useEffect(() => {
         const loadToken = async () => {
             if (stakingTokenValue !== null) {
-                let { success, nameSymbol } = await getName(stakingToken);
+                const { success, nameSymbol } = await getName(stakingToken);
                 if (!success) return;
                 setStakingName(nameSymbol)
             }
 
             if (rewardTokenValue !== null) {
-                let { success, nameSymbol } = await getName(rewardToken);
+                const { success, nameSymbol } = await getName(rewardToken);
                 if (!success) return;
                 setRewardName(nameSymbol)
                 getBalance(rewardToken)
             }
         }
         loadToken()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stakingTokenValue, rewardTokenValue])
 
     const getName = async (value) => {
+        // eslint-disable-next-line eqeqeq
         if (value.length == 42) {
-            let tempTokenContract = new ethers.Contract(value, TokenABI, provider)
-            let name = await tempTokenContract.name();
-            let symbol = await tempTokenContract.symbol();
+            const tempTokenContract = new ethers.Contract(value, TokenABI, provider)
+            const name = await tempTokenContract.name();
+            const symbol = await tempTokenContract.symbol();
             return { success: true, nameSymbol: `${name}/${symbol}` };
         }
         return { success: false };
     }
 
     const getBalance = async (value) => {
+        // eslint-disable-next-line eqeqeq
         if (value.length == 42) {
-            let tempTokenContract = new ethers.Contract(value, TokenABI, provider)
-            let balance = await tempTokenContract.balanceOf(defaultAccount);
-            let decimals = await tempTokenContract.decimals();
-            let realBalance = convertBalance(balance, decimals)
+            const tempTokenContract = new ethers.Contract(value, TokenABI, provider)
+            const balance = await tempTokenContract.balanceOf(defaultAccount);
+            const decimals = await tempTokenContract.decimals();
+            const realBalance = convertBalance(balance, decimals)
+            // @ts-ignore
             setRewardTokenBalance(realBalance)
         }
     }
@@ -78,10 +82,11 @@ const StepOne = ({
     const isAddress = async (string, address) => {
         if (ethers.utils.isAddress(address)) {
             return true
-        } else {
+        } 
+            // eslint-disable-next-line no-alert
             alert(`${string} : ${address} is not an address`);
             return false
-        }
+        
     }
 
     function convertBalance(balance, decimals) {
@@ -96,7 +101,7 @@ const StepOne = ({
             type: 'text',
             function: async (e) => {
                 setStakingToken(e.target.value)
-                let { success, nameSymbol } = await getName(e.target.value);
+                const { success, nameSymbol } = await getName(e.target.value);
                 if (!success) return;
                 setStakingName(nameSymbol)
             },
@@ -109,7 +114,7 @@ const StepOne = ({
             type: 'text',
             function: async (e) => {
                 setRewardToken(e.target.value)
-                let { success, nameSymbol } = await getName(e.target.value);
+                const { success, nameSymbol } = await getName(e.target.value);
                 if (!success) return;
                 setRewardName(nameSymbol)
                 getBalance(e.target.value)
@@ -141,15 +146,15 @@ const StepOne = ({
         },
     ]
 
-    const handleStepOneSubmit = async (stakingToken, rewardToken, startTime, endTime, rewardPerBlock) => {
+    const handleStepOneSubmit = async (_stakingToken, _rewardToken, _startTime, _endTime, _rewardPerBlock) => {
 
         //  檢查是否都有值
         const fields = [
-            { value: stakingToken, name: "staking token" },
-            { value: rewardToken, name: "reward token" },
-            { value: startTime, name: "start time" },
-            { value: endTime, name: "end time" },
-            { value: rewardPerBlock, name: "reward per second" },
+            { value: _stakingToken, name: "staking token" },
+            { value: _rewardToken, name: "reward token" },
+            { value: _startTime, name: "start time" },
+            { value: _endTime, name: "end time" },
+            { value: _rewardPerBlock, name: "reward per second" },
         ];
 
         for (const field of fields) {
@@ -163,14 +168,17 @@ const StepOne = ({
         const stakingString = "Staking Token "
         const rewardString = "Reward Token "
 
-        let result1 = await isAddress(stakingString, stakingToken);
+        const result1 = await isAddress(stakingString, _stakingToken);
+        // eslint-disable-next-line eqeqeq
         if (result1 == false) return;
-
-        let result2 = await isAddress(rewardString, rewardToken)
+        
+        const result2 = await isAddress(rewardString, _rewardToken)
+        // eslint-disable-next-line eqeqeq
         if (result2 == false) return;
-
+        
         //  不可質押自己 獎勵自己
-        if (rewardToken == stakingToken) {
+        // eslint-disable-next-line eqeqeq
+        if (_rewardToken == _stakingToken) {
             setErrorText("Reward Token Cannot Be The Same As Staking Token")
             return;
         }
@@ -178,17 +186,17 @@ const StepOne = ({
         //  時間規則：
         //  1.  結束時間需在開始時間後
         //  2.  結束時間需在現在時間後
-        if (endTime <= startTime) {
+        if (_endTime <= _startTime) {
             setErrorText("Time Error, The End Time should be set after the Start Time")
             return;
         }
         const now = new Date().getTime();
-        if (endTime <= now) {
+        if (_endTime <= now) {
             setErrorText("Time Error, The End Time should be set after now")
             return;
         }
 
-        onSubmit(stakingToken, rewardToken, startTime, endTime, rewardPerBlock)
+        onSubmit(_stakingToken, _rewardToken, _startTime, _endTime, _rewardPerBlock)
     }
 
     return (
@@ -213,6 +221,7 @@ const StepOne = ({
                     datas.map((data, index) => {
                         return (
                             <div
+                                // eslint-disable-next-line react/no-array-index-key
                                 key={index}
                                 className="col-lg-6 mb-2"
                             >
@@ -220,7 +229,7 @@ const StepOne = ({
                                     <Text bold style={{marginBottom: '8px', display: 'flex', justifyContent: 'space-between'}}>{data.title}
                                         {
                                             data.name !== null && data.name !== undefined &&
-                                            <span style={{ paddingRight: '10px' }}>{" " + data.name}</span>
+                                            <span style={{ paddingRight: '10px' }}>{` ${  data.name}`}</span>
                                         }</Text>
                                     <Input
                                         type={data.type}
@@ -240,7 +249,7 @@ const StepOne = ({
                                             <Text bold>
                                                 {rewardPerBlock * (endTime - startTime) / 1000 > data.balance
                                             ? "Not Enough Token"
-                                            : "Required Amount : " + rewardPerBlock * (endTime - startTime) / 1000}
+                                            : `Required Amount : ${  rewardPerBlock * (endTime - startTime) / 1000}`}
                                             </Text>
                                         )
                                     }

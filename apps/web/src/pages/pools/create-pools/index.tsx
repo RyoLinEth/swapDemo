@@ -1,9 +1,7 @@
 import { useAccount } from 'wagmi'
 import React, { Fragment, useState, useEffect } from "react";
-//import Multistep from "react-multistep";
-// import { Step } from 'react-form-stepper';
-// import { Stepper, Step } from 'react-form-stepper';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// eslint-disable-next-line import/extensions
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { ethers } from 'ethers'
 // import pools from 'config/constants/pools'
@@ -30,7 +28,7 @@ const customHeadingColor = "#7645D9";
 const gradientStopPoint = `calc(${headerHeight} + 1px)`;
 
 const Wizard = () => {
-    const pools = allPool.pools
+    const {pools} = allPool
     const { theme } = useTheme()
 
     const { address: account } = useAccount()
@@ -43,16 +41,18 @@ const Wizard = () => {
 
     const updateEthers = async () => {
         try {
-            let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+            // @ts-ignore
+            const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
             setProvider(tempProvider);
 
-            let tempSigner = tempProvider.getSigner();
+            const tempSigner = tempProvider.getSigner();
             setSigner(tempSigner);
 
-            let tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
+            const tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
             setContract(tempContract);
         } catch {
-
+            console.log('1');
+            
         }
     }
 
@@ -78,17 +78,17 @@ const Wizard = () => {
     //  Error Text
     const [errorText, setErrorText] = useState(null);
 
-    const handleStepOneSubmit = (stakingToken, rewardToken, startTime, endTime, rewardPerBlock) => {
-        setStakingToken(stakingToken)
-        setRewardToken(rewardToken)
-        setStartTime(startTime)
-        setEndTime(endTime)
-        setRewardPerBlock(rewardPerBlock)
+    const handleStepOneSubmit = (_stakingToken, _rewardToken, _startTime, _endTime, _rewardPerBlock) => {
+        setStakingToken(_stakingToken)
+        setRewardToken(_rewardToken)
+        setStartTime(_startTime)
+        setEndTime(_endTime)
+        setRewardPerBlock(_rewardPerBlock)
         setGoSteps(1)
     };
 
-    const handleStepTwoSubmit = (owner) => {
-        setOwner(owner);
+    const handleStepTwoSubmit = (_owner) => {
+        setOwner(_owner``);
     }
 
     return (

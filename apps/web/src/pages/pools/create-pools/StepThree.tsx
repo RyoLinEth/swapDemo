@@ -31,13 +31,13 @@ const StepThree = (props) => {
 
    const checkAllowance = async () => {
       try {
-         let rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
+         const rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
 
          // 已授權的數量
-         let approvedAmount = await rewardContract.allowance(defaultAccount, contract.address);
+         const approvedAmount = await rewardContract.allowance(defaultAccount, contract.address);
 
          // 該授權的數量
-         let decimal = await rewardContract.decimals();
+         const decimal = await rewardContract.decimals();
          const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
          if (approvedAmount >= approvingAmount)
@@ -51,13 +51,13 @@ const StepThree = (props) => {
    }
 
    const checkAllowanceAgain = async () => {
-      let rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
+      const rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
 
       // 已授權的數量
-      let approvedAmount = await rewardContract.allowance(defaultAccount, contract.address);
+      const approvedAmount = await rewardContract.allowance(defaultAccount, contract.address);
 
       // 該授權的數量
-      let decimal = await rewardContract.decimals();
+      const decimal = await rewardContract.decimals();
       const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
       if (approvedAmount >= approvingAmount) 
@@ -68,19 +68,20 @@ const StepThree = (props) => {
 
    const approve = async () => {
       try {
-         let rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
+         const rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
 
          // 代幣精度
-         let decimal = await rewardContract.decimals();
+         const decimal = await rewardContract.decimals();
 
          // 即將授權數量
          const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
          // 授權
-         let result = await rewardContract.approve(contract.address, approvingAmount)
+         const result = await rewardContract.approve(contract.address, approvingAmount)
 
          checkAllowanceAgain()
       } catch (err) {
+         // @ts-ignore
          setErrorText(err.reason)
       }
    }
@@ -93,22 +94,23 @@ const StepThree = (props) => {
       try {
          checkAllowance()
       } catch (err) {
+         // @ts-ignore
          setErrorText(err.reason)
       }
    }
 
    const createPool = async () => {
-      let rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
+      const rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
 
       // 代幣精度
-      let decimal = await rewardContract.decimals();
+      const decimal = await rewardContract.decimals();
       const sendingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
       try {
-         let result = await contract.deployPool(
+         const result = await contract.deployPool(
             stakingTokenValue,
             rewardTokenValue,
-            rewardPerBlockValue * BlockTime,       //每秒的獎勵 x 一區塊幾秒
-            getBlockNumber(startTimeValue),        //轉換成區塊時間
+            rewardPerBlockValue * BlockTime,       // 每秒的獎勵 x 一區塊幾秒
+            getBlockNumber(startTimeValue),        // 轉換成區塊時間
             getBlockNumber(endTimeValue),
             0,
             0,
@@ -116,8 +118,9 @@ const StepThree = (props) => {
             sendingAmount
          )
          setIsLoading(false)
-      } catch (err) {
-         if (err.reason != null || err.reason != undefined)
+      } catch (err: any) {
+         // eslint-disable-next-line eqeqeq
+         if (err?.reason != null || err?.reason != undefined)
             setErrorText(err.reason)
          else
             setErrorText(err.toString())

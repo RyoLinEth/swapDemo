@@ -159,6 +159,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   useEffect(() => {
     initPool()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInit]);
   if (Component.pure) {
     return <Component {...pageProps} />

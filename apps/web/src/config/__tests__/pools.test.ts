@@ -13,7 +13,7 @@ const idsToRemove = [0, 78]
 // const poolsToTest = pools.filter((pool) => !idsToRemove.includes(pool.sousId)).slice(0, 10)
 
 describe.concurrent('Config pools', () => {
-  const pools = allPool.pools
+  const {pools} = allPool
   const poolsToTest = pools.filter((pool) => !idsToRemove.includes(pool.sousId)).slice(0, 10)
   it.each(pools.map((pool) => pool.sousId))('Pool #%d has an unique sousId', (sousId) => {
     const duplicates = pools.filter((p) => sousId === p.sousId)

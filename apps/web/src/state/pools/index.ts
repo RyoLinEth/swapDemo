@@ -190,7 +190,7 @@ export const fetchPoolsPublicDataAsync =
       // const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
       // 给每一个pools增加 totalStaked(总共质押数量)、startBlock、endBlock、stakingTokenPrice、earningTokenPrice、profileRequirement、apr 参数
-      let liveData = [];
+      const liveData = [];
       for (let i = 0; i < poolsConfig.length; i++) {
         const pool = poolsConfig?.[i];
       // const liveData = poolsConfig.map((pool) => {
@@ -204,14 +204,16 @@ export const fetchPoolsPublicDataAsync =
         // 价格是从上面的prices数组里面去读取
         let stakingTokenPrice = 0
         if (stakingTokenAddress) {
-          let tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${stakingTokenAddress}`).then(response => response.json());
+          // eslint-disable-next-line no-await-in-loop
+          const tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${stakingTokenAddress}`).then(response => response.json());
           stakingTokenPrice = tempRes?.pairs?.[0]?.priceUsd
         }
         // const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
         const earningTokenAddress = isAddress(pool.earningToken.address)
         let earningTokenPrice = 0
         if (earningTokenAddress) {
-          let tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${earningTokenAddress}`).then(response => response.json());
+          // eslint-disable-next-line no-await-in-loop
+          const tempRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${earningTokenAddress}`).then(response => response.json());
           earningTokenPrice = tempRes?.pairs?.[0]?.priceUsd
         }
         // const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
@@ -491,7 +493,7 @@ export const PoolsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(resetUserState, (state) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      state.data = state.data.map(({ userData, ...pool }) => {
+      state.data = (state as any).data.map(({ userData, ...pool }) => {
         return { ...pool }
       })
       state.userDataLoaded = false
@@ -521,11 +523,13 @@ export const PoolsSlice = createSlice({
     })
     // Vault public data that updates frequently
     builder.addCase(fetchCakeVaultPublicData.fulfilled, (state, action: PayloadAction<SerializedLockedCakeVault>) => {
+      // @ts-ignore
       state.cakeVault = { ...state.cakeVault, ...action.payload }
     })
     builder.addCase(
       fetchCakeFlexibleSideVaultPublicData.fulfilled,
       (state, action: PayloadAction<SerializedCakeVault>) => {
+        // @ts-ignore
         state.cakeFlexibleSideVault = { ...state.cakeFlexibleSideVault, ...action.payload }
       },
     )
@@ -541,6 +545,7 @@ export const PoolsSlice = createSlice({
     // Vault user data
     builder.addCase(fetchCakeVaultUserData.fulfilled, (state, action: PayloadAction<SerializedLockedVaultUser>) => {
       const userData = action.payload
+      // @ts-ignore
       state.cakeVault = { ...state.cakeVault, userData }
     })
     // IFO
@@ -552,6 +557,7 @@ export const PoolsSlice = createSlice({
       fetchCakeFlexibleSideVaultUserData.fulfilled,
       (state, action: PayloadAction<SerializedVaultUser>) => {
         const userData = action.payload
+        // @ts-ignore
         state.cakeFlexibleSideVault = { ...state.cakeFlexibleSideVault, userData }
       },
     )
@@ -567,7 +573,8 @@ export const PoolsSlice = createSlice({
         const index = state.data.findIndex((p) => p.sousId === sousId)
 
         if (index >= 0) {
-          state.data[index] = { ...state.data[index], userData: { ...state.data[index].userData, [field]: value } }
+          // @ts-ignore
+          state.data[index] = { ...state.data[index], userData: { ...state.data[index].userData, [field]: value } } as any
         }
       },
     )

@@ -32,17 +32,21 @@ const useInitPoolHook = () => {
     const filterData = async (poolsData, _provider, _tempSigner) => {
       const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId;
       try {
-        let block = await _provider.getBlock("latest", false, true);
+        const block = await _provider.getBlock("latest", false, true);
         const tempRunningPool = [];
         const tempEndPool = [];
         for (let i = 0; i < poolsData.length; i++) {
             const [id, tempStakingToken, tempEarningToken, ...rest] = poolsData[i];
             //  結束區塊。
-            let i_endBlock = ethers.utils.formatUnits(poolsData[i][6], "0")
+            // eslint-disable-next-line camelcase
+            const i_endBlock = ethers.utils.formatUnits(poolsData[i][6], "0")
             // 第三个参数，传provider和sign的区别是；provider不用交易，但是signer是必须要进行交易的.0xC75Cc71022Bf0EC150dfC03d954737ce027Ea12e
             const tempTokenContract = new ethers.Contract(tempStakingToken, TokenABI, _tempSigner)
+            // eslint-disable-next-line no-await-in-loop
             const name = await tempTokenContract.name();
+            // eslint-disable-next-line no-await-in-loop
             const symbol = await tempTokenContract.symbol();
+            // eslint-disable-next-line no-await-in-loop
             const decimals = await tempTokenContract.decimals();
             // const a = new ERC20Token(
             //   ChainId.BSC_TESTNET,
@@ -61,8 +65,11 @@ const useInitPoolHook = () => {
             )
             // 第三个参数，传provider和sign的区别是；provider不用交易，但是signer是必须要进行交易的
             const tempTokenContract2 = new ethers.Contract(tempEarningToken, TokenABI, _tempSigner)
+            // eslint-disable-next-line no-await-in-loop
             const name2 = await tempTokenContract2.name();
+            // eslint-disable-next-line no-await-in-loop
             const symbol2 = await tempTokenContract2.symbol();
+            // eslint-disable-next-line no-await-in-loop
             const decimals2 = await tempTokenContract2.decimals();
             // const b = new ERC20Token(
             //   tempChainId,
@@ -81,6 +88,7 @@ const useInitPoolHook = () => {
               '',
             )
             //  結束區塊 < 現在區塊 => 已結束
+            // eslint-disable-next-line camelcase
             if (i_endBlock < block.number) {
                 tempEndPool.push([id, a, b, ...rest])
             }
@@ -137,10 +145,13 @@ const useInitPoolHook = () => {
         })
         sessionStorage.setItem('pool', JSON.stringify(tempData));
         setIsInit(true)
+        // @ts-ignore
         window.isLoadingPool = false;
+        // @ts-ignore
         window.isInitPool = true;
-
+        
       } catch(err) {
+        // @ts-ignore
         window.isLoadingPool = false;
       }
       // {
@@ -160,30 +171,34 @@ const useInitPoolHook = () => {
 
     const updateEthers = async () => {
         try {
-          let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+          // @ts-ignore
+          const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
           setProvider(tempProvider);
 
-          let tempSigner = tempProvider.getSigner();
+          const tempSigner = tempProvider.getSigner();
           setSigner(tempSigner);
 
-          let tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
+          const tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
           setContract(tempContract);
 
-          let poolsData = await tempContract.viewSmartChef()
+          const poolsData = await tempContract.viewSmartChef()
           if (poolsData !== null) {
             filterData(poolsData, tempProvider, tempSigner)
             return;
           }
+          // @ts-ignore
           window.isLoadingPool = false;
         } catch(err) {
+          // @ts-ignore
           window.isLoadingPool = false;
         }
-    }
-
-    const initPool = () => {
-      // 如果已经初始化过了，就直接return
-      if (window.isInitPool) {
-        return;
+      }
+      
+      const initPool = () => {
+        // 如果已经初始化过了，就直接return
+        // @ts-ignore
+        if (window.isInitPool) {
+          return;
       }
       const data = sessionStorage.getItem('pool');
       // 如果值存到了session里面，就从session里面读值，来初始化 state；并且把初始化状态改为true
@@ -192,10 +207,13 @@ const useInitPoolHook = () => {
         batch(() => {
           dispatch(setInitPoolsData(JSON.parse(data)))
         })
+        // @ts-ignore
         window.isInitPool = true;
         return;
       }
+      // @ts-ignore
       if (!window.isLoadingPool) {
+        // @ts-ignore
         window.isLoadingPool = true;
         updateEthers()
       }

@@ -182,20 +182,23 @@ const IfoTopInviteInfo = () => {
 
         // const tempIsClaimed = await tempClaimContract.canAddressClaim(account);
         // setIsClaimed(!tempIsClaimed);
-    } catch {}
+    } catch {
+      console.log('666');
+      
+    }
   }
 
   // 查看钱包地址，剩余得 usdt数量
   const checkBalance = async () => {
     const tempBalanceHex = await usdtContract.balanceOf(account);
-    const tempBalance = ethers.utils.formatEther(`${tempBalanceHex}`, 'ether');
+    const tempBalance = ethers.utils.formatEther(`${tempBalanceHex}`);
     return tempBalance;
   }
 
   // 查看钱包授权得usdt数量
   const checkAllowance = async () => {
     const allowance = await usdtContract.allowance(account, contractAddress);
-    const allowanceAmount = ethers.utils.formatEther(`${allowance}`, 'ether');
+    const allowanceAmount = ethers.utils.formatEther(`${allowance}`);
     return allowanceAmount;
   }
 
@@ -355,10 +358,12 @@ const IfoTopInviteInfo = () => {
     }
 
     const result = await claimContract.claim()
+    // const result = await claimContract.claim()
 }
 
   useEffect(() => {
     initInviterAddress();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -379,6 +384,7 @@ const IfoTopInviteInfo = () => {
       setPersonalLink(tempLink);
       initContract();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   return (
@@ -412,9 +418,8 @@ const IfoTopInviteInfo = () => {
        <StyleBox>
         <StyleLabel>
           认购额度 : <span className='invite'><span className='invite-text'>{contributionAmount}</span></span>
-          <span className='right-text' onClick={handleClaim}>
-          提币
-          </span>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+          <span className='right-text' onClick={handleClaim}>提币</span>
         </StyleLabel>
       </StyleBox>
 
@@ -431,6 +436,7 @@ const IfoTopInviteInfo = () => {
         <div className="buy-box">
           {
             ['50U', '100U', '200U'].map((item, index) => {
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
               return <span key={item} className="buy-item" onClick={() => makeApprove(index)}>
                 <Text bold fontSize="20px" color="primary">{item}</Text>
               </span>
