@@ -223,7 +223,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
-        <Button className="more-info">
+        <Button scale="sm" className="more-info">
           <a href="https://www.bnbtiger.top/">more info</a>
         </Button>
         {/* <Text color="secondary" className="more-info">
