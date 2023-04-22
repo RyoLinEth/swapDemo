@@ -1,5 +1,19 @@
 import styled from 'styled-components'
-import { Box, Card, CardBody, CardFooter, Heading, IconButton, PageSection, Slider, Row, AddIcon, MinusIcon,Button } from '@pancakeswap/uikit'
+import {
+  Box,
+  Card,
+  CardBody,
+  CardFooter,
+  Heading,
+  IconButton,
+  PageSection,
+  Slider,
+  Row,
+  AddIcon,
+  MinusIcon,
+  Button,
+  Image,
+} from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import useTheme from 'hooks/useTheme'
 import Container from 'components/Layout/Container'
@@ -10,16 +24,16 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 // import UserBanner from './components/UserBanner'
 // import MultipleBanner from './components/Banners/MultipleBanner'
 // import NftBanner from './components/Banners/NftBanner'
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import nftABI from 'config/abi/nft-nftABI.json';
+import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
 
-const headerHeight = "60px";
-const customHeadingColor = "#7645D9";
-const gradientStopPoint = `calc(${headerHeight} + 1px)`;
+const headerHeight = '73px'
+const customHeadingColor = '#7645D9'
+const gradientStopPoint = `calc(${headerHeight} + 1px)`
 
-const nftMintAddress = "0x9c657E4A638df5E5e5d2b08cDCD7B3A2cE25052D";
+const nftMintAddress = '0x9c657E4A638df5E5e5d2b08cDCD7B3A2cE25052D'
 
 const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   const { theme } = useTheme()
@@ -28,82 +42,81 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
 
   const { t } = useTranslation()
 
-  const [signer, setSigner] = useState(null);
-  const [nftContract, setNFTContract] = useState(null);
-  const [mintAmount, setMintAmount] = useState(1);
-  const [maxMint, setMaxMint] = useState(10);
-  const [totalSupply, setTotalSupply] = useState(999);
-  const [alreadyMint, setAlreadyMint] = useState(0);
-  const [errorText, setErrorText] = useState('');
+  const [signer, setSigner] = useState(null)
+  const [nftContract, setNFTContract] = useState(null)
+  const [mintAmount, setMintAmount] = useState(1)
+  const [maxMint, setMaxMint] = useState(10)
+  const [totalSupply, setTotalSupply] = useState(999)
+  const [alreadyMint, setAlreadyMint] = useState(0)
+  const [errorText, setErrorText] = useState('')
 
-  const borderBackground = `linear-gradient(${customHeadingColor} ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint})`;
+  const borderBackground = `linear-gradient(${customHeadingColor} ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint})`
 
   // Gradient overlap is also possible, just put the "dividing" gradient first and after that the header gradient
-  const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`;
+  const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`
 
   const handleAmount = (number: number) => {
     setMintAmount(mintAmount + number)
   }
 
-
   const initContract = async () => {
     try {
-        const tempProvider = new ethers.providers.Web3Provider(window.ethereum as any);
+      const tempProvider = new ethers.providers.Web3Provider(window.ethereum as any)
 
-        const tempSigner = tempProvider.getSigner();
-        setSigner(tempSigner);
+      const tempSigner = tempProvider.getSigner()
+      setSigner(tempSigner)
 
-        const tempNFTContract = new ethers.Contract(nftMintAddress, nftABI, tempSigner)
-        setNFTContract(tempNFTContract);
+      const tempNFTContract = new ethers.Contract(nftMintAddress, nftABI, tempSigner)
+      setNFTContract(tempNFTContract)
 
-        const tempMaxMint = await tempNFTContract.maxMint()
-        const _maxMint = ethers.utils.formatUnits(`${tempMaxMint}`, "wei")
-        setMaxMint(+_maxMint);
+      const tempMaxMint = await tempNFTContract.maxMint()
+      const _maxMint = ethers.utils.formatUnits(`${tempMaxMint}`, 'wei')
+      setMaxMint(+_maxMint)
 
-        //  剩下NFT還沒被mint的數量
-        const remainderMint = await tempNFTContract.availableTokens()
-        const _remainderMint = remainderMint?.[1].length
+      //  剩下NFT還沒被mint的數量
+      const remainderMint = await tempNFTContract.availableTokens()
+      const _remainderMint = remainderMint?.[1].length
 
-        //  目前已被mint出來的數量
-        const tempAlreadyMint = await tempNFTContract.totalSupply()
-        const _alreadyMint = ethers.utils.formatUnits(`${tempAlreadyMint}`, "wei")
-        setAlreadyMint(+_alreadyMint)
+      //  目前已被mint出來的數量
+      const tempAlreadyMint = await tempNFTContract.totalSupply()
+      const _alreadyMint = ethers.utils.formatUnits(`${tempAlreadyMint}`, 'wei')
+      setAlreadyMint(+_alreadyMint)
 
-        // 實際上的Supply
-        const _totalSupply = _remainderMint + _alreadyMint;
-        setTotalSupply(+_totalSupply);
-    } catch(err) {
-        // console.log(err);
-        // // alert(err)
-        // setErrorText(err.toString())
+      // 實際上的Supply
+      const _totalSupply = _remainderMint + _alreadyMint
+      setTotalSupply(+_totalSupply)
+    } catch (err) {
+      // console.log(err);
+      // // alert(err)
+      // setErrorText(err.toString())
     }
   }
 
   const handleMint = async () => {
     if (!account) {
-      setErrorText("Wallet Not Conneted")
-      return;
+      setErrorText('Wallet Not Conneted')
+      return
     }
     try {
-        const nftPrice = await nftContract.mintPrice();
-        const pay = mintAmount * nftPrice;
-        // console.log(pay)
-        await nftContract.mint(mintAmount, {
-            value: pay
-        })
-        setAlreadyMint(alreadyMint + mintAmount);
+      const nftPrice = await nftContract.mintPrice()
+      const pay = mintAmount * nftPrice
+      // console.log(pay)
+      await nftContract.mint(mintAmount, {
+        value: pay,
+      })
+      setAlreadyMint(alreadyMint + mintAmount)
     } catch (err) {
-        setErrorText(err.toString())
-        // @ts-ignore
-        setErrorText(err.reason)
+      setErrorText(err.toString())
+      // @ts-ignore
+      setErrorText(err.reason)
     }
-}
+  }
 
   useEffect(() => {
     if (account) {
-      initContract();
+      initContract()
     }
-  }, [account]);
+  }, [account])
   return (
     <>
       <style jsx global>
@@ -112,7 +125,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
             background: linear-gradient(180deg, #ffffff 22%, #efe0b1 100%);
           }
           #home-2 {
-            position: relative
+            position: relative;
           }
           [data-theme='dark'] #home-2 .page-bg {
             background: linear-gradient(180deg, #09070c 22%, #201335 100%);
@@ -121,17 +134,48 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
             font-weight: bold;
             font-size: 18px;
           }
+          #home-2 .nft-1 {
+            position: absolute;
+            top: 18%;
+            left: 10%;
+          }
+          #home-2 .nft-2 {
+            position: absolute;
+            top: 18%;
+            right: 10%;
+          }
+          .header-box {
+            display: flex;
+            justify-content: space-between;
+          }
+          .header-box span {
+            flex: 1;
+          }
+          .box-nft-1,
+          .box-nft-2 {
+            opacity: 0.6;
+          }
+          .box-nft-img-1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+          .box-nft-2 {
+            top: 0;
+            right: 0;
+          }
+          .box-nft-img-2 {
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+          .box-nft-text {
+            font-size: 24px;
+            color: #5200ff;
+          }
         `}
       </style>
-      <>
-        {
-          !!errorText &&
-            <ErrorMessage
-                errorMessage={errorText}
-                setErrorText={setErrorText}
-            />
-        }
-      </>
+      <>{!!errorText && <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />}</>
 
       <PageSection
         innerProps={{ style: { margin: '0', width: '100%', padding: 0, textAlign: 'center' } }}
@@ -142,23 +186,66 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
-        <Row justifyContent='center'>
-          <Card borderBackground={gradientBorderColor} style={{minWidth: '400px',}}>
-            <Box background={theme.colors.gradientCardHeader} p="16px" height={headerHeight} style={{maxWidth: 500}}>
-              <Heading size="xl">Nft Mint</Heading>
+        <Image src="./bnbtiger/nft-pic-2.png" width={200} height={243} alt="nft" className="nft-1" />
+        <Row justifyContent="center">
+          <Card borderBackground={gradientBorderColor} style={{ minWidth: '400px', position: 'relative', zIndex: 99 }}>
+            <Box background={theme.colors.gradientCardHeader} p="16px" height={headerHeight} style={{ maxWidth: 500 }}>
+              <Heading size="xl" className="header-box">
+                <span className="box-nft-1">
+                  <Image
+                    className="box-nft-img-1"
+                    src="./bnbtiger/nft-pic-5.jpg"
+                    width={200}
+                    height={73}
+                    alt="box-nft-1"
+                  />
+                </span>
+                <span className="box-nft-text">Nft Mint</span>
+                <span className="box-nft-2">
+                  <Image
+                    className="box-nft-img-2"
+                    src="./bnbtiger/nft-pic-7.jpg"
+                    width={200}
+                    height={73}
+                    alt="box-nft-2"
+                  />
+                </span>
+              </Heading>
             </Box>
             <CardBody>
-              <Row justifyContent='center'>
-                <IconButton mr="24px" variant="secondary" disabled={mintAmount === 1} onClick={()=>{handleAmount(-1)}}>
+              <Row justifyContent="center">
+                <IconButton
+                  mr="24px"
+                  variant="secondary"
+                  disabled={mintAmount === 1}
+                  onClick={() => {
+                    handleAmount(-1)
+                  }}
+                >
                   <MinusIcon color="primary" width="14px" />
                 </IconButton>
-                <span className='amount'>{mintAmount}</span>
-                <IconButton  ml="24px" variant="secondary" disabled={mintAmount === maxMint} onClick={()=>{handleAmount(1)}}>
+                <span className="amount">{mintAmount}</span>
+                <IconButton
+                  ml="24px"
+                  variant="secondary"
+                  disabled={mintAmount === maxMint}
+                  onClick={() => {
+                    handleAmount(1)
+                  }}
+                >
                   <AddIcon color="primary" width="14px" />
                 </IconButton>
               </Row>
               <Row>
-                <Button width="100%" mt="24px" variant="bubblegum" style={{border: '1px solid grey',}} onClick={handleMint}>Mint</Button>
+                <Button
+                  width="100%"
+                  mt="24px"
+                  variant="bubblegum"
+                  style={{ border: '1px solid grey' }}
+                  onClick={handleMint}
+                >
+                  Mint
+                </Button>
               </Row>
             </CardBody>
             <CardFooter>
@@ -169,14 +256,15 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 max={totalSupply}
                 value={alreadyMint}
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onValueChanged={()=>{}}
+                onValueChanged={() => {}}
                 disabled
-                valueLabel={totalSupply === alreadyMint ? "MAX" : `${(alreadyMint / totalSupply) * 100}%`}
+                valueLabel={totalSupply === alreadyMint ? 'MAX' : `${(alreadyMint / totalSupply) * 100}%`}
               />
               {totalSupply}
             </CardFooter>
           </Card>
         </Row>
+        <Image src="./bnbtiger/nft-pic-1.png" width={200} height={243} alt="nft2" className="nft-2" />
       </PageSection>
     </>
   )
