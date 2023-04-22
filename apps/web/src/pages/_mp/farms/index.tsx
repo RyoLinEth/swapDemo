@@ -1,11 +1,22 @@
-import FarmsMpPageLayout from 'views/Farms/MpPageLayout'
-import FarmsPage from '../../farms'
+// import FarmsMpPageLayout from 'views/Farms/MpPageLayout'
+// import FarmsPage from '../../farms'
 
 const MpFarmsPage = () => {
-  return <FarmsPage />
+  return <></>
 }
 
-MpFarmsPage.Layout = FarmsMpPageLayout
-MpFarmsPage.mp = true
+// MpFarmsPage.Layout = FarmsMpPageLayout
+// MpFarmsPage.mp = true
 
 export default MpFarmsPage
+// import FarmsMpPageLayout from 'views/Farms/MpPageLayout'
+// import FarmsPage from '../../farms'
+
+// const MpFarmsPage = () => {
+//   return <FarmsPage />
+// }
+
+// MpFarmsPage.Layout = FarmsMpPageLayout
+// MpFarmsPage.mp = true
+
+// export default MpFarmsPage

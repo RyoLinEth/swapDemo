@@ -97,12 +97,12 @@ const config: (
           href: '/pools',
           // supportChainIds: SUPPORT_ONLY_BSC,
         },
-        // {
-        //   label: 'Create Pools',
-        //   href: '/farms',
-        //   // href: '/createPools',
-        //   // supportChainIds: SUPPORT_ONLY_BSC,
-        // },
+        {
+          label: 'Create Pools',
+          href: '/createPools',
+          // href: '/createPools',
+          // supportChainIds: SUPPORT_ONLY_BSC,
+        },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     // {
