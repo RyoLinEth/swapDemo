@@ -1,6 +1,5 @@
 import {
   MenuItemsType,
-  DropdownMenuItemType,
   SwapIcon,
   SwapFillIcon,
   EarnFillIcon,
@@ -9,13 +8,14 @@ import {
   TrophyFillIcon,
   NftIcon,
   NftFillIcon,
-  MoreIcon,
   DropdownMenuItems,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import { nftsBaseUrl } from 'views/Nft/market/constants'
 import { getPerpetualUrl } from 'utils/getPerpetualUrl'
 import { SUPPORT_ONLY_BSC } from 'config/constants/supportChains'
+import Vote from '@pancakeswap/uikit/src/components/Svg/Icons/Vote'
+import Resources from '@pancakeswap/uikit/src/components/Svg/Icons/Resources'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -185,6 +185,13 @@ const config: (
         //   href: `${nftsBaseUrl}/activity`,
         // },
       ],
+    },
+    {
+      label: 'Home',
+      href: `/home`,
+      icon: Vote,
+      fillIcon: Resources,
+      items: [],
     },
     // {
     //   label: '',

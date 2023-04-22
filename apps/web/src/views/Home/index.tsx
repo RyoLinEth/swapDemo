@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import styled from 'styled-components'
-import { PageSection } from '@pancakeswap/uikit'
+import { PageSection, Text, Button } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import useTheme from 'hooks/useTheme'
 import Container from 'components/Layout/Container'
@@ -27,7 +28,7 @@ const StyledHeroSection = styled(PageSection)`
     padding-top: 48px;
   }
   ${({ theme }) => theme.mediaQueries.sm} {
-    display: flex
+    display: flex;
   }
 `
 
@@ -101,7 +102,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
             background: linear-gradient(180deg, #ffffff 22%, #efe0b1 100%);
           }
           #home-2 {
-            position: relative
+            position: relative;
           }
           #home-2 .nft {
             position: absolute;
@@ -121,6 +122,9 @@ const Home: React.FC<React.PropsWithChildren> = () => {
           [data-theme='dark'] #home-2 .page-bg {
             background: linear-gradient(180deg, #09070c 22%, #201335 100%);
           }
+          #home-3 {
+            position: relative;
+          }
           #home-3 .page-bg {
             background: linear-gradient(180deg, #b2a24826 0%, #4aadd770 100%);
           }
@@ -136,10 +140,17 @@ const Home: React.FC<React.PropsWithChildren> = () => {
           #home-6 .page-bg {
             padding-top: 0;
           }
+          #home-3.more-info {
+            position: absolute;
+            top: 10px;
+            right: -20px;
+          }
         `}
       </style>
       <PageSection
-        innerProps={{ style: { margin: '0', width: '100%', maxWidth: '256px', height: '256px', padding: 0, textAlign: 'center' } }}
+        innerProps={{
+          style: { margin: '0', width: '100%', maxWidth: '256px', height: '256px', padding: 0, textAlign: 'center' },
+        }}
         background={theme.colors.background}
         index={2}
         containerProps={{
@@ -148,9 +159,9 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         hasCurvedDivider={false}
       >
         {/* <SalesSection {...cakeSectionData(t)} /> */}
-        <span className='nft2 nft'>NFT</span>
+        <span className="nft2 nft">NFT</span>
         <NftBanner />
-        <span className='nft3 nft'>NFT</span>
+        <span className="nft3 nft">NFT</span>
         {/* <CakeDataRow /> */}
       </PageSection>
       {/* <PageSection
@@ -212,6 +223,12 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
+        <Button className="more-info">
+          <a href="https://www.bnbtiger.top/">more info</a>
+        </Button>
+        {/* <Text color="secondary" className="more-info">
+          <a href="https://www.bnbtiger.top/">more info</a>
+        </Text> */}
         {/* <SalesSection {...cakeSectionData(t)} /> */}
         <BnbTigerDataRow />
         {/* <CakeDataRow /> */}

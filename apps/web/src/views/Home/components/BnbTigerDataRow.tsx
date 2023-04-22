@@ -154,10 +154,11 @@ const BnbTigerDataRow = () => {
           </>
         )}
       </StyledColumn>
-
       <StyledColumn noDesktopBorder style={{ gridArea: 'd' }}>
         <Text color="textSubtle">{t('Sell Tax')}</Text>
-        <Heading scale="lg">9% Sell Tax <span style={{fontSize: '16px'}}>( 2%Backflow 2%buyback 2%Marketing 3%Philanthropy )</span></Heading>
+        <Heading scale="lg">
+          9% Sell Tax <span style={{ fontSize: '16px' }}>( 2%Backflow 2%buyback 2%Marketing 3%Philanthropy )</span>
+        </Heading>
       </StyledColumn>
       {/* <StyledColumn noDesktopBorder style={{ gridArea: 'd' }}>
         <Text color="textSubtle">{t('Market cap')}</Text>
@@ -169,7 +170,9 @@ const BnbTigerDataRow = () => {
       </StyledColumn> */}
       <StyledColumn style={{ gridArea: 'e' }}>
         <Text color="textSubtle">{t('Buy Tax')}</Text>
-        <Heading scale="lg">9% Buy Tax <span style={{fontSize: '16px'}}>( 2%Backflow 2%buyback 2%Marketing 3%Philanthropy )</span></Heading>
+        <Heading scale="lg">
+          9% Buy Tax <span style={{ fontSize: '16px' }}>( 2%Backflow 2%buyback 2%Marketing 3%Philanthropy )</span>
+        </Heading>
       </StyledColumn>
       {/* <StyledColumn style={{ gridArea: 'e' }}>
         <Text color="textSubtle">{t('Burned to date')}</Text>
@@ -182,7 +185,9 @@ const BnbTigerDataRow = () => {
       <StyledColumn style={{ gridArea: 'f' }}>
         <Text color="textSubtle">{t('Total Security')}</Text>
 
-        <Heading scale="lg">70.8% Of Liq Burn (Locked Forever) <span style={{fontSize: '16px'}}>27.16% Of Liq Locked</span></Heading>
+        <Heading scale="lg">
+          70.8% Of Liq Burn (Locked Forever) <span style={{ fontSize: '16px' }}>27.16% Of Liq Locked</span>
+        </Heading>
       </StyledColumn>
       {/* <StyledColumn style={{ gridArea: 'f' }}>
         <Text color="textSubtle">{t('Current emissions')}</Text>
