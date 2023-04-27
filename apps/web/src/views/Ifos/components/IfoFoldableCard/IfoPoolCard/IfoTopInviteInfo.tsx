@@ -54,7 +54,7 @@ const StyleLabel = styled.div`
 `
 const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16"; // 此合约暂时还没有
 const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
-const contractAddress = "0xAfeBff6fbbF2BCE4c12746592aa19D976E9f1077";
+const contractAddress = "0xfA798A93C1b82303423B3F130790f722c30afa35";
 // const contractAddress = "0x8A426d810A80D33C943fcBe6219476Ff85f1b376";
 const defaultInviter = "0x16c21c28FED3e3B545493e111dB87842D11281AD";
 
@@ -142,13 +142,13 @@ const IfoTopInviteInfo = () => {
       setContract(tempContract);
       setUsdtContract(new ethers.Contract(usdtAddress, usdtABI, tempSigner));
 
-      let allowedIDOAmount = await tempContract.allowedIDOAmount(account);
-      let realAllowedIDOAmount = ethers.utils.formatEther(`${allowedIDOAmount}`);
+      const tempAllowedIDOAmount = await tempContract.allowedIDOAmount(account);
+      const realAllowedIDOAmount = ethers.utils.formatEther(`${tempAllowedIDOAmount}`);
       setAllowedIDOAmount(realAllowedIDOAmount);
 
-      let personalInfo = await tempContract.personalInfo(account);
-      let tempContributionHex = personalInfo.joinedAmount;
-      let tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
+      const personalInfo = await tempContract.personalInfo(account);
+      const tempContributionHex = personalInfo.joinedAmount;
+      const tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
       setContributionAmount(tempContribution);
 
       // const tempContributionHex = await tempClaimContract.claimAmount(account);
@@ -168,7 +168,7 @@ const IfoTopInviteInfo = () => {
       // if (tempParent !== "0x0000000000000000000000000000000000000000")
       //   setParentAddress(`${tempParent.slice(0, 4)}...${tempParent.slice(-4)}`);
 
-      let tempClaimActive = await tempContract.isClaimActive();
+      const tempClaimActive = await tempContract.isClaimActive();
       setIsClaimActive(tempClaimActive);
 
       // 关闭时候，需要注释
@@ -176,7 +176,6 @@ const IfoTopInviteInfo = () => {
       setIsIDOActive(tempIDOActive);
 
       const tempInviteInfo = await tempContract.getInviteInfo(account);
-      console.log(tempInviteInfo)
       setInviteInfo(tempInviteInfo)
 
       // const tempIsClaimed = await tempClaimContract.canAddressClaim(account);
@@ -310,7 +309,6 @@ const IfoTopInviteInfo = () => {
     try {
       const result = await contract.claimToken()
     } catch (err: any) {
-      console.log(err)
       if (err.reason !== undefined)
         swal("Error", `${err.reason}`, "error");
       else
@@ -351,13 +349,11 @@ const IfoTopInviteInfo = () => {
 
   const idoWithBNB = async () => {
     const bnbAmount = ethers.utils.parseUnits(`${BNBAmount}`, "ether");
-    console.log(bnbAmount)
     try {
-      let result = await contract.makeIDO(inviterAddress,
+      const result = await contract.makeIDO(inviterAddress,
         {
           value: bnbAmount
         })
-      console.log(result)
 
       provider.getTransaction(result.hash)
         .then((tx) => {
@@ -373,7 +369,6 @@ const IfoTopInviteInfo = () => {
 
       swal("Success", "已成功认购", "success")
     } catch (err: any) {
-      console.log(err)
       if (err.reason !== undefined)
         swal("Error", `${err.reason}`, "error");
       else
@@ -455,7 +450,7 @@ const IfoTopInviteInfo = () => {
           {
             inviteInfo !== null &&
             pagedInviteInfo.map((data, index) => {
-              let oddOrEven = index % 2;
+              const oddOrEven = index % 2;
               if (oddOrEven === 0)
                 return (
                   <OddRow>
@@ -463,13 +458,12 @@ const IfoTopInviteInfo = () => {
                     <Td>{ethers.utils.formatEther(data.invitedAmount)}</Td>
                   </OddRow>
                 )
-              else
-                return (
-                  <EvenRow>
-                    <Td>{data.invitedAddress.slice(0, 4)}...{data.invitedAddress.slice(-4)}</Td>
-                    <Td>{ethers.utils.formatEther(data.invitedAmount)}</Td>
-                  </EvenRow>
-                )
+              return (
+                <EvenRow>
+                  <Td>{data.invitedAddress.slice(0, 4)}...{data.invitedAddress.slice(-4)}</Td>
+                  <Td>{ethers.utils.formatEther(data.invitedAmount)}</Td>
+                </EvenRow>
+              )
             })
           }
         </tbody>
@@ -512,7 +506,9 @@ const IfoTopInviteInfo = () => {
             )
           }
         </StyleLabel>
-        <Text bold fontSize="14px" color="textSubtle">{personalLink || '請連接錢包'}</Text>
+        <Text bold fontSize="14px" color="textSubtle" style={{
+          wordBreak: 'break-word'
+        }}>{personalLink || '請連接錢包'}</Text>
       </StyleBox>
 
       <StyleBox>
@@ -563,7 +559,6 @@ const IfoTopInviteInfo = () => {
           <span className='right-text' onClick={idoWithBNB}>认购</span>
 
         </StyleLabel>
-        <div className="buy-box">
           {/* {
             ['50U', '100U', '200U'].map((item, index) => {
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -572,7 +567,6 @@ const IfoTopInviteInfo = () => {
               </span>
             })
           } */}
-        </div>
       </StyleBox>
       <StyleBox>
         <StyleLabel>

@@ -21,7 +21,7 @@ const config = [
   {
     title: <Trans>How many BNB can I contribute?</Trans>,
     description: [
-      <Trans>There's no least BNB requirement to make a contribution.</Trans>,
+      <Trans>There’s no least BNB requirement to make a contribution.</Trans>,
       <Trans>The maximum BNB that an address can contribute is ___ BNB.</Trans>,
     ]
   },
@@ -32,7 +32,7 @@ const config = [
     ]
   },
   {
-    title: <Trans>What's the benefits to become an inviter?</Trans>,
+    title: <Trans>What’s the benefits to become an inviter?</Trans>,
     description: [
       <Trans>You can get 5% of the BNB back once someone use your link to join the IDO.</Trans>,
     ]
