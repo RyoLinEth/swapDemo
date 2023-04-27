@@ -422,11 +422,12 @@ const IfoTopInviteInfo = () => {
 
 
   const TableComponent = ({ infoArray }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    
     if (!Array.isArray(infoArray) || infoArray.length === 0) {
       return <div>No data available.</div>;
     }
-
-    const [currentPage, setCurrentPage] = useState(1);
+    
     const itemsPerPage = 10;
     const totalPages = Math.ceil(inviteInfo.length / itemsPerPage);
 
@@ -571,7 +572,7 @@ const IfoTopInviteInfo = () => {
                 alignItems: 'center'
               }}> BNB </span>
           </span>
-
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <span className='right-text' onClick={idoWithBNB}>认购</span>
 
         </StyleLabel>
