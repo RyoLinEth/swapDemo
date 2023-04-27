@@ -3,12 +3,27 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_USDT",
+				"name": "_BNBReceiver",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_USDTReceiver",
+				"name": "IDOToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "bnbTiger",
 				"type": "address"
 			}
 		],
@@ -42,7 +57,104 @@
 				"type": "address"
 			}
 		],
-		"name": "AddressToJoinUsdtAmount",
+		"name": "AddressToJoinBNBAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "BNBReceiver",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "BnbTiger",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IDOTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "OneEther",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_msgSender",
+				"type": "address"
+			}
+		],
+		"name": "allowedIDOAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "bnbTigerRatio",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -61,54 +173,66 @@
 				"type": "address"
 			}
 		],
-		"name": "AddressToReferralTimes",
+		"name": "canAddressInvite",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "bool",
 				"name": "",
-				"type": "uint256"
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "cancelIDO",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "AddressToRewardAmount",
-		"outputs": [
+				"internalType": "uint256",
+				"name": "_start",
+				"type": "uint256"
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "_end",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "changeTime",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "USDTReceiver",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
+				"internalType": "bool",
+				"name": "_canclaim",
+				"type": "bool"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "claimFlip",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimRatio",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -119,42 +243,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "token",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "emergencyWithdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "fatherAddress",
+		"inputs": [],
+		"name": "endTime",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "uint256",
 				"name": "",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -162,9 +257,82 @@
 	},
 	{
 		"inputs": [],
+		"name": "finialize",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getInviteInfo",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "invitedAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "invitedAmount",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct IDO.InviteInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_canIDO",
+				"type": "bool"
+			}
+		],
 		"name": "idoFlip",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "inviteInfos",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "invitedAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "invitedAmount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -220,6 +388,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "isFinalized",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "isIDOActive",
 		"outputs": [
 			{
@@ -237,16 +418,37 @@
 				"internalType": "address",
 				"name": "ref",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
 			}
 		],
 		"name": "makeIDO",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "maximumBNBAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "minimumAmountForInvite",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -263,8 +465,14 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "quotaAmount1",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_claimer",
+				"type": "address"
+			}
+		],
+		"name": "personalClaimableAmount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -276,38 +484,28 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "quotaAmount2",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "address",
 				"name": "",
-				"type": "uint256"
+				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "quotaAmount3",
+		"name": "personalInfo",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "quotaAmount4",
-		"outputs": [
+				"internalType": "bool",
+				"name": "joined",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "joinedAmount",
 				"type": "uint256"
 			}
 		],
@@ -325,11 +523,11 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_ratio",
+				"name": "amount",
 				"type": "uint256"
 			}
 		],
-		"name": "setTokenRatio",
+		"name": "replenishIDOToken",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -337,22 +535,50 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
+				"internalType": "uint256",
+				"name": "_newRatio",
+				"type": "uint256"
+			}
+		],
+		"name": "setupBNBTigerRatio",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newRatio",
+				"type": "uint256"
+			}
+		],
+		"name": "setupClaimRatio",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_newAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "setupMinimumAmountForInvite",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startTime",
+		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"name": "sonAddresses",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -373,32 +599,6 @@
 	},
 	{
 		"inputs": [],
-		"name": "tokenNeededForClaim",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tokenRatio",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "tokenToBeClaimed",
 		"outputs": [
 			{
@@ -412,33 +612,20 @@
 	},
 	{
 		"inputs": [],
+		"name": "totalJoinBNB",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "totalJoinTimes",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalJoinUSDT",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalReward",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -463,14 +650,31 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "withdrawAllEther",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			},
 			{
 				"internalType": "address",
 				"name": "to",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
 			}
 		],
-		"name": "withdrawAllEther",
+		"name": "withdrawLeft",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
