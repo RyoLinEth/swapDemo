@@ -54,7 +54,7 @@ const StyleLabel = styled.div`
 `
 const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16"; // 此合约暂时还没有
 const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
-const contractAddress = "0xfA798A93C1b82303423B3F130790f722c30afa35";
+const contractAddress = "0x5F58Fb2812C3707e51ecb452263E9550935ca9A1";
 // const contractAddress = "0x8A426d810A80D33C943fcBe6219476Ff85f1b376";
 const defaultInviter = "0x16c21c28FED3e3B545493e111dB87842D11281AD";
 
@@ -156,17 +156,15 @@ const IfoTopInviteInfo = () => {
       // if (tempContribution !== '0.0')
       //     setContributionAmount(`${tempContribution.slice(0, tempContribution.length - 2)}000000000`);
 
-      // const tempReferralHex = await tempContract.AddressToRewardAmount(account);
-      // const tempReferral = ethers.utils.formatEther(`${tempReferralHex}`);
-      // setReferralAmount(tempReferral);
+      const tempReferralHex = await tempContract.AddressToInviteAmount(account);
+      const tempReferral = ethers.utils.formatEther(`${tempReferralHex}`);
+      setReferralAmount(tempReferral);
 
-      // let tempJoin = await tempContract.isAddressJoined(defaultAccount);
-      // setIsJoined(tempJoin);
-      // const tempParent = await tempContract.upperNode(account);
-      // if (tempParent === "0x0000000000000000000000000000000000000000")
-      //   setParentAddress("0x...");
-      // if (tempParent !== "0x0000000000000000000000000000000000000000")
-      //   setParentAddress(`${tempParent.slice(0, 4)}...${tempParent.slice(-4)}`);
+      const tempParent = await tempContract.upperNode(account);
+      if (tempParent === "0x0000000000000000000000000000000000000000")
+        setParentAddress("0x...");
+      if (tempParent !== "0x0000000000000000000000000000000000000000")
+        setParentAddress(`${tempParent.slice(0, 4)}...${tempParent.slice(-4)}`);
 
       const tempClaimActive = await tempContract.isClaimActive();
       setIsClaimActive(tempClaimActive);
@@ -423,7 +421,10 @@ const IfoTopInviteInfo = () => {
 
 
 
-  const TableComponent = () => {
+  const TableComponent = ({ infoArray }) => {
+    if (!Array.isArray(infoArray) || infoArray.length === 0) {
+      return <div>No data available.</div>;
+    }
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -448,34 +449,33 @@ const IfoTopInviteInfo = () => {
         </thead>
         <tbody>
           {
-            inviteInfo !== null &&
             pagedInviteInfo.map((data, index) => {
               const oddOrEven = index % 2;
               if (oddOrEven === 0)
                 return (
                   <OddRow>
                     <Td>{data.invitedAddress.slice(0, 4)}...{data.invitedAddress.slice(-4)}</Td>
-                    <Td>{ethers.utils.formatEther(data.invitedAmount)}</Td>
+                    <Td>{Number(ethers.utils.formatEther(data.invitedAmount)).toFixed(4)} BNB</Td>
                   </OddRow>
                 )
               return (
                 <EvenRow>
                   <Td>{data.invitedAddress.slice(0, 4)}...{data.invitedAddress.slice(-4)}</Td>
-                  <Td>{ethers.utils.formatEther(data.invitedAmount)}</Td>
+                  <Td>{Number(ethers.utils.formatEther(data.invitedAmount)).toFixed(4)} BNB</Td>
                 </EvenRow>
               )
             })
           }
         </tbody>
         <tfoot>
-          <PaginationContainer>
-            <PaginationText>Current Page: {currentPage}</PaginationText>
-            <PaginationButton disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>Prev</PaginationButton>
-            {/* {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationButton key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</PaginationButton>
-            ))} */}
-            <PaginationButton disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>Next</PaginationButton>
-          </PaginationContainer>
+          {
+            totalPages !== 1 &&
+            <PaginationContainer>
+              <PaginationText>Current Page: {currentPage}</PaginationText>
+              <PaginationButton disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>Prev</PaginationButton>
+              <PaginationButton disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>Next</PaginationButton>
+            </PaginationContainer>
+          }
         </tfoot>
       </Table>
     );
@@ -487,9 +487,11 @@ const IfoTopInviteInfo = () => {
         <StyleLabel>
           上级地址:
         </StyleLabel>
-        <Text bold fontSize="14px" color="textSubtle">{parentAddress === '0x...' ? '无上级地址' : parentAddress}</Text>
+        <Text bold fontSize="14px" color="textSubtle">
+          {parentAddress === '0x...' ? '无上级地址' : parentAddress}
+        </Text>
       </StyleBox>
-
+      <br />
       <StyleBox>
         <StyleLabel>
           我的邀请链接 : <span className='invite'><span className='invite-text'>邀请好友</span>获得<span className='invite-text'>BNB</span></span>
@@ -500,7 +502,7 @@ const IfoTopInviteInfo = () => {
                   text={personalLink}
                   onCopy={copyLink}
                 >
-                  <span>点击复制</span>
+                  <span>复制</span>
                 </CopyToClipboard>
               </span>
             )
@@ -510,18 +512,27 @@ const IfoTopInviteInfo = () => {
           wordBreak: 'break-word'
         }}>{personalLink || '請連接錢包'}</Text>
       </StyleBox>
-
+      <br />
       <StyleBox>
         <StyleLabel>
-          可认购额度 : <span className='invite'>
-            <span className='invite-text'>{allowedIDOAmount}</span></span>
+          可认购额度 :
+          <span className='invite'>
+            <span className='invite-text'>
+              {Number(allowedIDOAmount).toFixed(4)} BNB
+            </span>
+          </span>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         </StyleLabel>
       </StyleBox>
 
       <StyleBox>
         <StyleLabel>
-          已认购额度 : <span className='invite'><span className='invite-text'>{contributionAmount}</span></span>
+          已认购额度 :
+          <span className='invite'>
+            <span className='invite-text'>
+              {Number(contributionAmount).toFixed(4)} BNB
+            </span>
+          </span>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <span className='right-text' onClick={handleClaim}>提币</span>
         </StyleLabel>
@@ -529,7 +540,12 @@ const IfoTopInviteInfo = () => {
 
       <StyleBox>
         <StyleLabel>
-          邀请奖励(自动到账) : <span className='invite'><span className='invite-text'>{referralAmount} BNB</span></span>
+          邀请奖励(自动到账) :
+          <span className='invite'>
+            <span className='invite-text'>
+              {(Number(referralAmount) / 20).toFixed(4)} BNB
+            </span>
+          </span>
         </StyleLabel>
       </StyleBox>
 
@@ -559,21 +575,14 @@ const IfoTopInviteInfo = () => {
           <span className='right-text' onClick={idoWithBNB}>认购</span>
 
         </StyleLabel>
-          {/* {
-            ['50U', '100U', '200U'].map((item, index) => {
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-              return <span key={item} className="buy-item" onClick={() => makeApprove(index)}>
-                <Text bold fontSize="20px" color="primary">{item}</Text>
-              </span>
-            })
-          } */}
       </StyleBox>
+      <br />
       <StyleBox>
         <StyleLabel>
           邀请资讯：
         </StyleLabel>
 
-        <TableComponent />
+        <TableComponent infoArray={inviteInfo} />
       </StyleBox>
     </>
   )
