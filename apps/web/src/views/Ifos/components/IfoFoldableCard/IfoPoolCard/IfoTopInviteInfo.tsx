@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import {
   Text
 } from '@pancakeswap/uikit'
@@ -12,6 +12,7 @@ import usdtABI from 'config/abi/ido-usdtABI.json';
 import ClaimABI from 'config/abi/ido-ClaimABI.json'
 import { ethers } from 'ethers';
 import { useTranslation } from '@pancakeswap/localization'
+import ConfirmSwapModal from 'views/Swap/components/ConfirmSwapModal';
 
 const StyleBox = styled.div`
   margin-bottom: 10px;
@@ -92,6 +93,16 @@ const IfoTopInviteInfo = () => {
   const [inviteInfo, setInviteInfo] = useState([])
 
   const [BNBAmount, setBNBAmount] = useState(null);
+  const [maximumBNBAmount, setMaximumBNBAmount] = useState<string>('0');
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [contents, setContents] = useState(["String1", "String1", "String1"]);
+  // const [contents, setContents] = useState(["String1","String1","String1"]);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
 
   const copyLink = () => {
     if (account === null) {
@@ -151,6 +162,10 @@ const IfoTopInviteInfo = () => {
       const tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
       setContributionAmount(tempContribution);
 
+
+      const tempMaximumBNBAmount = await tempContract.maximumBNBAmount();
+      const realMaximumBNBAmount = ethers.utils.formatEther(`${tempMaximumBNBAmount}`);
+      setMaximumBNBAmount(realMaximumBNBAmount);
       // const tempContributionHex = await tempClaimContract.claimAmount(account);
       // const tempContribution = ethers.utils.formatEther(`${tempContributionHex}`);
       // if (tempContribution !== '0.0')
@@ -348,25 +363,44 @@ const IfoTopInviteInfo = () => {
   const idoWithBNB = async () => {
     const bnbAmount = ethers.utils.parseUnits(`${BNBAmount}`, "ether");
     try {
+      setIsOpen(true)
+      setContents(
+        [
+          "Confirm IDO",
+          "Waiting For Confirmation",
+          "Confirm this transaction in your wallet"
+        ]
+      );
+
       const result = await contract.makeIDO(inviterAddress,
         {
           value: bnbAmount
         })
+
+      setContents(
+        [
+          "Participating IDO",
+          "Your Transaction is now sending",
+          ""
+        ]
+      );
 
       provider.getTransaction(result.hash)
         .then((tx) => {
           // 監聽交易上鍊事件
           tx.wait().then((receipt) => {
             console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`);
+            swal("Success", "已成功认购", "success")
             setIsOnChain(true)
+            setIsOpen(false)
           });
         })
         .catch((err) => {
           console.error(err);
         });
 
-      swal("Success", "已成功认购", "success")
     } catch (err: any) {
+      setIsOpen(false)
       if (err.reason !== undefined)
         swal("Error", `${err.reason}`, "error");
       else
@@ -423,11 +457,11 @@ const IfoTopInviteInfo = () => {
 
   const TableComponent = ({ infoArray }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    
+
     if (!Array.isArray(infoArray) || infoArray.length === 0) {
       return <div>No data available.</div>;
     }
-    
+
     const itemsPerPage = 10;
     const totalPages = Math.ceil(inviteInfo.length / itemsPerPage);
 
@@ -482,8 +516,92 @@ const IfoTopInviteInfo = () => {
     );
   };
 
+  interface ModalContainerProps {
+    isOpen: boolean;
+  }
+
+  const ModalButton = styled.button`
+  background-color: #0077FF;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+  const ModalContainer = styled.div<ModalContainerProps>`
+  display: ${props => props.isOpen ? 'block' : 'none'};
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+`;
+
+
+  const ModalContent = styled.div`
+  background-color: white;
+  margin: 20vh auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+`;
+
+  const ModalClose = styled.span`
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+  const ModalTitle = styled.h2`
+  margin-top: 0;
+`;
+
+  type ModalProps = {
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    contents: string[]; // new prop for the 3 content strings
+  };
+
+
+  const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen, contents }) => {
+    const closeModal = () => {
+      setIsOpen(false);
+    };
+
+    return (
+      <ModalContainer isOpen={isOpen}>
+        <ModalContent>
+          <ModalClose onClick={closeModal}>&times;</ModalClose>
+          <ModalTitle>{contents[0]}</ModalTitle>
+          <hr />
+          <div style={{
+            marginTop: '10vh', marginBottom: '10vh',
+            display: 'flex', justifyContent: 'center'
+          }}>
+            <Text bold fontSize="18px">
+              {contents[1]}
+            </Text>
+          </div>
+          <hr />
+          <Text bold fontSize="14px" color="textSubtle">
+            {contents[2]}
+          </Text>
+        </ModalContent>
+      </ModalContainer>
+    );
+  };
+
   return (
     <>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} contents={contents} />
       <StyleBox>
         <StyleLabel>
           上级地址:
@@ -519,7 +637,10 @@ const IfoTopInviteInfo = () => {
           可认购额度 :
           <span className='invite'>
             <span className='invite-text'>
-              {Number(allowedIDOAmount).toFixed(4)} BNB
+              {
+                Number(allowedIDOAmount) <= Number(maximumBNBAmount)
+                  ? Number(allowedIDOAmount).toFixed(4)
+                  : Number(maximumBNBAmount).toFixed(4)} BNB
             </span>
           </span>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
