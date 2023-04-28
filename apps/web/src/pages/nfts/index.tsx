@@ -119,7 +119,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     contents: string[]; // new prop for the 3 content strings
-    setImgURL: Dispatch<SetStateAction<String[]>>;
+    setImgURL: Dispatch<SetStateAction<string[]>>;
   };
 
 
@@ -151,9 +151,9 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                     margin: '10px'
                   }}>
                     <img
-                      key={index}
+                      key={contents[1].split(",")[index]}
                       src={imageUrl}
-                      alt={`Image ${index}`}
+                      // alt={`Image ${index}`}
                       style={{
                         maxWidth: '130px'
                       }} />
@@ -165,7 +165,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
               })
             }
             {
-              imgURL.length == 0 &&
+              imgURL.length === 0 &&
               <Text bold fontSize="18px">
                 {contents[1]}
               </Text>
