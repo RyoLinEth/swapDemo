@@ -30,7 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
-// import NftQuestions from './NftQuestions'
+import NftQuestions from './NFTQuestions'
 
 const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
@@ -283,33 +283,33 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
             const tokenUris = topicsDecimals.map((tokenID) => nftContract.tokenURI(tokenID));
 
             //  得到所有 mint 到的 tokenURI
-            // Promise.all(tokenUris)
-            //   .then((responses) => {
-            //     const fetchPromises = responses.map((response) => {
-            //       // 抓取各自的 tokenURI
-            //       return fetch(response)
-            //         .then((responsed) => responsed.json())
-            //         .then((data) => {
-            //           console.log(data);
-            //           const image = data.image.split("ipfs://")[1];
-            //           return `https://gateway.pinata.cloud/ipfs/${image}`;
-            //         })
-            //         .catch((error) => {
-            //           console.error(error);
-            //           // 处理错误
-            //         });
-            //     });
-            //     // 并发地处理所有图像 URL
-            //     return Promise.all(fetchPromises);
-            //   })
-            //   .then((imageURLs) => {
-            //     console.log(imageURLs);
-            //     setImgURL(imageURLs);
-            //   })
-            //   .catch((error) => {
-            //     console.error(error);
-            //     // 处理错误
-            //   });
+            Promise.all(tokenUris)
+              .then((responses) => {
+                const fetchPromises = responses.map((response) => {
+                  // 抓取各自的 tokenURI
+                  return fetch(response)
+                    .then((responsed) => responsed.json())
+                    .then((data) => {
+                      console.log(data);
+                      const image = data.image.split("ipfs://")[1];
+                      return `https://gateway.pinata.cloud/ipfs/${image}`;
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                      // 处理错误
+                    });
+                });
+                // 并发地处理所有图像 URL
+                return Promise.all(fetchPromises);
+              })
+              .then((imageURLs) => {
+                console.log(imageURLs);
+                setImgURL(imageURLs);
+              })
+              .catch((error) => {
+                console.error(error);
+                // 处理错误
+              });
             console.log(tokenUris);
             setContents(
               [
@@ -504,9 +504,9 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         </Row>
         {/* <Image src="./bnbtiger/nft-pic-1.png" width={200} height={243} alt="nft2" className="nft-2" /> */}
       </PageSection>
-      {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <NftQuestions />
-      </div> */}
+      </div>
 
     </>
   )
