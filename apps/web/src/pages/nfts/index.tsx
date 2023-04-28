@@ -30,7 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
-import NftQuestions from './NftQuestions'
+// import NftQuestions from './NftQuestions'
 
 const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
@@ -504,9 +504,9 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         </Row>
         {/* <Image src="./bnbtiger/nft-pic-1.png" width={200} height={243} alt="nft2" className="nft-2" /> */}
       </PageSection>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <NftQuestions />
-      </div>
+      </div> */}
 
     </>
   )
