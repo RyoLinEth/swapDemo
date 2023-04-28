@@ -153,7 +153,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                     <img
                       key={contents[1].split(",")[index]}
                       src={imageUrl}
-                      // alt={`Image ${index}`}
+                      alt={contents[1].split(",")[index]}
                       style={{
                         maxWidth: '130px'
                       }} />
