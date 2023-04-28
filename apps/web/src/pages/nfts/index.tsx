@@ -30,6 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
+import NftQuestions from './nftQuestions'
 
 const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
@@ -58,6 +59,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
 
   //  交易上鍊後 更新資訊用
   const [isOnChain, setIsOnChain] = useState(false);
+  const [imgURL, setImgURL] = useState([]);
 
   const borderBackground = `linear-gradient(${customHeadingColor} ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint})`
 
@@ -117,12 +119,14 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     contents: string[]; // new prop for the 3 content strings
+    setImgURL: Dispatch<SetStateAction<String[]>>;
   };
 
 
   const Modal: React.FC<ModalProps> = () => {
     const closeModal = () => {
       setIsOpen(false);
+      setImgURL([]);
     };
 
     return (
@@ -132,12 +136,40 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
           <ModalTitle>{contents[0]}</ModalTitle>
           <hr />
           <div style={{
-            marginTop: '10vh', marginBottom: '10vh',
-            display: 'flex', justifyContent: 'center'
+            marginTop: '5vh', marginBottom: '5vh',
+            display: 'flex', flexDirection: 'row',
+            flexWrap: "wrap",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-            <Text bold fontSize="18px">
-              {contents[1]}
-            </Text>
+            {
+              imgURL.length > 0 &&
+              imgURL.map((imageUrl, index) => {
+                console.log(imageUrl)
+                return (
+                  <div style={{
+                    margin: '10px'
+                  }}>
+                    <img
+                      key={index}
+                      src={imageUrl}
+                      alt={`Image ${index}`}
+                      style={{
+                        maxWidth: '130px'
+                      }} />
+                    <Text bold fontSize="18px">
+                      #{contents[1].split(",")[index]}
+                    </Text>
+                  </div>
+                )
+              })
+            }
+            {
+              imgURL.length == 0 &&
+              <Text bold fontSize="18px">
+                {contents[1]}
+              </Text>
+            }
           </div>
           <hr />
           <Text bold fontSize="14px" color="textSubtle">
@@ -186,6 +218,10 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       // setErrorText(err.toString())
     }
   }
+  interface Log {
+    topics: string[],
+    // other log properties
+  }
 
   const handleMint = async () => {
     if (!account) {
@@ -209,7 +245,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       const result = await nftContract.mint(mintAmount, {
         value: pay,
       })
-      
+
       setContents(
         [
           "Minting NFT",
@@ -217,22 +253,78 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
           ""
         ]
       );
-
+      console.log(result);
       provider.getTransaction(result.hash)
         .then((tx: any) => {
           // 監聽交易上鍊事件
-          tx.wait().then((receipt: any) => {
+          tx.wait().then(async (receipt: any) => {
+
             console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`);
             swal("Success", "NFT Bought Successfully", "success")
+            //  資料已上鍊 刷新合約信息
             setIsOnChain(true)
-            setIsOpen(false)
+
+            //  獲取 mint的參數
+            const topicsArrays = receipt.logs.map((log: Log) => log.topics);
+
+            //  得到 mint的 tokenID (16進制)
+            const fourthTopics = topicsArrays.reduce((acc, curr) => {
+              acc.push(curr[3]);
+              return acc;
+            }, []);
+
+            //  轉換tokenID為 10進制
+            const topicsDecimals = fourthTopics.map((hexString) => {
+              return parseInt(hexString, 16);
+            });
+
+
+            //  獲取NFT資料
+            const tokenUris = topicsDecimals.map((tokenID) => nftContract.tokenURI(tokenID));
+
+            //  得到所有 mint 到的 tokenURI
+            Promise.all(tokenUris)
+              .then((responses) => {
+                const fetchPromises = responses.map((response) => {
+                  // 抓取各自的 tokenURI
+                  return fetch(response)
+                    .then((responsed) => responsed.json())
+                    .then((data) => {
+                      console.log(data);
+                      const image = data.image.split("ipfs://")[1];
+                      return `https://gateway.pinata.cloud/ipfs/${image}`;
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                      // 处理错误
+                    });
+                });
+                // 并发地处理所有图像 URL
+                return Promise.all(fetchPromises);
+              })
+              .then((imageURLs) => {
+                console.log(imageURLs);
+                setImgURL(imageURLs);
+              })
+              .catch((error) => {
+                console.error(error);
+                // 处理错误
+              });
+
+            setContents(
+              [
+                "NFT Minted",
+                `${topicsDecimals}`,
+                "The above are your NFT ID"
+              ]
+            );
           });
         })
         .catch((err: any) => {
           console.error(err);
         });
 
-        const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
+      const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
       setAlreadyMint(alreadyMinted)
     } catch (err) {
       setErrorText(err.toString())
@@ -252,7 +344,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   }, [account, isOnChain])
   return (
     <>
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} contents={contents} />
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} contents={contents} setImgURL={setImgURL} />
       <style jsx global>
         {`
           #home-2 .page-bg {
@@ -320,6 +412,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
+        <Text bold fontSize={24}>BNB Tiger NFT</Text> <br />
         {/* <Image src="./bnbtiger/nft-pic-2.png" width={200} height={243} alt="nft" className="nft-1" /> */}
         <Row justifyContent="center">
           <Card borderBackground={gradientBorderColor} style={{ minWidth: '400px', position: 'relative', zIndex: 99 }}>
@@ -334,7 +427,11 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                     alt="box-nft-1"
                   />
                 </span>
-                <span className="box-nft-text">Nft Mint</span>
+                <span className="box-nft-text"
+                  style={{
+                    color: 'black'
+                  }}
+                >Nft Mint</span>
                 <span className="box-nft-2">
                   <Image
                     className="box-nft-img-2"
@@ -382,8 +479,11 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 </Button>
               </Row>
             </CardBody>
+            <CardBody>
+              NFT Price : 0.01 BNB
+            </CardBody>
             <CardFooter>
-              0
+              Mint Progress : {alreadyMint}
               <Slider
                 name="slider"
                 min={0}
@@ -394,12 +494,16 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 disabled
                 valueLabel={totalSupply === alreadyMint ? 'MAX' : `${(alreadyMint / totalSupply) * 100}%`}
               />
-              {totalSupply}
+              Total : {totalSupply}
             </CardFooter>
           </Card>
         </Row>
         {/* <Image src="./bnbtiger/nft-pic-1.png" width={200} height={243} alt="nft2" className="nft-2" /> */}
       </PageSection>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <NftQuestions />
+      </div>
+
     </>
   )
 }
