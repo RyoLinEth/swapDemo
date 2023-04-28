@@ -30,7 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
-import NftQuestions from './NFTQuestions'
+import NftQuestions from 'views/Nft/market/NFTQuestions'
 
 const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
