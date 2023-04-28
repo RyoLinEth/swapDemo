@@ -30,7 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import ErrorMessage from './ErrorMessage'
-import NftQuestions from './nftQuestions'
+import NftQuestions from './NftQuestions'
 
 const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
@@ -326,8 +326,12 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
 
       const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
       setAlreadyMint(alreadyMinted)
-    } catch (err) {
-      setErrorText(err.toString())
+    } catch (err: any) {
+      if (err.reason !== undefined)
+        swal("Error", `${err.reason}`, "error");
+      else
+        swal("Error", `${err.message}`, "error");
+      setIsOpen(false)
       // @ts-ignore
       setErrorText(err.reason)
     }

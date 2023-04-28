@@ -36,7 +36,9 @@ const IfoContainer: React.FC<React.PropsWithChildren<TypeProps>> = ({ ifoSection
       </IfoStepBackground> */}
       <Container>
         {/* ifo底部的详细资料 */}
+        <div style={{display:'flex', justifyContent:'center'}}>
         <IfoQuestions />
+        </div>
         {/* ifo底部的链接 */}
         {/* <LinkExternal
           href="https://docs.pancakeswap.finance/contact-us/business-partnerships#ifos-token-sales"
