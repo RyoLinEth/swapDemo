@@ -571,7 +571,7 @@ const IfoTopInviteInfo = () => {
   };
 
 
-  const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen, contents }) => {
+  const Modal: React.FC<ModalProps> = () => {
     const closeModal = () => {
       setIsOpen(false);
     };
