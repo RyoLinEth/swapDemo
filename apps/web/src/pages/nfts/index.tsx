@@ -283,34 +283,34 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
             const tokenUris = topicsDecimals.map((tokenID) => nftContract.tokenURI(tokenID));
 
             //  得到所有 mint 到的 tokenURI
-            Promise.all(tokenUris)
-              .then((responses) => {
-                const fetchPromises = responses.map((response) => {
-                  // 抓取各自的 tokenURI
-                  return fetch(response)
-                    .then((responsed) => responsed.json())
-                    .then((data) => {
-                      console.log(data);
-                      const image = data.image.split("ipfs://")[1];
-                      return `https://gateway.pinata.cloud/ipfs/${image}`;
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                      // 处理错误
-                    });
-                });
-                // 并发地处理所有图像 URL
-                return Promise.all(fetchPromises);
-              })
-              .then((imageURLs) => {
-                console.log(imageURLs);
-                setImgURL(imageURLs);
-              })
-              .catch((error) => {
-                console.error(error);
-                // 处理错误
-              });
-
+            // Promise.all(tokenUris)
+            //   .then((responses) => {
+            //     const fetchPromises = responses.map((response) => {
+            //       // 抓取各自的 tokenURI
+            //       return fetch(response)
+            //         .then((responsed) => responsed.json())
+            //         .then((data) => {
+            //           console.log(data);
+            //           const image = data.image.split("ipfs://")[1];
+            //           return `https://gateway.pinata.cloud/ipfs/${image}`;
+            //         })
+            //         .catch((error) => {
+            //           console.error(error);
+            //           // 处理错误
+            //         });
+            //     });
+            //     // 并发地处理所有图像 URL
+            //     return Promise.all(fetchPromises);
+            //   })
+            //   .then((imageURLs) => {
+            //     console.log(imageURLs);
+            //     setImgURL(imageURLs);
+            //   })
+            //   .catch((error) => {
+            //     console.error(error);
+            //     // 处理错误
+            //   });
+            console.log(tokenUris);
             setContents(
               [
                 "NFT Minted",
