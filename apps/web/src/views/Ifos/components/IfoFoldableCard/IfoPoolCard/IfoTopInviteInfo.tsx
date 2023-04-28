@@ -53,11 +53,9 @@ const StyleLabel = styled.div`
   }
 
 `
-const claimContractAddress = "0xBA8CC2640264B84B1FA32B4AA5dEC7058AF1Ca16"; // 此合约暂时还没有
 const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
-const contractAddress = "0x5F58Fb2812C3707e51ecb452263E9550935ca9A1";
-// const contractAddress = "0x8A426d810A80D33C943fcBe6219476Ff85f1b376";
-const defaultInviter = "0x16c21c28FED3e3B545493e111dB87842D11281AD";
+const contractAddress = "0x2Ba22f6c3AeF0d052bF52baE363eEe16356317c5";
+const defaultInviter = "0x0D971B7B7520f1FCE9b90665CA59952ea2c52b04";
 
 const IfoTopInviteInfo = () => {
   const { address: account } = useAccount()
@@ -77,8 +75,6 @@ const IfoTopInviteInfo = () => {
   const [contract, setContract] = useState(null);
   const [usdtContract, setUsdtContract] = useState(null);
 
-  const [claimContract, setClaimContract] = useState(null);
-
   //  交易上鍊後 更新資訊用
   const [isOnChain, setIsOnChain] = useState(false);
 
@@ -97,12 +93,6 @@ const IfoTopInviteInfo = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [contents, setContents] = useState(["String1", "String1", "String1"]);
-  // const [contents, setContents] = useState(["String1","String1","String1"]);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
 
   const copyLink = () => {
     if (account === null) {
@@ -190,13 +180,9 @@ const IfoTopInviteInfo = () => {
 
       const tempInviteInfo = await tempContract.getInviteInfo(account);
       setInviteInfo(tempInviteInfo)
-
-      // const tempIsClaimed = await tempClaimContract.canAddressClaim(account);
-      // setIsClaimed(!tempIsClaimed);
     } catch (error) {
       console.log('666');
       console.log(error)
-
     }
   }
 
@@ -315,12 +301,45 @@ const IfoTopInviteInfo = () => {
       swal("Error", "You have already claimed", "error");
       return;
     }
-    if (!isClaimActive && account !== "0x2678ecc61df4f476930069c801786efa5f1ca72f") {
+    if (!isClaimActive) {
       swal("Error", "Cannot Claim Right Now. The time able to claim will be informed in our official telegram.", "error")
       return
     }
+
     try {
+
+      setIsOpen(true)
+      setContents(
+        [
+          "Claim IDO Token",
+          "Waiting For Confirmation",
+          "Confirm this transaction in your wallet"
+        ]
+      );
+
       const result = await contract.claimToken()
+
+      setContents(
+        [
+          "Claiming Token",
+          "You are claiming IDO token",
+          ""
+        ]
+      );
+      provider.getTransaction(result.hash)
+        .then((tx: any) => {
+          // 監聽交易上鍊事件
+          tx.wait().then((receipt: any) => {
+            console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`);
+            swal("Success", "Successfully Claimed", "success")
+            setIsOnChain(true)
+            setIsOpen(false)
+          });
+        })
+        .catch((err: any) => {
+          console.error(err);
+        });
+
     } catch (err: any) {
       if (err.reason !== undefined)
         swal("Error", `${err.reason}`, "error");
@@ -361,6 +380,7 @@ const IfoTopInviteInfo = () => {
   }, [account, isOnChain]);
 
   const idoWithBNB = async () => {
+    if (account === null || account === undefined) return;
     const bnbAmount = ethers.utils.parseUnits(`${BNBAmount}`, "ether");
     try {
       setIsOpen(true)
