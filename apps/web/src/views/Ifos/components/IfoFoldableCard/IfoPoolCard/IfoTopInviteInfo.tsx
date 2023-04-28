@@ -54,7 +54,7 @@ const StyleLabel = styled.div`
 
 `
 const usdtAddress = "0xbd4E07164F583c2Cb87655BDdE1b7050D9aecE05";
-const contractAddress = "0x2Ba22f6c3AeF0d052bF52baE363eEe16356317c5";
+const contractAddress = "0x4915E5641ad9a37CDCbF5Bf3e9edDaaD4bc5aCF8";
 const defaultInviter = "0x0D971B7B7520f1FCE9b90665CA59952ea2c52b04";
 
 const IfoTopInviteInfo = () => {
@@ -406,16 +406,16 @@ const IfoTopInviteInfo = () => {
       );
 
       provider.getTransaction(result.hash)
-        .then((tx) => {
+        .then((tx: any) => {
           // 監聽交易上鍊事件
-          tx.wait().then((receipt) => {
+          tx.wait().then((receipt: any) => {
             console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`);
             swal("Success", "已成功认购", "success")
             setIsOnChain(true)
             setIsOpen(false)
           });
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.error(err);
         });
 
