@@ -1,5 +1,5 @@
 import React from 'react'
-import { Message, MessageText, Button, Row } from '@pancakeswap/uikit'
+import { Message, MessageText, Button, Row, Text } from '@pancakeswap/uikit'
 
 const StepFour = (props) => {
   const { isLoading, isRejected, setGoSteps, setIsRejected } = props
@@ -48,7 +48,21 @@ const StepFour = (props) => {
             </Message>
           )}
         </Row>
-
+        <span style={{ textAlign: 'left' }}>
+          <Text fontSize={20} bold style={{ paddingLeft: '20px' }}>
+            You need to confirm 2 transactions
+          </Text>
+          <br />
+          <Text fontSize={14} bold style={{ paddingLeft: '40px' }}>
+            1.  Confirm the approval for reward token,
+            when creating the pool,
+            the reward token should be transfered from your wallet to the pool.
+          </Text>
+          <br />
+          <Text fontSize={14} bold style={{ paddingLeft: '40px' }}>
+            2.  Confirm the transaction of creating pool.
+          </Text>
+        </span>
         <div className="footer">
           <Button
             mr="8px"

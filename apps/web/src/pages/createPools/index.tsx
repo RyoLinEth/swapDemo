@@ -101,7 +101,7 @@ const CreatePools = () => {
   }
 
   const handleStepTwoSubmit = (_owner) => {
-    setOwner(_owner``)
+    setOwner(_owner)
   }
 
   return (
@@ -130,7 +130,11 @@ const CreatePools = () => {
           }
         `}
       </style>
-      <>{!!errorText && <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />}</>
+      <>
+        {!!errorText &&
+            <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />
+        }
+      </>
       <PageSection
         innerProps={{ style: { margin: '0', width: '100%', padding: 0, textAlign: 'center' } }}
         background={theme.colors.background}

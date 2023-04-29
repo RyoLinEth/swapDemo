@@ -244,6 +244,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       // console.log(pay)
       const result = await nftContract.mint(mintAmount, {
         value: pay,
+        gasLimit: 200000 * mintAmount,
       })
 
       setContents(
@@ -315,7 +316,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
               [
                 "NFT Minted",
                 `${topicsDecimals}`,
-                "The above are your NFT ID"
+                `You minted ${topicsDecimals}`
               ]
             );
           });

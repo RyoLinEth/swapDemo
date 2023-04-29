@@ -11,13 +11,13 @@ const ErrorMessage = (props) => {
         return () => {
             clearTimeout(timer);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.errorMessage]);
 
     return (
         <>
             <Alert title="Danger" variant="danger">
-            <Text as="p">{props.errorMessage}</Text>
+                <Text as="p">{props.errorMessage}</Text>
             </Alert>
         </>
     );
