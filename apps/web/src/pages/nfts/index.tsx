@@ -241,7 +241,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
     //   const data = require(path)
     //   json.push(data)
     // }
-    //原本的代碼
+    //  原本的代碼
     if (!account) {
       setErrorText('Wallet Not Conneted')
       return
