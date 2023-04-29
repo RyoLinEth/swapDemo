@@ -148,7 +148,8 @@ const StepThree = (props) => {
       title: 'Staking Token',
       placeHolder: 'The token going to be staked',
       type: 'text',
-      value: stakingTokenValue,
+      value: 'stakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValue',
+      // value: stakingTokenValue,
     },
     {
       title: 'Reward Token',
@@ -216,6 +217,9 @@ const StepThree = (props) => {
           }
           .card thead tr th {
             font-size: 18px;
+          }
+          .card tbody tr td {
+            word-break: break-all;
           }
         `}
       </style>

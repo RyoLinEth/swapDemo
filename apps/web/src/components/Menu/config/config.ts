@@ -137,17 +137,30 @@ const config: (
     // },
     {
       label: 'Ido',
-      href: '/ifo',
+      href: '/ido',
       icon: TrophyIcon,
       fillIcon: TrophyFillIcon,
       items: [
         {
           label: 'Ido',
-          href: '/ifo',
+          href: '/ido',
           image: '/images/ifos/ifo-bunny.png',
         },
       ],
     },
+    // {
+    //   label: 'Ido',
+    //   href: '/ifo',
+    //   icon: TrophyIcon,
+    //   fillIcon: TrophyFillIcon,
+    //   items: [
+    //     {
+    //       label: 'Ido',
+    //       href: '/ifo',
+    //       image: '/images/ifos/ifo-bunny.png',
+    //     },
+    //   ],
+    // },
     // {
     //   label: t('IFO'),
     //   href: '/ifo',

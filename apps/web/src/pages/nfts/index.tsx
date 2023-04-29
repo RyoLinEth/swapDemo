@@ -14,7 +14,7 @@ import {
   MinusIcon,
   Button,
   Image,
-  Text
+  Text,
 } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import useTheme from 'hooks/useTheme'
@@ -30,7 +30,16 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import NftQuestions from 'views/Nft/market/NFTQuestions'
-import NFTJson from 'views/Nft/market/NFTJson/1.json'
+import JSON1 from './Json/1.json'
+import JSON2 from './Json/2.json'
+import JSON3 from './Json/3.json'
+import JSON4 from './Json/4.json'
+import JSON5 from './Json/5.json'
+import JSON6 from './Json/6.json'
+import JSON7 from './Json/7.json'
+import JSON8 from './Json/8.json'
+import JSON9 from './Json/9.json'
+import JSON10 from './Json/10.json'
 import ErrorMessage from './ErrorMessage'
 
 const headerHeight = '73px'
@@ -46,10 +55,10 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
 
   const { t } = useTranslation()
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [contents, setContents] = useState(["String1", "String1", "String1"]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [contents, setContents] = useState(['String1', 'String1', 'String1'])
 
-  const [provider, setProvider] = useState(null);
+  const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
   const [nftContract, setNFTContract] = useState(null)
   const [mintAmount, setMintAmount] = useState(1)
@@ -59,76 +68,73 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   const [errorText, setErrorText] = useState('')
 
   //  交易上鍊後 更新資訊用
-  const [isOnChain, setIsOnChain] = useState(false);
-  const [imgURL, setImgURL] = useState([]);
+  const [isOnChain, setIsOnChain] = useState(false)
+  const [imgURL, setImgURL] = useState([])
 
   const borderBackground = `linear-gradient(${customHeadingColor} ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint})`
 
   // Gradient overlap is also possible, just put the "dividing" gradient first and after that the header gradient
   const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`
 
-
   interface ModalContainerProps {
-    isOpen: boolean;
+    isOpen: boolean
   }
 
   const ModalButton = styled.button`
-  background-color: #0077FF;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
+    background-color: #0077ff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  `
 
   const ModalContainer = styled.div<ModalContainerProps>`
-  display: ${props => props.isOpen ? 'block' : 'none'};
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-`;
-
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  `
 
   const ModalContent = styled.div`
-  background-color: white;
-  margin: 20vh auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-`;
+    background-color: white;
+    margin: 20vh auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+  `
 
   const ModalClose = styled.span`
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-`;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  `
 
   const ModalTitle = styled.h2`
-  margin-top: 0;
-`;
+    margin-top: 0;
+  `
 
   type ModalProps = {
-    isOpen: boolean;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
-    contents: string[]; // new prop for the 3 content strings
-    setImgURL: Dispatch<SetStateAction<string[]>>;
-  };
-
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+    contents: string[] // new prop for the 3 content strings
+    setImgURL: Dispatch<SetStateAction<string[]>>
+  }
 
   const Modal: React.FC<ModalProps> = () => {
     const closeModal = () => {
-      setIsOpen(false);
-      setImgURL([]);
-    };
+      setIsOpen(false)
+      setImgURL([])
+    }
 
     return (
       <ModalContainer isOpen={isOpen}>
@@ -136,41 +142,45 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
           <ModalClose onClick={closeModal}>&times;</ModalClose>
           <ModalTitle>{contents[0]}</ModalTitle>
           <hr />
-          <div style={{
-            marginTop: '5vh', marginBottom: '5vh',
-            display: 'flex', flexDirection: 'row',
-            flexWrap: "wrap",
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            {
-              imgURL.length > 0 &&
+          <div
+            style={{
+              marginTop: '5vh',
+              marginBottom: '5vh',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {imgURL.length > 0 &&
               imgURL.map((imageUrl, index) => {
                 console.log(imageUrl)
                 return (
-                  <div style={{
-                    margin: '10px'
-                  }}>
+                  <div
+                    style={{
+                      margin: '10px',
+                    }}
+                  >
                     <img
-                      key={contents[1].split(",")[index]}
+                      key={contents[1].split(',')[index]}
                       src={imageUrl}
-                      alt={contents[1].split(",")[index]}
+                      alt={contents[1].split(',')[index]}
                       style={{
-                        maxWidth: '130px'
-                      }} />
+                        maxWidth: '130px',
+                      }}
+                    />
                     <Text bold fontSize="18px">
-                      #{contents[1].split(",")[index]}
+                      #{contents[1].split(',')[index]}
                     </Text>
                   </div>
                 )
-              })
-            }
-            {
-              imgURL.length === 0 &&
+              })}
+            {imgURL.length === 0 && (
               <Text bold fontSize="18px">
                 {contents[1]}
               </Text>
-            }
+            )}
           </div>
           <hr />
           <Text bold fontSize="14px" color="textSubtle">
@@ -178,9 +188,8 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
           </Text>
         </ModalContent>
       </ModalContainer>
-    );
-  };
-
+    )
+  }
 
   const handleAmount = (number: number) => {
     setMintAmount(mintAmount + number)
@@ -214,40 +223,32 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       const _totalSupply = Number(_remainderMint) + Number(_alreadyMint)
       setTotalSupply(+_totalSupply)
     } catch (err) {
-      console.log(err);
+      console.log(err)
       // // alert(err)
       // setErrorText(err.toString())
     }
   }
   interface Log {
-    topics: string[],
+    topics: string[]
     // other log properties
   }
 
   const handleMint = async () => {
     // 直接用這邊抓json看看
-    const json = [];
-    for (let i = 1; i < 10; i++) {
-      const path = `./JSON/${i}.json`;
-      const data = require(path);
-      json.push(data);
-    }
-
+    const json = [JSON1, JSON2, JSON3, JSON4, JSON5, JSON6, JSON7, JSON8, JSON9, JSON10]
+    // for (let i = 1; i < 10; i++) {
+    //   const path = `./JSON/${i}.json`
+    //   const data = require(path)
+    //   json.push(data)
+    // }
     //原本的代碼
     if (!account) {
       setErrorText('Wallet Not Conneted')
       return
     }
     try {
-
       setIsOpen(true)
-      setContents(
-        [
-          "Mint NFT",
-          "Waiting For Confirmation",
-          "Confirm this transaction in your wallet"
-        ]
-      );
+      setContents(['Mint NFT', 'Waiting For Confirmation', 'Confirm this transaction in your wallet'])
 
       const nftPrice = await nftContract.mintPrice()
       const pay = mintAmount * nftPrice
@@ -257,41 +258,34 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         gasLimit: 200000 * mintAmount,
       })
 
-      setContents(
-        [
-          "Minting NFT",
-          "Your NFT is now coming...",
-          ""
-        ]
-      );
-      console.log(result);
-      provider.getTransaction(result.hash)
+      setContents(['Minting NFT', 'Your NFT is now coming...', ''])
+      console.log(result)
+      provider
+        .getTransaction(result.hash)
         .then((tx: any) => {
           // 監聽交易上鍊事件
           tx.wait().then(async (receipt: any) => {
-
-            console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`);
-            swal("Success", "NFT Bought Successfully", "success")
+            console.log(`交易已上鍊，區塊高度為 ${receipt.blockNumber}`)
+            swal('Success', 'NFT Bought Successfully', 'success')
             //  資料已上鍊 刷新合約信息
             setIsOnChain(true)
 
             //  獲取 mint的參數
-            const topicsArrays = receipt.logs.map((log: Log) => log.topics);
+            const topicsArrays = receipt.logs.map((log: Log) => log.topics)
 
             //  得到 mint的 tokenID (16進制)
             const fourthTopics = topicsArrays.reduce((acc, curr) => {
-              acc.push(curr[3]);
-              return acc;
-            }, []);
+              acc.push(curr[3])
+              return acc
+            }, [])
 
             //  轉換tokenID為 10進制
             const topicsDecimals = fourthTopics.map((hexString) => {
-              return parseInt(hexString, 16);
-            });
-
+              return parseInt(hexString, 16)
+            })
 
             //  獲取NFT資料
-            const tokenUris = topicsDecimals.map((tokenID) => nftContract.tokenURI(tokenID));
+            const tokenUris = topicsDecimals.map((tokenID) => nftContract.tokenURI(tokenID))
 
             //  得到所有 mint 到的 tokenURI
             Promise.all(tokenUris)
@@ -302,47 +296,39 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                   return fetch(response)
                     .then((responsed) => responsed.json())
                     .then((data) => {
-                      console.log(data);
-                      const image = data.image.split("ipfs://")[1];
-                      return `https://gateway.pinata.cloud/ipfs/${image}`;
+                      console.log(data)
+                      const image = data.image.split('ipfs://')[1]
+                      return `https://gateway.pinata.cloud/ipfs/${image}`
                     })
                     .catch((error) => {
-                      console.error(error);
+                      console.error(error)
                       // 处理错误
-                    });
-                });
+                    })
+                })
                 // 并发地处理所有图像 URL
-                return Promise.all(fetchPromises);
+                return Promise.all(fetchPromises)
               })
               .then((imageURLs) => {
-                console.log(imageURLs);
-                setImgURL(imageURLs);
+                console.log(imageURLs)
+                setImgURL(imageURLs)
               })
               .catch((error) => {
-                console.error(error);
+                console.error(error)
                 // 处理错误
-              });
-            console.log(tokenUris);
-            setContents(
-              [
-                "NFT Minted",
-                `${topicsDecimals}`,
-                `You minted ${topicsDecimals}`
-              ]
-            );
-          });
+              })
+            console.log(tokenUris)
+            setContents(['NFT Minted', `${topicsDecimals}`, `You minted ${topicsDecimals}`])
+          })
         })
         .catch((err: any) => {
-          console.error(err);
-        });
+          console.error(err)
+        })
 
       const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
       setAlreadyMint(alreadyMinted)
     } catch (err: any) {
-      if (err.reason !== undefined)
-        swal("Error", `${err.reason}`, "error");
-      else
-        swal("Error", `${err.message}`, "error");
+      if (err.reason !== undefined) swal('Error', `${err.reason}`, 'error')
+      else swal('Error', `${err.message}`, 'error')
       setIsOpen(false)
       // @ts-ignore
       setErrorText(err.reason)
@@ -355,7 +341,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
     }
     if (isOnChain) {
       initContract()
-      setIsOnChain(prev => !prev)
+      setIsOnChain((prev) => !prev)
     }
   }, [account, isOnChain])
   return (
@@ -428,7 +414,10 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
-        <Text bold fontSize={24}>BNB Tiger NFT</Text> <br />
+        <Text bold fontSize={24}>
+          BNB Tiger NFT
+        </Text>{' '}
+        <br />
         {/* <Image src="./bnbtiger/nft-pic-2.png" width={200} height={243} alt="nft" className="nft-1" /> */}
         <Row justifyContent="center">
           <Card borderBackground={gradientBorderColor} style={{ minWidth: '400px', position: 'relative', zIndex: 99 }}>
@@ -443,11 +432,14 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                     alt="box-nft-1"
                   />
                 </span>
-                <span className="box-nft-text"
+                <span
+                  className="box-nft-text"
                   style={{
-                    color: 'black'
+                    color: 'black',
                   }}
-                >Nft Mint</span>
+                >
+                  Nft Mint
+                </span>
                 <span className="box-nft-2">
                   <Image
                     className="box-nft-img-2"
@@ -495,9 +487,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 </Button>
               </Row>
             </CardBody>
-            <CardBody>
-              NFT Price : 0.01 BNB
-            </CardBody>
+            <CardBody>NFT Price : 0.01 BNB</CardBody>
             <CardFooter>
               Mint Progress : {alreadyMint}
               <Slider
@@ -506,7 +496,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 max={totalSupply}
                 value={alreadyMint}
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onValueChanged={() => { }}
+                onValueChanged={() => {}}
                 disabled
                 valueLabel={totalSupply === alreadyMint ? 'MAX' : `${(alreadyMint / totalSupply) * 100}%`}
               />
@@ -519,7 +509,6 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <NftQuestions />
       </div>
-
     </>
   )
 }
