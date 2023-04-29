@@ -30,16 +30,6 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import NftQuestions from 'views/Nft/market/NFTQuestions'
-import JSON1 from './Json/1.json'
-import JSON2 from './Json/2.json'
-import JSON3 from './Json/3.json'
-import JSON4 from './Json/4.json'
-import JSON5 from './Json/5.json'
-import JSON6 from './Json/6.json'
-import JSON7 from './Json/7.json'
-import JSON8 from './Json/8.json'
-import JSON9 from './Json/9.json'
-import JSON10 from './Json/10.json'
 import ErrorMessage from './ErrorMessage'
 
 const headerHeight = '73px'
@@ -234,13 +224,6 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   }
 
   const handleMint = async () => {
-    // 直接用這邊抓json看看
-    const json = [JSON1, JSON2, JSON3, JSON4, JSON5, JSON6, JSON7, JSON8, JSON9, JSON10]
-    // for (let i = 1; i < 10; i++) {
-    //   const path = `./JSON/${i}.json`
-    //   const data = require(path)
-    //   json.push(data)
-    // }
     //  原本的代碼
     if (!account) {
       setErrorText('Wallet Not Conneted')
@@ -496,7 +479,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 max={totalSupply}
                 value={alreadyMint}
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onValueChanged={() => {}}
+                onValueChanged={() => { }}
                 disabled
                 valueLabel={totalSupply === alreadyMint ? 'MAX' : `${(alreadyMint / totalSupply) * 100}%`}
               />

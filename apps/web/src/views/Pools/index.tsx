@@ -9,7 +9,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { Token } from '@pancakeswap/sdk'
 import { TokenPairImage } from 'components/TokenImage'
 
-import {allPool} from 'config/constants/pools'
+import { allPool } from 'config/constants/pools'
 import CardActions from './components/PoolCard/CardActions'
 import AprRow from './components/PoolCard/AprRow'
 import CardFooter from './components/PoolCard/CardFooter'
@@ -53,15 +53,26 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-              {t('Syrup Pools')}
+              {t('BNBTiger Pools')}
             </Heading>
             <Heading scale="md" color="text">
               {t('Just stake some tokens to earn.')}
             </Heading>
             <Heading scale="md" color="text">
-              {t('High APR, low risk.')}
+              {t('High APR.')}
             </Heading>
+
           </Flex>
+
+          <Image
+            mx="auto"
+            mt="12px"
+            // src="/images/decorations/3d-syrup-bunnies.png"
+            src="/images/decorations/bnbtiger.png"
+            alt="Pancake illustration"
+            width={192}
+            height={184.5}
+          />
         </Flex>
       </PageHeader>
       <Page>
@@ -69,7 +80,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
           {/* chosenPools为当前页面上展示的所有池子的列表;viewModel为对应的模式;stakedOnly为只展示自己已经质押了的矿池;normalizedUrlSearch为自己输入的查询条件 */}
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
-            {/* 跳转到pancake的v1的矿池 */}
+              {/* 跳转到pancake的v1的矿池 */}
               {/* {showFinishedPools && (
                 <FinishedTextContainer>
                   <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
@@ -98,12 +109,20 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                         isStaked={Boolean(pool?.userData?.stakedBalance?.gt(0))}
                         // 池子顶部卡片右上角的代币头像
                         tokenPairImage={
-                          <TokenPairImage
-                            primaryToken={pool.earningToken}
-                            secondaryToken={pool.stakingToken}
+                          //  先將圖片移除
+                          <Image
+                            src="/images/decorations/bnbtiger.png"
+                            alt="Pancake illustration"
                             width={64}
                             height={64}
                           />
+                          // <TokenPairImage
+                          //   primaryToken={pool.earningToken}
+                          //   secondaryToken={pool.stakingToken}
+                          //   width={64}
+                          //   height={64}
+                          // />
+                          // null
                         }
                         // 卡片顶部的年利率
                         aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} />}
@@ -113,7 +132,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                             <CardActions pool={pool} stakedBalance={pool?.userData?.stakedBalance} />
                           ) : (
                             <>
-                            {/* 卡片主内容区的连接钱包按钮 */}
+                              {/* 卡片主内容区的连接钱包按钮 */}
                               <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
                                 {t('Start earning')}
                               </Text>
@@ -149,7 +168,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                   )}
                 </Pool.PoolsTable>
               )}
-              <Image
+              {/* <Image
                 mx="auto"
                 mt="12px"
                 // src="/images/decorations/3d-syrup-bunnies.png"
@@ -157,7 +176,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 alt="Pancake illustration"
                 width={192}
                 height={184.5}
-              />
+              /> */}
             </>
           )}
         </PoolControls>

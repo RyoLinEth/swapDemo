@@ -148,8 +148,7 @@ const StepThree = (props) => {
       title: 'Staking Token',
       placeHolder: 'The token going to be staked',
       type: 'text',
-      value: 'stakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValuestakingTokenValue',
-      // value: stakingTokenValue,
+      value: stakingTokenValue,
     },
     {
       title: 'Reward Token',
