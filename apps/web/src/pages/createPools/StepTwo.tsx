@@ -36,7 +36,7 @@ const StepTwo = ({ setGoSteps, defaultAccount, ownerValue, onSubmit }) => {
             margin-bottom: 5px;
           }
           .content-box {
-            width: 50%;
+            width: 100%;
           }
         `}
       </style>

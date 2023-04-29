@@ -213,11 +213,11 @@ const StepOne = ({
           .step-one-item .footer {
             display: flex;
             justify-content: flex-end;
-            margin-top: auto;
+            margin-top: 8px;
           }
           .row {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(1, 1fr);
             gap: 20px 20px;
           }
         `}
