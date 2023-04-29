@@ -30,6 +30,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ethers } from 'ethers'
 import nftABI from 'config/abi/nft-nftABI.json'
 import NftQuestions from 'views/Nft/market/NFTQuestions'
+import NFTJson from 'views/Nft/market/NFTJson/1.json'
 import ErrorMessage from './ErrorMessage'
 
 const headerHeight = '73px'
@@ -224,6 +225,15 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   }
 
   const handleMint = async () => {
+    // 直接用這邊抓json看看
+    const json = [];
+    for (let i = 1; i < 10; i++) {
+      const path = `./JSON/${i}.json`;
+      const data = require(path);
+      json.push(data);
+    }
+
+    //原本的代碼
     if (!account) {
       setErrorText('Wallet Not Conneted')
       return
@@ -286,7 +296,8 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
             //  得到所有 mint 到的 tokenURI
             Promise.all(tokenUris)
               .then((responses) => {
-                const fetchPromises = responses.map((response) => {
+                const fetchPromises = responses.map(async (response) => {
+                  console.log(response)
                   // 抓取各自的 tokenURI
                   return fetch(response)
                     .then((responsed) => responsed.json())
