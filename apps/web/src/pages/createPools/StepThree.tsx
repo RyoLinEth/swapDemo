@@ -107,7 +107,7 @@ const StepThree = (props) => {
       const result = await contract.deployPool(
         stakingTokenValue,
         rewardTokenValue,
-        rewardPerBlockValue * BlockTime, // 每秒的獎勵 x 一區塊幾秒
+        ethers.utils.parseUnits(`${rewardPerBlockValue * BlockTime}`,decimal), // 每秒的獎勵 x 一區塊幾秒
         getBlockNumber(startTimeValue), // 轉換成區塊時間
         getBlockNumber(endTimeValue),
         0,

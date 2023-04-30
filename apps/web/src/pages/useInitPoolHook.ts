@@ -11,7 +11,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import TokenABI from './pools/ABI/TokenABI.json'
 import CreatePoolABI from './pools/ABI/CreatePool.json'
 
-const CreatePoolContract = '0xdFfbd6df5C039B27096e760fFD5B734dc33368F3'
+const CreatePoolContract = '0x6f87387Ca3045Ff48C0AAc4e80193ECC7F917a7F'
 
 const useInitPoolHook = () => {
   const dispatch = useAppDispatch()
@@ -93,7 +93,7 @@ const useInitPoolHook = () => {
               56: item?.[3],
             },
             poolCategory: item?.[4],
-            tokenPerBlock: ethers.utils.formatUnits(item?.[5], '9'),
+            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], "0")),
           }
         }),
         ...tempEndPool.map((item) => {
@@ -107,7 +107,7 @@ const useInitPoolHook = () => {
             },
             poolCategory: item?.[4],
             // TODO: 此处的精度可能是需要进行修改的
-            tokenPerBlock: ethers.utils.formatUnits(item?.[5], '9'),
+            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], "0")),
             isFinished: true, // 表示结束状态的字断
           }
         }),
@@ -154,6 +154,7 @@ const useInitPoolHook = () => {
   }
 
   const updateEthers = async () => {
+    console.log("Updating Ethers")
     try {
       // @ts-ignore
       const tempProvider = new ethers.providers.Web3Provider(window.ethereum)
@@ -166,6 +167,15 @@ const useInitPoolHook = () => {
       setContract(tempContract)
 
       const poolsData = await tempContract.viewSmartChef()
+      console.log(poolsData);
+
+      //  當緩存中的poolData的長度 與 獲取到的PoolData長度相同時
+      //  表示原有的PoolData沒有增加，故不用繼續進行更新
+      if (poolsData.length === allPool.pools.length) {
+        // @ts-ignore
+        window.isLoadingPool = false
+        return
+      };
       if (poolsData !== null) {
         filterData(poolsData, tempProvider, tempSigner)
         return
@@ -188,12 +198,16 @@ const useInitPoolHook = () => {
     // 如果值存到了session里面，就从session里面读值，来初始化 state；并且把初始化状态改为true
     if (data) {
       allPool.pools = JSON.parse(data)
+      console.log(allPool.pools)
+      console.log(allPool.pools.length)
       batch(() => {
         dispatch(setInitPoolsData(JSON.parse(data)))
       })
       // @ts-ignore
       window.isInitPool = true
-      return
+      //  把這個return 去掉 每次進入礦池還是先讀取
+      //  詳見updateEthers中的 line: 172
+      // return
     }
     // @ts-ignore
     if (!window.isLoadingPool) {

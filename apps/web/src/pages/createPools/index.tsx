@@ -36,7 +36,7 @@ import CreatePoolABI from '../pools/ABI/CreatePool.json'
 
 // const pools = allPool.pools
 
-const CreatePoolContract = '0xdFfbd6df5C039B27096e760fFD5B734dc33368F3'
+const CreatePoolContract = '0x6f87387Ca3045Ff48C0AAc4e80193ECC7F917a7F'
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
 const gradientStopPoint = `calc(${headerHeight} + 1px)`
