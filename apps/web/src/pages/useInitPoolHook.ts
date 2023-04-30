@@ -171,11 +171,10 @@ const useInitPoolHook = () => {
 
       //  當緩存中的poolData的長度 與 獲取到的PoolData長度相同時
       //  表示原有的PoolData沒有增加，故不用繼續進行更新
-      if (poolsData.length === allPool.pools.length) {
+      if (poolsData.length === allPool.pools.length)
         // @ts-ignore
-        window.isLoadingPool = false
-        return
-      };
+        return window.isLoadingPool = false
+
       if (poolsData !== null) {
         filterData(poolsData, tempProvider, tempSigner)
         return
