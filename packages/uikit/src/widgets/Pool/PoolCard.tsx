@@ -1,5 +1,5 @@
 import { useTranslation } from "@pancakeswap/localization";
-import { ReactElement } from "react";
+import { ReactElement, useState, useEffect } from "react";
 import { Flex } from "../../components/Box";
 import { CardBody, CardRibbon } from "../../components/Card";
 import { Skeleton } from "../../components/Skeleton";
@@ -17,45 +17,94 @@ interface PoolCardPropsType<T> {
 }
 
 export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, tokenPairImage }: PoolCardPropsType<T>) {
-  const { sousId, stakingToken, earningToken, isFinished, totalStaked } = pool;
+  // @ts-ignore
+  const { sousId, stakingToken, earningToken, isFinished, totalStaked, foreverTime } = pool;
   const { t } = useTranslation();
+  const [countdown, setCountdown] = useState(
+    foreverTime > new Date().getTime() ? (foreverTime - new Date().getTime()) / 1000 : 0
+  );
+
+  const isForever = foreverTime && foreverTime > new Date().getTime();
+
+  useEffect(() => {
+    let timerId: any;
+
+    if (countdown > 0) {
+      timerId = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timerId);
+  }, [countdown]);
 
   const isCakePool = earningToken?.symbol === "CAKE" && stakingToken?.symbol === "CAKE";
 
   return (
-    <StyledCard
-      isActive={isCakePool}
-      isFinished={isFinished && sousId !== 0}
-      ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={t("Finished")} />}
-    >
-      <PoolCardHeader isStaking={isStaked} isFinished={isFinished && sousId !== 0}>
-        {totalStaked && totalStaked.gte(0) ? (
-          <>
-            <PoolCardHeaderTitle
-              title={isCakePool ? t("Manual") : t("Earn %asset%", { asset: earningToken?.symbol || "" })}
-              subTitle={
-                isCakePool ? t("Earn CAKE, stake CAKE") : t("Stake %symbol%", { symbol: stakingToken?.symbol || "" })
-              }
-            />
-            {tokenPairImage}
-          </>
-        ) : (
-          <Flex width="100%" justifyContent="space-between">
-            <Flex flexDirection="column">
-              <Skeleton width={100} height={26} mb="4px" />
-              <Skeleton width={65} height={20} />
+    <>
+      {/* @ts-ignore */}
+      <style jsx global>
+        {`
+          .pool-disable {
+            filter: brightness(0.5);
+            pointer-events: none;
+          }
+          .pool-card {
+            position: relative;
+          }
+          .pool-timer {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: brightness(1);
+            color: red;
+            text-shadow: 2px 2px grey;
+            text-align: center;
+            text-stroke: 1px red;
+            font-size: 30px;
+            z-index: 999;
+          }
+        `}
+      </style>
+      <StyledCard
+        className={isForever && countdown ? "pool-disable pool-card" : "pool-card"}
+        isActive={isCakePool}
+        isFinished={isFinished && sousId !== 0}
+        ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={t("Finished")} />}
+      >
+        {/* @ts-ignore */}
+        {isForever && countdown && <div className="pool-timer">倒计时 {parseInt(countdown)} s</div>}
+        <PoolCardHeader isStaking={isStaked} isFinished={isFinished && sousId !== 0}>
+          {totalStaked && totalStaked.gte(0) ? (
+            <>
+              <PoolCardHeaderTitle
+                title={isCakePool ? t("Manual") : t("Earn %asset%", { asset: earningToken?.symbol || "" })}
+                subTitle={
+                  isCakePool ? t("Earn CAKE, stake CAKE") : t("Stake %symbol%", { symbol: stakingToken?.symbol || "" })
+                }
+              />
+              {tokenPairImage}
+            </>
+          ) : (
+            <Flex width="100%" justifyContent="space-between">
+              <Flex flexDirection="column">
+                <Skeleton width={100} height={26} mb="4px" />
+                <Skeleton width={65} height={20} />
+              </Flex>
+              <Skeleton width={58} height={58} variant="circle" />
             </Flex>
-            <Skeleton width={58} height={58} variant="circle" />
+          )}
+        </PoolCardHeader>
+        <CardBody>
+          {aprRow}
+          <Flex mt="24px" flexDirection="column">
+            {cardContent}
           </Flex>
-        )}
-      </PoolCardHeader>
-      <CardBody>
-        {aprRow}
-        <Flex mt="24px" flexDirection="column">
-          {cardContent}
-        </Flex>
-      </CardBody>
-      {cardFooter}
-    </StyledCard>
+        </CardBody>
+        {cardFooter}
+      </StyledCard>
+    </>
   );
 }

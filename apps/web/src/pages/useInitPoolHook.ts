@@ -40,6 +40,8 @@ const useInitPoolHook = () => {
         //  結束區塊。
         // eslint-disable-next-line camelcase
         const i_endBlock = ethers.utils.formatUnits(poolsData[i][6], '0')
+        // eslint-disable-next-line camelcase
+        const i_startBlock = ethers.utils.formatUnits(poolsData[i][8], '0')
         // 第三个参数，传provider和sign的区别是；provider不用交易，但是signer是必须要进行交易的.0xC75Cc71022Bf0EC150dfC03d954737ce027Ea12e
         const tempTokenContract = new ethers.Contract(tempStakingToken, TokenABI, _tempSigner)
         // eslint-disable-next-line no-await-in-loop
@@ -73,12 +75,23 @@ const useInitPoolHook = () => {
         //   'https://www.bakeryswap.org/',
         // )
         const b = new ERC20Token(tempChainId, tempEarningToken, decimals2, name2, symbol2, '')
+        let foreverTime = 0
+        // 开始区块大于现在区块，说明还未开始
+        // eslint-disable-next-line camelcase
+        if (+i_startBlock > block.number) {
+          // eslint-disable-next-line camelcase
+          foreverTime = new Date().getTime() + (+i_startBlock - block.number) * 3000
+        }
         //  結束區塊 < 現在區塊 => 已結束
+        // eslint-disable-next-line camelcase
         // eslint-disable-next-line camelcase
         if (i_endBlock < block.number) {
           tempEndPool.push([id, a, b, ...rest])
         } else {
           tempRunningPool.push([id, a, b, ...rest])
+          if (foreverTime) {
+            tempRunningPool[tempRunningPool.length - 1].push({ foreverTime })
+          }
         }
       }
       const tempData = [
@@ -93,7 +106,8 @@ const useInitPoolHook = () => {
               56: item?.[3],
             },
             poolCategory: item?.[4],
-            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], "0")),
+            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], '0')),
+            foreverTime: item?.[item?.length - 1]?.foreverTime ? item?.[item?.length - 1]?.foreverTime : undefined,
           }
         }),
         ...tempEndPool.map((item) => {
@@ -107,7 +121,7 @@ const useInitPoolHook = () => {
             },
             poolCategory: item?.[4],
             // TODO: 此处的精度可能是需要进行修改的
-            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], "0")),
+            tokenPerBlock: ethers.utils.formatUnits(item?.[5], +ethers.utils.formatUnits(item?.[7], '0')),
             isFinished: true, // 表示结束状态的字断
           }
         }),
@@ -124,9 +138,22 @@ const useInitPoolHook = () => {
       //   tokenPerBlock: '10',
       // },);
       // @ts-ignore
-      allPool.pools = tempData
+      allPool.pools = tempData.filter(({ foreverTime, ...rest }) => {
+        return {
+          ...rest,
+        }
+      })
       batch(() => {
-        dispatch(setInitPoolsData(tempData))
+        dispatch(
+          setInitPoolsData(
+            // @ts-ignore
+            tempData.filter(({ foreverTime, ...rest }) => {
+              return {
+                ...rest,
+              }
+            }),
+          ),
+        )
       })
       sessionStorage.setItem('pool', JSON.stringify(tempData))
       setIsInit(true)
@@ -154,7 +181,7 @@ const useInitPoolHook = () => {
   }
 
   const updateEthers = async () => {
-    console.log("Updating Ethers")
+    console.log('Updating Ethers')
     try {
       // @ts-ignore
       const tempProvider = new ethers.providers.Web3Provider(window.ethereum)
@@ -167,12 +194,11 @@ const useInitPoolHook = () => {
       setContract(tempContract)
 
       const poolsData = await tempContract.viewSmartChef()
-      console.log(poolsData);
+      console.log(poolsData)
 
       //  當緩存中的poolData的長度 與 獲取到的PoolData長度相同時
       //  表示原有的PoolData沒有增加，故不用繼續進行更新
-      if (poolsData.length === allPool.pools.length)
-        return
+      if (poolsData.length === allPool.pools.length) return
 
       if (poolsData !== null) {
         filterData(poolsData, tempProvider, tempSigner)
