@@ -53,11 +53,10 @@ export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, t
             position: relative;
           }
           .pool-timer {
-            width: 100%;
+            // width: 100%;
             position: absolute;
-            top: 50%;
+            // top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             filter: brightness(1);
             color: red;
             text-shadow: 2px 2px grey;
@@ -65,6 +64,17 @@ export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, t
             text-stroke: 1px red;
             font-size: 30px;
             z-index: 999;
+          }
+          .pool-timer-text {
+            top: 30%;
+            transform: translateX(-50%);
+            border: 3px solid red;
+            padding: 8px;
+            border-radius: 15px;
+          }
+          .pool-timer-number {
+            top: 43%;
+            transform: translateX(-50%);
           }
         `}
       </style>
@@ -74,8 +84,13 @@ export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, t
         isFinished={isFinished && sousId !== 0}
         ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={t("Finished")} />}
       >
-        {/* @ts-ignore */}
-        {isForever && countdown && <div className="pool-timer">倒计时 {parseInt(countdown)} s</div>}
+        {isForever && countdown && (
+          <div>
+            <span className="pool-timer pool-timer-text">Incoming</span>
+            {/* @ts-ignore */}
+            <span className="pool-timer pool-timer-number">{parseInt(countdown)} s</span>
+          </div>
+        )}
         <PoolCardHeader isStaking={isStaked} isFinished={isFinished && sousId !== 0}>
           {totalStaked && totalStaked.gte(0) ? (
             <>
