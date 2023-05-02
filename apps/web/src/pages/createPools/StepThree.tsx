@@ -103,6 +103,10 @@ const StepThree = (props) => {
     // 代幣精度
     const decimal = await rewardContract.decimals()
     const sendingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
+
+    //  創建礦池費用
+    const createPoolFee = ethers.utils.parseUnits("0.2", "ether");
+
     try {
       const result = await contract.deployPool(
         stakingTokenValue,
@@ -114,7 +118,9 @@ const StepThree = (props) => {
         0,
         ownerValue,
         sendingAmount,
-      )
+      {
+        value: createPoolFee
+      })
       setIsLoading(false)
     } catch (err: any) {
       // eslint-disable-next-line eqeqeq

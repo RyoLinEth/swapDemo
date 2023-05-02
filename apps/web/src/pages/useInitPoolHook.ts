@@ -11,7 +11,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import TokenABI from './pools/ABI/TokenABI.json'
 import CreatePoolABI from './pools/ABI/CreatePool.json'
 
-const CreatePoolContract = '0x6f87387Ca3045Ff48C0AAc4e80193ECC7F917a7F'
+const CreatePoolContract = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
 
 const useInitPoolHook = () => {
   const dispatch = useAppDispatch()
