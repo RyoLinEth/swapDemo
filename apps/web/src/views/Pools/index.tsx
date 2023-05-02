@@ -43,6 +43,8 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   // 为所有的池子,已结束的池子和正在进行中的池子,都是这个pool,这里面是所有池子的全量数据
   const { pools, userDataLoaded } = usePoolsWithVault()
 
+  // console.log('pools', pools)
+
   usePoolsPageFetch()
 
   // console.log('pools', account, pools, userDataLoaded);
@@ -61,7 +63,6 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
             <Heading scale="md" color="text">
               {t('High APR.')}
             </Heading>
-
           </Flex>
 
           <Image
@@ -151,13 +152,13 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                   {chosenPools.map((pool) =>
                     pool.vaultKey ? (
                       <></>
+                    ) : (
                       // <VaultPoolRow
                       //   initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
                       //   key={pool.vaultKey}
                       //   vaultKey={pool.vaultKey}
                       //   account={account}
                       // />
-                    ) : (
                       <PoolRow
                         initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
                         key={pool.sousId}

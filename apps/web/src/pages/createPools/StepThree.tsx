@@ -43,7 +43,7 @@ const StepThree = (props) => {
       const decimal = await rewardContract.decimals()
       const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
-      if (approvedAmount >= approvingAmount) createPool()
+      if (+approvedAmount >= +approvingAmount) createPool()
       else approve()
     } catch (err) {
       setErrorText(err.toString())
@@ -60,7 +60,7 @@ const StepThree = (props) => {
     const decimal = await rewardContract.decimals()
     const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
-    if (approvedAmount >= approvingAmount) createPool()
+    if (+approvedAmount >= +approvingAmount) createPool()
     else setTimeout(() => checkAllowanceAgain(), 3000)
   }
 
@@ -105,22 +105,24 @@ const StepThree = (props) => {
     const sendingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
     //  創建礦池費用
-    const createPoolFee = ethers.utils.parseUnits("0.2", "ether");
+    const createPoolFee = ethers.utils.parseUnits('0.2', 'ether')
 
     try {
       const result = await contract.deployPool(
         stakingTokenValue,
         rewardTokenValue,
-        ethers.utils.parseUnits(`${rewardPerBlockValue * BlockTime}`,decimal), // 每秒的獎勵 x 一區塊幾秒
+        ethers.utils.parseUnits(`${rewardPerBlockValue * BlockTime}`, decimal), // 每秒的獎勵 x 一區塊幾秒
         getBlockNumber(startTimeValue), // 轉換成區塊時間
         getBlockNumber(endTimeValue),
         0,
         0,
         ownerValue,
         sendingAmount,
-      {
-        value: createPoolFee
-      })
+        {
+          value: createPoolFee,
+        },
+      )
+
       setIsLoading(false)
     } catch (err: any) {
       // eslint-disable-next-line eqeqeq

@@ -41,6 +41,7 @@ export interface DeserializedPool<T> extends DeserializedPoolConfig<T>, CorePool
   totalStaked?: BigNumber;
   stakingLimit?: BigNumber;
   stakingLimitEndBlock?: number;
+  foreverTime?: number;
   profileRequirement?: {
     required: boolean;
     thresholdPoints: BigNumber;

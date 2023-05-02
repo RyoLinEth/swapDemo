@@ -109,7 +109,10 @@ export function PoolControls<T>({
   const [finishedPools, openPools] = useMemo(() => partition(pools, (pool) => pool.isFinished), [pools]);
   // openPoolsWithStartBlockFilter为当前 正在进行中并且已经开启了的池子; 当前进行中的池子,如果没开启,也是不会展示出来的
   const openPoolsWithStartBlockFilter = useMemo(
-    () => openPools.filter((pool) => (threshHold > 0 && pool.startBlock ? Number(pool.startBlock) < threshHold : true)),
+    () =>
+      openPools.filter((pool) =>
+        threshHold > 0 && pool.startBlock ? Number(pool.startBlock) < threshHold || pool?.foreverTime : true
+      ),
     [threshHold, openPools]
   );
   // 自己质押的 已结束的池子
@@ -190,8 +193,6 @@ export function PoolControls<T>({
     () => ({ chosenPools, stakedOnly, viewMode, normalizedUrlSearch, showFinishedPools }),
     [chosenPools, normalizedUrlSearch, showFinishedPools, stakedOnly, viewMode]
   );
-
-  // console.log('show controls', chosenPools);
 
   return (
     <>
