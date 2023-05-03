@@ -21,7 +21,7 @@ export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, t
   const { sousId, stakingToken, earningToken, isFinished, totalStaked, foreverTime } = pool;
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(
-    foreverTime > new Date().getTime() ? (foreverTime - new Date().getTime()) / 1000 : 0
+    foreverTime && foreverTime > new Date().getTime() ? (foreverTime - new Date().getTime()) / 1000 : 0
   );
 
   const isForever = foreverTime && foreverTime > new Date().getTime();
@@ -59,18 +59,20 @@ export function PoolCard<T>({ pool, cardContent, aprRow, isStaked, cardFooter, t
             left: 50%;
             filter: brightness(1);
             color: red;
-            text-shadow: 2px 2px grey;
+            // text-shadow: 2px 2px grey;
+            -webkit-text-stroke: 1px #a28484;
             text-align: center;
             text-stroke: 1px red;
             font-size: 30px;
             z-index: 999;
           }
           .pool-timer-text {
-            top: 30%;
+            top: 28%;
             transform: translateX(-50%);
             border: 3px solid red;
-            padding: 8px;
+            padding: 10px 15%;
             border-radius: 15px;
+            box-shadow: 1px 1px 3px red, -1px -1px 3px red;
           }
           .pool-timer-number {
             top: 43%;
