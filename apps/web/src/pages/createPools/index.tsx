@@ -36,11 +36,12 @@ import ErrorMessage from '../nfts/ErrorMessage'
 // import './Wizard.css'
 
 import CreatePoolABI from '../pools/ABI/CreatePool.json'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 // const pools = allPool.pools
 
-const CreatePoolContract_BSCTEST = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
-const CreatePoolContract_BSC = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const createPoolContract_BSCTEST = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const createPoolContract_BSC = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
 const gradientStopPoint = `calc(${headerHeight} + 1px)`
@@ -50,6 +51,7 @@ const CreatePools = () => {
   const { theme } = useTheme()
 
   const { address: account } = useAccount()
+  const chain = useActiveChainId()
 
   // const { account } = props
   const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`
@@ -57,7 +59,7 @@ const CreatePools = () => {
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
   const [contract, setContract] = useState(null)
-  const [chainID, setChainID] = useState(null);
+  // const [chainID, setChainID] = useState(null);
 
 
   const updateEthers = async () => {
@@ -69,14 +71,15 @@ const CreatePools = () => {
       const tempSigner = tempProvider.getSigner()
       setSigner(tempSigner)
 
-      if (chainID === 97) {
-      const tempContract = new ethers.Contract(CreatePoolContract_BSCTEST, CreatePoolABI, tempSigner)
-      setContract(tempContract)
+      console.log("Chain Now is " + chain.chainId)
+      if (chain.chainId === 97) {
+        const tempContract = new ethers.Contract(createPoolContract_BSCTEST, CreatePoolABI, tempSigner)
+        setContract(tempContract)
       }
 
-      if (chainID === 56) {
-      const tempContract = new ethers.Contract(CreatePoolContract_BSC, CreatePoolABI, tempSigner)
-      setContract(tempContract)
+      if (chain.chainId === 56) {
+        const tempContract = new ethers.Contract(createPoolContract_BSC, CreatePoolABI, tempSigner)
+        setContract(tempContract)
       }
     } catch {
       console.log('1')
@@ -84,25 +87,8 @@ const CreatePools = () => {
   }
 
   useEffect(() => {
-    checkCorrectNetwork()
     updateEthers()
-  }, [account, chainID])
-
-
-  const checkCorrectNetwork = async () => {
-    const { ethereum } = window
-    let chainId = await ethereum.request({ method: 'eth_chainId' })
-    // console.log('Connected to chain:' + chainId)
-
-    const bscTEST = '0x61'
-    const bsc = '0x38'
-
-    if (chainId === bscTEST)
-      setChainID(97)
-    if (chainId === bsc)
-      setChainID(56)
-  }
-
+  }, [account, chain.chainId])
 
   const [goSteps, setGoSteps] = useState(0)
 

@@ -24,7 +24,7 @@ const Menu = (props) => {
 
 
   const bnbTigerCA = "0xac68931b666e086e9de380cfdb0fb5704a35dc2d";
-  const swapLink = window.location.origin+`/swap?outputCurrency=${bnbTigerCA}&chainId=56`
+  const swapLink = window.location.origin.concat(`/swap?outputCurrency=${bnbTigerCA}&chainId=56`)
 
   const menuItems = useMenuItems()
 

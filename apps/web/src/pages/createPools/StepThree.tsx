@@ -2,9 +2,9 @@ import React from 'react'
 import { ethers } from 'ethers'
 import { Button, Card, Table, Th, Td, Box, Heading } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
+import TransactionCallBack from 'components/TransactionCallBack'
 import TokenABI from '../pools/ABI/TokenABI.json'
 // import { Button, Card, Table, Th, Td } from '@pancakeswap/uikit'
-import TransactionCallBack from 'components/TransactionCallBack'
 
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
@@ -152,7 +152,7 @@ const StepThree = (props) => {
         .catch((error) => {
           console.log("Error :" + error)
         })
-        
+
       setIsLoading(false)
 
     } catch (err: any) {
