@@ -22,6 +22,10 @@ const Menu = (props) => {
   const { pathname } = useRouter()
   const [showPhishingWarningBanner] = usePhishingBannerManager()
 
+
+  const bnbTigerCA = "0xac68931b666e086e9de380cfdb0fb5704a35dc2d";
+  const swapLink = window.location.origin+`/swap?outputCurrency=${bnbTigerCA}&chainId=56`
+
   const menuItems = useMenuItems()
 
   const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
@@ -62,7 +66,7 @@ const Menu = (props) => {
         activeItem={activeMenuItem?.href}
         activeSubItem={activeSubMenuItem?.href}
         buyCakeLabel={t('Buy BNBTiger')}
-        buyCakeLink="https://pancakeswap.finance/swap?outputCurrency=0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D&chainId=56"
+        buyCakeLink={swapLink}
         {...props}
       />
     </>

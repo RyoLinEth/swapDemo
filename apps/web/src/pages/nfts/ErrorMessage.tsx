@@ -16,7 +16,7 @@ const ErrorMessage = (props) => {
 
     return (
         <>
-            <Alert title="Danger" variant="danger">
+            <Alert title="Oops" variant="danger">
                 <Text as="p">{props.errorMessage}</Text>
             </Alert>
         </>

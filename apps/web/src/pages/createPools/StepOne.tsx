@@ -46,13 +46,17 @@ const StepOne = ({
 
   const getName = async (value) => {
     // eslint-disable-next-line eqeqeq
-    if (value.length == 42) {
-      const tempTokenContract = new ethers.Contract(value, TokenABI, provider)
-      const name = await tempTokenContract.name()
-      const symbol = await tempTokenContract.symbol()
-      return { success: true, nameSymbol: `${name}/${symbol}` }
+    try {
+      if (value.length == 42) {
+        const tempTokenContract = new ethers.Contract(value, TokenABI, provider)
+        const name = await tempTokenContract.name()
+        const symbol = await tempTokenContract.symbol()
+        return { success: true, nameSymbol: `${name}/${symbol}` }
+      }
+      return { success: false, nameSymbol: 'Token Not Exist' }
+    } catch (err) {
+      return { success: false, nameSymbol: 'Token Not Exist' }
     }
-    return { success: false }
   }
 
   const getBalance = async (value) => {
@@ -105,8 +109,8 @@ const StepOne = ({
       function: async (e) => {
         setStakingToken(e.target.value)
         const { success, nameSymbol } = await getName(e.target.value)
-        if (!success) return
         setStakingName(nameSymbol)
+
       },
       value: stakingToken,
       name: stakingName,
@@ -254,9 +258,10 @@ const StepOne = ({
                     endTime !== null &&
                     endTime > startTime && (
                       <Text bold>
+                        Required Amount : {(rewardPerBlock * (endTime - startTime)) / 1000} <br/>
                         {(rewardPerBlock * (endTime - startTime)) / 1000 > data.balance
                           ? 'Not Enough Token'
-                          : `Required Amount : ${(rewardPerBlock * (endTime - startTime)) / 1000}`}
+                          : ''}
                       </Text>
                     )}
                 </div>

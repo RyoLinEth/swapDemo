@@ -12,11 +12,14 @@ import TokenABI from './pools/ABI/TokenABI.json'
 import CreatePoolABI from './pools/ABI/CreatePool.json'
 
 const CreatePoolContract = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const CreatePoolContractBSCTest = '0x06Fac7297B44821331cB54869Db0aE20340950BD';
 
 const useInitPoolHook = () => {
   const dispatch = useAppDispatch()
 
   const chainId = useActiveChainId()
+
+  //  偵測哪個鍊
 
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
@@ -31,6 +34,7 @@ const useInitPoolHook = () => {
 
   const filterData = async (poolsData, _provider, _tempSigner) => {
     const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId
+
     try {
       const block = await _provider.getBlock('latest', false, true)
       const tempRunningPool = []
@@ -155,7 +159,7 @@ const useInitPoolHook = () => {
           ),
         )
       })
-      sessionStorage.setItem('pool', JSON.stringify(tempData))
+      sessionStorage.setItem(`pool_Chain${tempChainId}`, JSON.stringify(tempData))
       setIsInit(true)
       // @ts-ignore
       window.isLoadingPool = false
@@ -190,7 +194,15 @@ const useInitPoolHook = () => {
       const tempSigner = tempProvider.getSigner()
       setSigner(tempSigner)
 
-      const tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
+      
+      const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId
+      const tempContractAddress = tempChainId === 56 ? CreatePoolContract : CreatePoolContractBSCTest;
+
+      const tempContract = new ethers.Contract(
+        tempContractAddress,
+        CreatePoolABI,
+        tempSigner
+      )
       setContract(tempContract)
 
       const poolsData = await tempContract.viewSmartChef()
@@ -218,7 +230,9 @@ const useInitPoolHook = () => {
     if (window.isInitPool) {
       return
     }
-    const data = sessionStorage.getItem('pool')
+
+    const tempChainId = typeof chainId === 'number' ? chainId : chainId.chainId
+    const data = sessionStorage.getItem(`pool_Chain${tempChainId}`)
     // 如果值存到了session里面，就从session里面读值，来初始化 state；并且把初始化状态改为true
     if (data) {
       allPool.pools = JSON.parse(data)

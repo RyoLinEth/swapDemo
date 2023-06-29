@@ -4,6 +4,7 @@ import { Button, Card, Table, Th, Td, Box, Heading } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import TokenABI from '../pools/ABI/TokenABI.json'
 // import { Button, Card, Table, Th, Td } from '@pancakeswap/uikit'
+import TransactionCallBack from 'components/TransactionCallBack'
 
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
@@ -77,10 +78,28 @@ const StepThree = (props) => {
       // 授權
       const result = await rewardContract.approve(contract.address, approvingAmount)
 
-      checkAllowanceAgain()
-    } catch (err) {
-      // @ts-ignore
-      setErrorText(err.reason)
+      TransactionCallBack(provider, result)
+        .then((isSuccess) => {
+          console.log("Success :" + isSuccess);
+          createPool();
+        })
+        .catch((error) => {
+          console.log("Error :" + error)
+          // eslint-disable-next-line eqeqeq
+          if (error?.reason != null || error?.reason != undefined) setErrorText(error.reason)
+          else setErrorText(error.message.toString())
+          setIsLoading(false)
+          setIsRejected(true)
+        })
+
+      // checkAllowanceAgain()
+    } catch (err: any) {
+      console.log(err)
+      // eslint-disable-next-line eqeqeq
+      if (err?.reason != null || err?.reason != undefined) setErrorText(err.reason)
+      else setErrorText(err.message.toString())
+      setIsLoading(false)
+      setIsRejected(true)
     }
   }
 
@@ -91,9 +110,12 @@ const StepThree = (props) => {
   const checkAllowanceApproveAndCreatePool = async () => {
     try {
       checkAllowance()
-    } catch (err) {
-      // @ts-ignore
-      setErrorText(err.reason)
+    } catch (err: any) {
+      // eslint-disable-next-line eqeqeq
+      if (err?.reason != null || err?.reason != undefined) setErrorText(err.reason)
+      else setErrorText(err.toString())
+      setIsLoading(false)
+      setIsRejected(true)
     }
   }
 
@@ -123,11 +145,20 @@ const StepThree = (props) => {
         },
       )
 
+      TransactionCallBack(provider, result)
+        .then((isSuccess) => {
+          console.log("Success :" + isSuccess);
+        })
+        .catch((error) => {
+          console.log("Error :" + error)
+        })
+        
       setIsLoading(false)
+
     } catch (err: any) {
       // eslint-disable-next-line eqeqeq
       if (err?.reason != null || err?.reason != undefined) setErrorText(err.reason)
-      else setErrorText(err.toString())
+      else setErrorText(err.message.toString())
       setIsLoading(false)
       setIsRejected(true)
     }

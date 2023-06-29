@@ -81,17 +81,6 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
           {/* chosenPools为当前页面上展示的所有池子的列表;viewModel为对应的模式;stakedOnly为只展示自己已经质押了的矿池;normalizedUrlSearch为自己输入的查询条件 */}
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
-              {/* 跳转到pancake的v1的矿池 */}
-              {/* {showFinishedPools && (
-                <FinishedTextContainer>
-                  <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
-                    {t('Looking for v1 CAKE syrup pools?')}
-                  </Text>
-                  <FinishedTextLink href="/migration" fontSize={['16px', null, '20px']} color="failure">
-                    {t('Go to migration page')}.
-                  </FinishedTextLink>
-                </FinishedTextContainer>
-              )} */}
               {account && !userDataLoaded && stakedOnly && (
                 <Flex justifyContent="center" mb="4px">
                   <Loading />

@@ -36,7 +36,8 @@ import CreatePoolABI from '../pools/ABI/CreatePool.json'
 
 // const pools = allPool.pools
 
-const CreatePoolContract = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const CreatePoolContract_BSCTEST = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const CreatePoolContract_BSC = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
 const gradientStopPoint = `calc(${headerHeight} + 1px)`
@@ -46,12 +47,15 @@ const CreatePools = () => {
   const { theme } = useTheme()
 
   const { address: account } = useAccount()
+
   // const { account } = props
   const gradientBorderColor = `linear-gradient(transparent ${gradientStopPoint}, ${theme.colors.cardBorder} ${gradientStopPoint}), ${theme.colors.gradientCardHeader}`
 
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
   const [contract, setContract] = useState(null)
+  const [chainID, setChainID] = useState(null);
+
 
   const updateEthers = async () => {
     try {
@@ -62,16 +66,40 @@ const CreatePools = () => {
       const tempSigner = tempProvider.getSigner()
       setSigner(tempSigner)
 
-      const tempContract = new ethers.Contract(CreatePoolContract, CreatePoolABI, tempSigner)
+      if (chainID === 97) {
+      const tempContract = new ethers.Contract(CreatePoolContract_BSCTEST, CreatePoolABI, tempSigner)
       setContract(tempContract)
+      }
+
+      if (chainID === 56) {
+      const tempContract = new ethers.Contract(CreatePoolContract_BSC, CreatePoolABI, tempSigner)
+      setContract(tempContract)
+      }
     } catch {
       console.log('1')
     }
   }
 
   useEffect(() => {
+    checkCorrectNetwork()
     updateEthers()
-  }, [account])
+  }, [account, chainID])
+
+
+  const checkCorrectNetwork = async () => {
+    const { ethereum } = window
+    let chainId = await ethereum.request({ method: 'eth_chainId' })
+    // console.log('Connected to chain:' + chainId)
+
+    const bscTEST = '0x61'
+    const bsc = '0x38'
+
+    if (chainId === bscTEST)
+      setChainID(97)
+    if (chainId === bsc)
+      setChainID(56)
+  }
+
 
   const [goSteps, setGoSteps] = useState(0)
 
@@ -132,7 +160,7 @@ const CreatePools = () => {
       </style>
       <>
         {!!errorText &&
-            <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />
+          <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />
         }
       </>
       <PageSection

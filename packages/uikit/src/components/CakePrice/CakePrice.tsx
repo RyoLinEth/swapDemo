@@ -44,10 +44,13 @@ const CakePrice: React.FC<React.PropsWithChildren<Props>> = ({
       return `0.(${num - 2})` + str.slice(-(str.length - num))
     }
   }
+  
+  const bnbTigerCA = "0xac68931b666e086e9de380cfdb0fb5704a35dc2d";
+  const swapLink = window.location.origin+`/swap?outputCurrency=${bnbTigerCA}&chainId=56`
 
   return cakePriceUsd ? (
     <PriceLink
-      href="https://pancakeswap.finance/swap?outputCurrency=0xAC68931B666E086E9de380CFDb0Fb5704a35dc2D&chainId=56"
+      href={swapLink}
       target="_blank"
     >
       <LogoRound width="24px" mr="8px" />

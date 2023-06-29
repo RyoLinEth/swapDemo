@@ -36,7 +36,8 @@ const headerHeight = '73px'
 const customHeadingColor = '#7645D9'
 const gradientStopPoint = `calc(${headerHeight} + 1px)`
 
-const nftMintAddress = '0x9c657E4A638df5E5e5d2b08cDCD7B3A2cE25052D'
+const nftMintAddress = '0xDcBbc2D73CBbc8e74581233FaDa0dceb296c253B'
+// const nftMintAddress = '0x9c657E4A638df5E5e5d2b08cDCD7B3A2cE25052D'
 
 const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   const { theme } = useTheme()
@@ -53,7 +54,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
   const [nftContract, setNFTContract] = useState(null)
   const [mintAmount, setMintAmount] = useState(1)
   const [maxMint, setMaxMint] = useState(10)
-  const [totalSupply, setTotalSupply] = useState(999)
+  const [totalSupply, setTotalSupply] = useState(4000)
   const [alreadyMint, setAlreadyMint] = useState(0)
   const [errorText, setErrorText] = useState('')
 
@@ -235,9 +236,11 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
 
       const nftPrice = await nftContract.mintPrice()
       const pay = mintAmount * nftPrice
-      // console.log(pay)
+      const bigNumberPay = ethers.utils.formatUnits(
+        `${pay}`, 0
+      )
       const result = await nftContract.mint(mintAmount, {
-        value: pay,
+        value: bigNumberPay,
         gasLimit: 200000 * mintAmount,
       })
 
@@ -301,17 +304,21 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
               })
             console.log(tokenUris)
             setContents(['NFT Minted', `${topicsDecimals}`, `You minted ${topicsDecimals}`])
+
+            const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
+            setAlreadyMint(alreadyMinted)
           })
         })
         .catch((err: any) => {
           console.error(err)
         })
 
-      const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
-      setAlreadyMint(alreadyMinted)
+      // const alreadyMinted = Number(alreadyMint) + Number(mintAmount)
+      // setAlreadyMint(alreadyMinted)
     } catch (err: any) {
       if (err.reason !== undefined) swal('Error', `${err.reason}`, 'error')
       else swal('Error', `${err.message}`, 'error')
+      console.log(err)
       setIsOpen(false)
       // @ts-ignore
       setErrorText(err.reason)
