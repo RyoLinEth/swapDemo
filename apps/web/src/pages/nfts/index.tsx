@@ -15,6 +15,8 @@ import {
   Button,
   Image,
   Text,
+  PageHeader,
+  Flex,
 } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import useTheme from 'hooks/useTheme'
@@ -395,6 +397,32 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
       </style>
       <>{!!errorText && <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />}</>
 
+      <PageHeader>
+        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+          <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
+            <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+              BNBTiger Tiger NFT
+            </Heading>
+            <Heading scale="md" color="text">
+              Just NFT.
+            </Heading>
+            {/* <Heading scale="md" color="text">
+              High APR.
+            </Heading> */}
+          </Flex>
+
+          <Image
+            mx="auto"
+            mt="12px"
+            // src="/images/decorations/3d-syrup-bunnies.png"
+            src="/images/decorations/bnbtiger.png"
+            alt="Pancake illustration"
+            width={192}
+            height={184.5}
+          />
+        </Flex>
+      </PageHeader>
+
       <PageSection
         innerProps={{ style: { margin: '0', width: '100%', padding: 0, textAlign: 'center' } }}
         background={theme.colors.background}
@@ -404,10 +432,10 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
         }}
         hasCurvedDivider={false}
       >
-        <Text bold fontSize={24}>
+        {/* <Text bold fontSize={24}>
           BNB Tiger NFT
         </Text>{' '}
-        <br />
+        <br /> */}
         {/* <Image src="./bnbtiger/nft-pic-2.png" width={200} height={243} alt="nft" className="nft-1" /> */}
         <Row justifyContent="center">
           <Card borderBackground={gradientBorderColor} style={{ minWidth: '400px', position: 'relative', zIndex: 99 }}>
@@ -486,7 +514,7 @@ const NftMarketPage: React.FC<React.PropsWithChildren> = () => {
                 max={totalSupply}
                 value={alreadyMint}
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onValueChanged={() => { }}
+                onValueChanged={() => {}}
                 disabled
                 valueLabel={totalSupply === alreadyMint ? 'MAX' : `${(alreadyMint / totalSupply) * 100}%`}
               />

@@ -23,6 +23,9 @@ import {
   AddIcon,
   MinusIcon,
   Button,
+  PageHeader,
+  Image,
+  Flex,
 } from '@pancakeswap/uikit'
 import StepOne from './StepOne'
 import StepTwo from './StepTwo'
@@ -158,11 +161,32 @@ const CreatePools = () => {
           }
         `}
       </style>
-      <>
-        {!!errorText &&
-          <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />
-        }
-      </>
+      <>{!!errorText && <ErrorMessage errorMessage={errorText} setErrorText={setErrorText} />}</>
+      <PageHeader>
+        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+          <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
+            <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+              BNBTiger Create Pools
+            </Heading>
+            <Heading scale="md" color="text">
+              Just Create Pools.
+            </Heading>
+            {/* <Heading scale="md" color="text">
+              High APR.
+            </Heading> */}
+          </Flex>
+
+          <Image
+            mx="auto"
+            mt="12px"
+            // src="/images/decorations/3d-syrup-bunnies.png"
+            src="/images/decorations/bnbtiger.png"
+            alt="Pancake illustration"
+            width={192}
+            height={184.5}
+          />
+        </Flex>
+      </PageHeader>
       <PageSection
         innerProps={{ style: { margin: '0', width: '100%', padding: 0, textAlign: 'center' } }}
         background={theme.colors.background}
