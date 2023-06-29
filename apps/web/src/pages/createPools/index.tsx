@@ -103,6 +103,8 @@ const CreatePools = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isRejected, setIsRejected] = useState(false)
+  const [isApproved, setIsApproved] = useState(false)
+  const [isCreated, setIsCreated] = useState(false)
 
   //  Error Text
   const [errorText, setErrorText] = useState(null)
@@ -243,6 +245,8 @@ const CreatePools = () => {
                       setGoSteps={setGoSteps}
                       setIsLoading={setIsLoading}
                       setIsRejected={setIsRejected}
+                      setIsApproved={setIsApproved}
+                      setIsCreated={setIsCreated}
                     />
                   </>
                 )}
@@ -253,6 +257,8 @@ const CreatePools = () => {
                       isRejected={isRejected}
                       setGoSteps={setGoSteps}
                       setIsRejected={setIsRejected}
+                      isApproved={isApproved}
+                      isCreated={isCreated}
                     />
                   </>
                 )}

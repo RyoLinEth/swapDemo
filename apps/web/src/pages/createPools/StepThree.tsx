@@ -26,6 +26,8 @@ const StepThree = (props) => {
     setGoSteps,
     setIsLoading,
     setIsRejected,
+    setIsApproved,
+    setIsCreated,
   } = props
 
   const { theme } = useTheme()
@@ -44,25 +46,18 @@ const StepThree = (props) => {
       const decimal = await rewardContract.decimals()
       const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
 
-      if (+approvedAmount >= +approvingAmount) createPool()
-      else approve()
+      if (+approvedAmount >= +approvingAmount) {
+        setIsApproved(true)
+        createPool()
+      }
+      else {
+        setIsApproved(false)
+        approve()
+      }
+
     } catch (err) {
       setErrorText(err.toString())
     }
-  }
-
-  const checkAllowanceAgain = async () => {
-    const rewardContract = new ethers.Contract(rewardTokenValue, TokenABI, signer)
-
-    // 已授權的數量
-    const approvedAmount = await rewardContract.allowance(defaultAccount, contract.address)
-
-    // 該授權的數量
-    const decimal = await rewardContract.decimals()
-    const approvingAmount = ethers.utils.parseUnits(`${requiredAmount()}`, decimal)
-
-    if (+approvedAmount >= +approvingAmount) createPool()
-    else setTimeout(() => checkAllowanceAgain(), 3000)
   }
 
   const approve = async () => {
@@ -80,7 +75,7 @@ const StepThree = (props) => {
 
       TransactionCallBack(provider, result)
         .then((isSuccess) => {
-          createPool();
+          checkAllowance();
         })
         .catch((error) => {
           // eslint-disable-next-line eqeqeq
@@ -90,7 +85,6 @@ const StepThree = (props) => {
           setIsRejected(true)
         })
 
-      // checkAllowanceAgain()
     } catch (err: any) {
       console.log(err)
       // eslint-disable-next-line eqeqeq
@@ -146,6 +140,7 @@ const StepThree = (props) => {
       TransactionCallBack(provider, result)
         .then((isSuccess) => {
           console.log(isSuccess);
+          setIsCreated(true);
         })
         .catch((error) => {
           console.log(error)

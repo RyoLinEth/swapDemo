@@ -2,7 +2,7 @@ import React from 'react'
 import { Message, MessageText, Button, Row, Text } from '@pancakeswap/uikit'
 
 const StepFour = (props) => {
-  const { isLoading, isRejected, setGoSteps, setIsRejected } = props
+  const { isLoading, isRejected, setGoSteps, setIsRejected, isApproved, isCreated } = props
   return (
     <>
       <style jsx global>
@@ -29,19 +29,33 @@ const StepFour = (props) => {
       </style>
       <section className="step-four-item">
         <Row className="row content">
-          {isLoading && (
+          {isLoading && !isApproved && (
             // @ts-ignore
             <Message variant="warning" style={{ width: '98%' }}>
-              <MessageText>loading</MessageText>
+              <MessageText>
+                Approving...<br />
+                After Approved, there's one more transaction to be confirmed
+              </MessageText>
             </Message>
           )}
+          {
+            isApproved && !isRejected && !isCreated && (
+              // @ts-ignore
+              <Message variant="warning" style={{ width: '98%' }}>
+                <MessageText>
+                  Token Approved<br />
+                  Creating Pool Now...
+                </MessageText>
+              </Message>
+            )
+          }
           {isRejected && (
             // @ts-ignore
             <Message variant="danger" style={{ width: '98%' }}>
               <MessageText>User Denied Transaction</MessageText>
             </Message>
           )}
-          {!isLoading && !isRejected && (
+          {isCreated && (
             // @ts-ignore
             <Message variant="success" style={{ width: '98%' }}>
               <MessageText>The pool is created successfully.</MessageText>
