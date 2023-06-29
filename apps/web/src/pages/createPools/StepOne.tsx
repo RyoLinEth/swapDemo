@@ -47,7 +47,7 @@ const StepOne = ({
   const getName = async (value) => {
     // eslint-disable-next-line eqeqeq
     try {
-      if (value.length == 42) {
+      if (value.length === 42) {
         const tempTokenContract = new ethers.Contract(value, TokenABI, provider)
         const name = await tempTokenContract.name()
         const symbol = await tempTokenContract.symbol()

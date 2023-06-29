@@ -27,6 +27,8 @@ import {
   Image,
   Flex,
 } from '@pancakeswap/uikit'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+
 import StepOne from './StepOne'
 import StepTwo from './StepTwo'
 import StepThree from './StepThree'
@@ -36,12 +38,10 @@ import ErrorMessage from '../nfts/ErrorMessage'
 // import './Wizard.css'
 
 import CreatePoolABI from '../pools/ABI/CreatePool.json'
-import { useActiveChainId } from 'hooks/useActiveChainId'
-
 // const pools = allPool.pools
 
-const createPoolContract_BSCTEST = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
-const createPoolContract_BSC = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const createPoolContractBsctest = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
+const createPoolContractBSC = '0x06Fac7297B44821331cB54869Db0aE20340950BD'
 const headerHeight = '60px'
 const customHeadingColor = '#7645D9'
 const gradientStopPoint = `calc(${headerHeight} + 1px)`
@@ -71,14 +71,13 @@ const CreatePools = () => {
       const tempSigner = tempProvider.getSigner()
       setSigner(tempSigner)
 
-      console.log("Chain Now is " + chain.chainId)
       if (chain.chainId === 97) {
-        const tempContract = new ethers.Contract(createPoolContract_BSCTEST, CreatePoolABI, tempSigner)
+        const tempContract = new ethers.Contract(createPoolContractBsctest, CreatePoolABI, tempSigner)
         setContract(tempContract)
       }
 
       if (chain.chainId === 56) {
-        const tempContract = new ethers.Contract(createPoolContract_BSC, CreatePoolABI, tempSigner)
+        const tempContract = new ethers.Contract(createPoolContractBSC, CreatePoolABI, tempSigner)
         setContract(tempContract)
       }
     } catch {

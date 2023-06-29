@@ -80,11 +80,9 @@ const StepThree = (props) => {
 
       TransactionCallBack(provider, result)
         .then((isSuccess) => {
-          console.log("Success :" + isSuccess);
           createPool();
         })
         .catch((error) => {
-          console.log("Error :" + error)
           // eslint-disable-next-line eqeqeq
           if (error?.reason != null || error?.reason != undefined) setErrorText(error.reason)
           else setErrorText(error.message.toString())
@@ -147,10 +145,10 @@ const StepThree = (props) => {
 
       TransactionCallBack(provider, result)
         .then((isSuccess) => {
-          console.log("Success :" + isSuccess);
+          console.log(isSuccess);
         })
         .catch((error) => {
-          console.log("Error :" + error)
+          console.log(error)
         })
 
       setIsLoading(false)
