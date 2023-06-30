@@ -48,7 +48,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   usePoolsPageFetch()
 
   // console.log('pools', account, pools, userDataLoaded);
-  console.log(pools.length)
+  // console.log(pools.length)
 
   return (
     <>
