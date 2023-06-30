@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { useAccount } from 'wagmi'
-import { Heading, Flex, Image, Text, Link, FlexLayout, PageHeader, Loading, Pool, ViewMode } from '@pancakeswap/uikit'
+import { Heading, Flex, Image, Text, Link, FlexLayout, PageHeader, Loading, Pool, ViewMode, Message, MessageText } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { usePoolsPageFetch, usePoolsWithVault } from 'state/pools/hooks'
 import Page from 'components/Layout/Page'
@@ -48,6 +48,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
   usePoolsPageFetch()
 
   // console.log('pools', account, pools, userDataLoaded);
+  console.log(pools.length)
 
   return (
     <>
@@ -68,17 +69,30 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
           <Image
             mx="auto"
             mt="12px"
-            // src="/images/decorations/3d-syrup-bunnies.png"
             src="/images/decorations/bnbtiger.png"
-            alt="Pancake illustration"
+            alt="BNBTiger illustration"
             width={192}
             height={184.5}
           />
         </Flex>
       </PageHeader>
       <Page>
+        {
+          pools.length <=1 && 
+          <Message variant="warning">
+            <MessageText>
+              Loading Pools...<br />
+              Please Wait
+            </MessageText>
+          </Message>
+        }
         <PoolControls pools={pools}>
-          {/* chosenPools为当前页面上展示的所有池子的列表;viewModel为对应的模式;stakedOnly为只展示自己已经质押了的矿池;normalizedUrlSearch为自己输入的查询条件 */}
+          {/* 
+            chosenPools为当前页面上展示的所有池子的列表;
+            viewModel为对应的模式;
+            stakedOnly为只展示自己已经质押了的矿池;
+            normalizedUrlSearch为自己输入的查询条件
+          */}
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
               {account && !userDataLoaded && stakedOnly && (
@@ -102,7 +116,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                           //  先將圖片移除
                           <Image
                             src="/images/decorations/bnbtiger.png"
-                            alt="Pancake illustration"
+                            alt="BNBTiger illustration"
                             width={64}
                             height={64}
                           />
