@@ -34,7 +34,7 @@ const StepFour = (props) => {
             <Message variant="warning" style={{ width: '98%' }}>
               <MessageText>
                 Approving...<br />
-                After Approved, there's one more transaction to be confirmed
+                One more transaction to be confirmed
               </MessageText>
             </Message>
           )}
